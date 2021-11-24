@@ -13,6 +13,9 @@ int main()
 		return EXIT_FAILURE;
 	}
 	Sprite sprite(texture);
+	sprite.setPosition(Vector2f(100.f, 100.f));
+	sprite.setScale(Vector2f(0.5f, 0.5f));
+	sprite.rotate(45.f);
 
 	while (window.isOpen())
 	{
@@ -32,6 +35,15 @@ int main()
 				break;
 			}
 		}
+
+		if (Keyboard::isKeyPressed(Keyboard::Left))
+			sprite.move(-0.1, 0);
+		if (Keyboard::isKeyPressed(Keyboard::Right))
+			sprite.move(0.1, 0);
+		if (Keyboard::isKeyPressed(Keyboard::Up))
+			sprite.move(0, -0.1);
+		if (Keyboard::isKeyPressed(Keyboard::Down))
+			sprite.move(0, 0.1);
 
 		window.clear();
 		window.draw(sprite);
