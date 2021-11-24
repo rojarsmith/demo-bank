@@ -1,5 +1,7 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
 using namespace sf;
+using namespace std;
 
 int main()
 {
@@ -17,8 +19,18 @@ int main()
 		Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == Event::Closed)
+			switch (event.type)
+			{
+			case Event::Closed:
 				window.close();
+				break;
+			case Event::TextEntered:
+				if (event.text.unicode < 128)
+					cout << "ASCII character typed: " << static_cast<char>(event.text.unicode) << endl;
+				break;
+			default:
+				break;
+			}
 		}
 
 		window.clear();
