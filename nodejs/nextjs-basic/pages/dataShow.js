@@ -18,7 +18,16 @@ export default function dataShow({ allPostsData }) {
 }
 
 // Import data when building
-export async function getStaticProps() {
+// export async function getStaticProps() {
+//     const allPostsData = getSortedPostsData()
+//     return {
+//         props: {
+//             allPostsData
+//         }
+//     }
+// }
+
+export async function getServerSideProps(context) {
     const allPostsData = getSortedPostsData()
     return {
         props: {
