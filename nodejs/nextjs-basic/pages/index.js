@@ -13,6 +13,10 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        <Image src='/images/water.jpg'
+          height={144}
+          width={144}
+        />
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
@@ -52,14 +56,14 @@ export default function Home() {
           </a>
 
           <Link href="./about">
-          <a
-            className={styles.card}
-          >
-            <h2>About Me &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+            <a
+              className={styles.card}
+            >
+              <h2>About Me &rarr;</h2>
+              <p>
+                Instantly deploy your Next.js site to a public URL with Vercel.
+              </p>
+            </a>
           </Link>
 
           <a
