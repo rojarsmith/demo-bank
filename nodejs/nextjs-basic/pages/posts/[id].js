@@ -1,7 +1,14 @@
 import Layout from "../../components/layout";
 import { getAllPostIds, getPostData } from "../../lib/posts";
+import { useRouter } from 'next/router';
 
 export default function Post({ postData }) {
+    const router = useRouter()
+
+    if (router.isFallback) {
+        return <div>Loading...</div>
+    }
+
     return <Layout>
         {postData.title}
         <br />
