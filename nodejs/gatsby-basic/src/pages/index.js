@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Link } from 'gatsby'
 import Layout from "./components/layout"
+import Item from "./components/item"
 
 // markup
 const IndexPage = () => {
@@ -11,6 +12,7 @@ const IndexPage = () => {
         <h1>Index page.</h1>
         <h2>This is index.</h2>
         <Link to='/about'>About</Link>
+        <Item/>
       </main>
     </Layout>
   )
