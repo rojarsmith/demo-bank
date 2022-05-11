@@ -5,11 +5,14 @@ import Layout from "./components/layout"
 // markup
 const IndexPage = () => {
   return (
-    <main>
-      <title>Index</title>
-      <h1>Index page.</h1>
-      <Link to='/about'>About</Link>
-    </main>
+    <Layout>
+      <main>
+        <title>Index</title>
+        <h1>Index page.</h1>
+        <h2>This is index.</h2>
+        <Link to='/about'>About</Link>
+      </main>
+    </Layout>
   )
 }
 
