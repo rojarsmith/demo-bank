@@ -1,11 +1,13 @@
 import * as React from "react"
+import { Link } from 'gatsby'
 
 // markup
 const IndexPage = () => {
   return (
     <main>
-      <titl>Index</titl>
+      <title>Index</title>
       <h1>Index page.</h1>
+      <Link to='/about'>About</Link>
     </main>
   )
 }
