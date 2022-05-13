@@ -2,6 +2,7 @@
 title: My Second Post!
 date: "2015-05-06T23:46:37.121Z"
 webSlug: "hello3"
+image: "../../../src/images/img02.jpg"
 ---
 
 Wow! I love blogging so much already.
