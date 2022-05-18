@@ -18,11 +18,12 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-// const infuraKey = "fj4jll3k.....";
-//
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+
+const fs = require('fs');
+const secret = JSON.parse(fs.readFileSync(".secret.json"));
+console.log('mnemonic=' + secret.mnemonic);
+console.log('infuraUrl=' + secret.infura_url);
 
 module.exports = {
   /**
@@ -67,11 +68,11 @@ module.exports = {
     // skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     // },
     // Useful for private networks
-    // private: {
-    // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
-    // network_id: 2111,   // This network is yours, in the cloud.
-    // production: true    // Treats this network as if it was a public net. (default: false)
-    // }
+    private: {
+      provider: () => new HDWalletProvider(secret.mnemonic, secret.infura_url),
+      network_id: "*",   // This network is yours, in the cloud.
+      // production: true    // Treats this network as if it was a public net. (default: false)
+    }
   },
 
   // Set default mocha options here, use special reporters etc.
