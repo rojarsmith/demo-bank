@@ -15,7 +15,7 @@ contract("Inbox", function (accounts) {
     });
 
     it(`message should:${str1}`, async function () {
-        // let instance = await Inbox.new(str1, {from: accounts[0], gas:1000000});
+        let instance = await Inbox.new(str1, {from: accounts[0], gas:1000000});
         // let instance = await Inbox.deployed();
         let message = await instance.message.call();
         return assert.equal(message, "Hi Smith", "message error");
