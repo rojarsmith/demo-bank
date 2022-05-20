@@ -21,7 +21,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const fs = require('fs');
-const secret = JSON.parse(fs.readFileSync(".secret.json"));
+const secret = JSON.parse(fs.readFileSync("secret.json"));
 console.log('mnemonic=' + secret.mnemonic);
 console.log('infuraUrl=' + secret.infura_url);
 
