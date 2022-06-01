@@ -72,7 +72,12 @@ module.exports = {
       provider: () => new HDWalletProvider(secret.mnemonic, secret.infura_url),
       network_id: "*",   // This network is yours, in the cloud.
       // production: true    // Treats this network as if it was a public net. (default: false)
-    }
+    },
+    rinkeby: {
+      provider: () => new HDWalletProvider(secret.rinkeby_prv, secret.rinkeby_url),
+      network_id: secret.rinkeby_chainid,
+      production: true
+    },
   },
 
   // Set default mocha options here, use special reporters etc.
