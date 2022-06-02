@@ -1,0 +1,8 @@
+# truffle
+artifacts/
+
+build/
+
+node_modules/
+
+secret.json
