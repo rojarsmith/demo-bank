@@ -27,24 +27,28 @@ let input = {
 };
 
 const output = JSON.parse(solc.compile(JSON.stringify(input)));
-// console.log(output);
+console.log(output);
+console.log(output["contracts"]);
 // 1 is 1 count of contract
 // const output = solc.compile(source, 1).contracts;
 
 fs.ensureDirSync(buildPath);
 
-for (let contract in output) {
-    fs.outputJSONSync(
-        path.resolve(buildPath, contract + '.json'),
-        output[contract]
-    );
+for (let file in output["contracts"]) {
+    for (let contract in output["contracts"][file]) {
+        console.log(contract);
+        fs.outputJSONSync(
+            path.resolve(buildPath, contract + '.json'),
+            output["contracts"][file][contract]
+        );
+    }
 }
 
 // `output` here contains the JSON output as specified in the documentation
-for (var contractName in output.contracts['Campaign.sol']) {
-    console.log(
-        contractName +
-        ': ' +
-        output.contracts['Campaign.sol'][contractName].evm.bytecode.object
-    );
-}
+// for (var contractName in output.contracts['Campaign.sol']) {
+//     console.log(
+//         contractName +
+//         ': ' +
+//         output.contracts['Campaign.sol'][contractName].evm.bytecode.object
+//     );
+// }
