@@ -5,3 +5,5 @@
 /ethereum/build/
 
 /secret.json
+
+.env*.local
