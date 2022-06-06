@@ -4,15 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "dev": "cross-env port=3031 next dev"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.0.8",
+    "cross-env": "^7.0.3",
     "fs-extra": "^10.1.0",
     "ganache-cli": "^6.12.2",
     "mocha": "^10.0.0",
+    "next": "^12.1.6",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "solc": "^0.8.14-fixed",
     "web3": "^1.7.3"
   }
