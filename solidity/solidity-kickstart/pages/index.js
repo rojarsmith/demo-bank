@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import Layout from '../components/Layout';
 
 export default ({ campaigns }) => {
     const cards = campaigns.map((id) =>
@@ -21,12 +22,15 @@ export default ({ campaigns }) => {
     </Card>));
 
     return (
-        <>
-            {cards}
-            <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />}>
-                Create Campaign
-            </Button>
-        </>
+        <Layout>
+            <div>
+                <Typography variant="h3" component="div">Open Campaigns</Typography>
+                {cards}
+                <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />}>
+                    Create Campaign
+                </Button>
+            </div>
+        </Layout>
     );
 };
 
