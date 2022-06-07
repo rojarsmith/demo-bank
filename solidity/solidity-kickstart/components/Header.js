@@ -8,7 +8,7 @@ import Add from '@mui/icons-material/Add';
 
 export default () => {
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ marginTop: '10px' }}>
             <Toolbar>
                 <Typography
                     variant="h6"
