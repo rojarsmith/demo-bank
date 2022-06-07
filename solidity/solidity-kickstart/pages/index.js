@@ -4,6 +4,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 export default ({ campaigns }) => {
     const cards = campaigns.map((id) =>
@@ -21,6 +23,9 @@ export default ({ campaigns }) => {
     return (
         <>
             {cards}
+            <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />}>
+                Create Campaign
+            </Button>
         </>
     );
 };
