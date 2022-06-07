@@ -1,7 +1,9 @@
-export default ({children}) => {
+import Header from "./Header";
+
+export default ({ children }) => {
     return (
         <div>
-            <h1>Im a header</h1>
+            <Header />
             {children}
             <h1>Im a footer</h1>
         </div>
