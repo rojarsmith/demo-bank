@@ -1,9 +1,9 @@
 import factory from '../ethereum/factory';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import Layout from '../components/Layout';
@@ -25,10 +25,16 @@ export default ({ campaigns }) => {
         <Layout>
             <div>
                 <Typography variant="h3" component="div">Open Campaigns</Typography>
-                {cards}
-                <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />}>
-                    Create Campaign
-                </Button>
+                <Grid container justifyContent="flex-end">
+                    <Grid item xs={8}>
+                        {cards}
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />}>
+                            Create Campaign
+                        </Button>
+                    </Grid>
+                </Grid>
             </div>
         </Layout>
     );
