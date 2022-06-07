@@ -5,9 +5,8 @@ export default ({ children }) => {
     return (
         <div>
             <Container maxWidth="lg">
-            <Header />
-            {children}
-            <h1>Im a footer</h1>
+                <Header />
+                {children}
             </Container>
         </div>
     );

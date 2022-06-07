@@ -1,5 +1,9 @@
+import Layout from "../../components/Layout";
+
 export default function CampaignNew() {
-    return(
-        <>new campaign</>
+    return (
+        <Layout>
+            <h1>new campaign</h1>
+        </Layout>
     );
 }
