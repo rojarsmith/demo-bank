@@ -5,9 +5,23 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import factory from '../../ethereum/factory';
+import web3 from '../../ethereum/web3'
 
 export default function CampaignNew() {
     const [minimumcontribution, setMinimumcontribution] = useState('');
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+
+        const accounts = await web3.eth.getAccounts();
+        await factory.methods
+        .createCampaign(minimumcontribution)
+        .send({
+            from: accounts[0]
+        });
+    };
+
     return (
         <Layout>
             <Typography
@@ -16,7 +30,7 @@ export default function CampaignNew() {
             >
                 Create a Campaign
             </Typography>
-            <Box component="form">
+            <Box component="form" onSubmit={onSubmit}>
                 <Typography
                     variant="h6"
                     noWrap
