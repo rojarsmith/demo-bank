@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -15,9 +16,13 @@ import web3 from '../../ethereum/web3'
 export default function CampaignNew() {
     const [minimumcontribution, setMinimumcontribution] = useState('');
     const [errormessage, setErrormessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async (event) => {
         event.preventDefault();
+
+        setLoading(true);
+        setErrormessage('');
 
         try {
             const accounts = await web3.eth.getAccounts();
@@ -29,6 +34,8 @@ export default function CampaignNew() {
         } catch (err) {
             setErrormessage(err.message);
         }
+
+        setLoading(false);
     };
 
     return (
@@ -67,13 +74,23 @@ export default function CampaignNew() {
                         {errormessage}
                     </Alert>
                 </Collapse>
-                <Button
+                {/* <LoadingButton
                     type="submit"
+                    loading={loading}
+                    loadingIndicator="Loading..."
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                 >
                     Create!
-                </Button>
+                </LoadingButton> */}
+                <LoadingButton
+            type="submit"
+          loading={loading}
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+           Create!
+        </LoadingButton>
             </Box>
         </Layout>
     );
