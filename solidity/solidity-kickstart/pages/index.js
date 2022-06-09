@@ -1,3 +1,5 @@
+import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import factory from '../ethereum/factory';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,15 +11,21 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import Layout from '../components/Layout';
 
 export default ({ campaigns }) => {
+    const router = useRouter();
+
     const cards = campaigns.map((id) =>
     (<Card variant="outlined" key={id}>
         <CardContent>
             <Typography sx={{ fontSize: 18 }} >
                 {id}
             </Typography>
-            <Typography sx={{ fontSize: 18 }} >
-                <Link href="#">View Campaign</Link>
-            </Typography>
+            <Link>
+                <NextLink href={`/campaigns/${id}`}>
+                    <Typography sx={{ fontSize: 18 }} >
+                        View Campaign
+                    </Typography>
+                </NextLink>
+            </Link>
         </CardContent>
     </Card>));
 
@@ -30,9 +38,13 @@ export default ({ campaigns }) => {
                         {cards}
                     </Grid>
                     <Grid item xs={4}>
-                        <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />}>
-                            Create Campaign
-                        </Button>
+                        <NextLink href='/campaigns/new'>
+                            <a>
+                                <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />}>
+                                    Create Campaign
+                                </Button>
+                            </a>
+                        </NextLink>
                     </Grid>
                 </Grid>
             </div>
