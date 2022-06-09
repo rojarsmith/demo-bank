@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from 'next/router'
 import Layout from "../../components/Layout";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -12,11 +13,11 @@ import Collapse from '@mui/material/Collapse';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3'
 
-
 export default function CampaignNew() {
     const [minimumcontribution, setMinimumcontribution] = useState('');
     const [errormessage, setErrormessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const router = useRouter()
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -31,6 +32,8 @@ export default function CampaignNew() {
                 .send({
                     from: accounts[0]
                 });
+
+            router.push('/')
         } catch (err) {
             setErrormessage(err.message);
         }
@@ -84,13 +87,13 @@ export default function CampaignNew() {
                     Create!
                 </LoadingButton> */}
                 <LoadingButton
-            type="submit"
-          loading={loading}
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-           Create!
-        </LoadingButton>
+                    type="submit"
+                    loading={loading}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                >
+                    Create!
+                </LoadingButton>
             </Box>
         </Layout>
     );
