@@ -17,7 +17,7 @@ export default function CampaignNew() {
     const [minimumcontribution, setMinimumcontribution] = useState('');
     const [errormessage, setErrormessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const router = useRouter()
+    const router = useRouter();
 
     const onSubmit = async (event) => {
         event.preventDefault();
