@@ -45,10 +45,11 @@ export async function getServerSideProps() {
     console.log(Object.isExtensible(campaigns));
     let campaignsMock = Object.assign([], campaigns);
     campaignsMock.push("0xA2A100ac89ce6ce8102E4a8B12a208A8877dFFAA");
-    console.log(campaignsMock);
+    console.log(campaigns);
     return {
         props: {
-            campaigns: campaignsMock
+            // campaigns: campaignsMock
+            campaigns: campaigns
         }
     }
 }
