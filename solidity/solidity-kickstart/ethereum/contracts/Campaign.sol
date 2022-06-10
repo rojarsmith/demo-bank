@@ -80,4 +80,24 @@ contract Campaign {
         payable(request.recipient).transfer(request.value);
         request.complete = true;
     }
+
+    function getSummary()
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            uint256,
+            uint256,
+            address
+        )
+    {
+        return (
+            minimumContribution,
+            address(this).balance,
+            numRequests,
+            approversCount,
+            manager
+        );
+    }
 }

@@ -1,8 +1,11 @@
 import { useRouter } from 'next/router';
+import Layout
+    from '../../components/Layout';
+import Campaign from '../../ethereum/compaign';
 
 export default function show() {
     return (
-        <>show</>
+        <Layout>show</Layout>
     );
 }
 
@@ -18,12 +21,20 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
     console.log(params);
-    // Fetch necessary data for the blog post using params.id
-    const postData = params.address;
+    // Fetch necessary data
+    const campaign = Campaign(params.address);
+
+    const summary = await campaign.methods.getSummary().call();
+
+    console.log(summary);
+
+    // const postData = summary;
 
     return {
         props: {
-            postData
+            postData: {
+                ...summary
+            }
         }
     }
 }
