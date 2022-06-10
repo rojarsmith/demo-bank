@@ -3,7 +3,9 @@ import Layout
     from '../../components/Layout';
 import Campaign from '../../ethereum/compaign';
 
-export default function show() {
+export default function show(props) {
+    console.log(props);
+
     return (
         <Layout>show</Layout>
     );
@@ -28,13 +30,13 @@ export async function getStaticProps({ params }) {
 
     console.log(summary);
 
-    // const postData = summary;
-
     return {
         props: {
-            postData: {
-                ...summary
-            }
+            minimumContribution: summary[0],
+            balance: summary[1],
+            requestsCount: summary[2],
+            approversCount: summary[3],
+            manager: summary[4]
         }
     }
 }
