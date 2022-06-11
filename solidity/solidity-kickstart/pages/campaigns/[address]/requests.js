@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Campaign from '../../../ethereum/compaign';
 
 export default function RequestIndex(props) {
+    console.log(props);
     return (
         <Layout>
             <Typography sx={{ variant: 'h2', fontWeight: 600 }} >
@@ -37,7 +38,7 @@ export async function getStaticProps({ params }) {
     console.log(requestCount);
 
     const requests = await Promise.all(
-        Array(requestCount).fill().map((element, index) => {
+        Array(parseInt(requestCount)).fill().map((element, index) => {
             return campaign.methods.requests(index).call();
         }) 
     );
