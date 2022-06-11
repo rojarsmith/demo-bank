@@ -1,9 +1,12 @@
+import NextLink from 'next/link'
 import { useRouter } from 'next/router';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
 import Layout from '../../components/Layout';
 import Campaign from '../../ethereum/compaign';
 import ContributeForm from '../../components/ContributeForm';
@@ -58,7 +61,7 @@ export default function show(props) {
     console.log(items);
 
     const cards = items.map((item, index) => (
-        <Grid item xs={6} key={index}>
+        <Grid item xs={4} md={3} key={index} >
             <Card variant="outlined" sx={{ maxWidth: 600 }}>
                 <CardActionArea>
                     <CardContent>
@@ -77,6 +80,8 @@ export default function show(props) {
         </Grid>
     ));
 
+    console.log('bbb=' + props.address);
+
     return (
         <Layout>
             <Typography sx={{ overflowWrap: 'break-word', variant: 'h1' }} >
@@ -84,8 +89,14 @@ export default function show(props) {
             </Typography>
             <Grid container spacing={2}>
                 <Grid item xs={8}>
-                    <Grid container spacing={12}>
+                    <Grid container spacing={2}>
                         {cards}
+                        <Divider orientation="horizontal" />
+                        <NextLink href={`/campaigns/${props.address}/requests`} passHref>
+                            <Button>
+                                View Requests
+                            </Button>
+                        </NextLink>
                     </Grid>
                 </Grid>
                 <Grid item xs={4}>
@@ -97,7 +108,7 @@ export default function show(props) {
 }
 
 export async function getStaticPaths() {
-    // Return a list of possible value for id
+    // Return a list of possible value for address
     const paths = [];
 
     return {
