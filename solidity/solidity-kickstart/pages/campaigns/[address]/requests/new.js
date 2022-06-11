@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -20,6 +21,9 @@ export default function RequestNew({ address }) {
     const [recipient, setRecipient] = useState('');
     const [errormessage, setErrormessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
+    console.log('RequestNew=' + address);
 
     const onSubmit = async (event) => {
         event.preventDefault();
