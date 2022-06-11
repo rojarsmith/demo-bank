@@ -12,12 +12,17 @@ import Campaign from '../../../ethereum/compaign';
 import RequestRow from '../../../components/RequestRow';
 
 export default function RequestIndex(props) {
-    console.log(props);
-
     const renderRow = () => {
+        // console.log(props);
+        if (!props.requests) return <></>;
+
         return props.requests.map((request, index) => {
+            console.log(request);
+            console.log(index);
+
             return <RequestRow
                 key={index}
+                id={index}
                 request={request}
                 address={props.address}
             />
@@ -40,11 +45,23 @@ export default function RequestIndex(props) {
                         <TableRow>
                             <TableCell>
                                 ID
+                            </TableCell>
+                            <TableCell>
                                 Description
+                            </TableCell>
+                            <TableCell>
                                 Amout
+                            </TableCell>
+                            <TableCell>
                                 Recipient
+                            </TableCell>
+                            <TableCell>
                                 Approval Count
+                            </TableCell>
+                            <TableCell>
                                 Approve
+                            </TableCell>
+                            <TableCell>
                                 Finalize
                             </TableCell>
                         </TableRow>
