@@ -1,5 +1,11 @@
 import NextLink from 'next/link'
 import Button from '@mui/material/Button';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import Layout from "../../../components/Layout";
 import Typography from '@mui/material/Typography';
 import Campaign from '../../../ethereum/compaign';
@@ -16,6 +22,23 @@ export default function RequestIndex(props) {
                     Add Request
                 </Button>
             </NextLink>
+            <TableContainer>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>
+                                ID
+                                Description
+                                Amout
+                                Recipient
+                                Approval Count
+                                Approve
+                                Finalize
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                </Table>
+            </TableContainer>
         </Layout>
     );
 }
@@ -40,7 +63,7 @@ export async function getStaticProps({ params }) {
     const requests = await Promise.all(
         Array(parseInt(requestCount)).fill().map((element, index) => {
             return campaign.methods.requests(index).call();
-        }) 
+        })
     );
 
     // console.log(requests);
