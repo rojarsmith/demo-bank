@@ -9,9 +9,21 @@ import TableRow from '@mui/material/TableRow';
 import Layout from "../../../components/Layout";
 import Typography from '@mui/material/Typography';
 import Campaign from '../../../ethereum/compaign';
+import RequestRow from '../../../components/RequestRow';
 
 export default function RequestIndex(props) {
     console.log(props);
+
+    const renderRow = () => {
+        return props.requests.map((request, index) => {
+            return <RequestRow
+                key={index}
+                request={request}
+                address={props.address}
+            />
+        });
+    }
+
     return (
         <Layout>
             <Typography sx={{ variant: 'h2', fontWeight: 600 }} >
@@ -37,6 +49,9 @@ export default function RequestIndex(props) {
                             </TableCell>
                         </TableRow>
                     </TableHead>
+                    <TableBody>
+                        {renderRow()}
+                    </TableBody>
                 </Table>
             </TableContainer>
         </Layout>
