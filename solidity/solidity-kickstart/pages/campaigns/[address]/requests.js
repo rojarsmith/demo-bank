@@ -25,6 +25,7 @@ export default function RequestIndex(props) {
                 id={index}
                 request={request}
                 address={props.address}
+                approversCount={props.approversCount}
             />
         });
     }
@@ -90,6 +91,7 @@ export async function getStaticProps({ params }) {
 
     const campaign = Campaign(params.address);
     const requestCount = await campaign.methods.numRequests().call();
+    const approversCount = await campaign.methods.approversCount().call();
     console.log(requestCount);
 
     const requests = await Promise.all(
@@ -105,6 +107,7 @@ export async function getStaticProps({ params }) {
             address: params.address,
             requests: JSON.parse(JSON.stringify(requests)),
             requestCount: requestCount,
+            approversCount: approversCount,
         }
     }
 }
