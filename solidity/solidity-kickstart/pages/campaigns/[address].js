@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Layout from '../../components/Layout';
 import Campaign from '../../ethereum/compaign';
+import web3 from '../../ethereum/web3';
 
 export default function show(props) {
     console.log(props);
@@ -17,32 +18,62 @@ export default function show(props) {
         approversCount,
         manager
     } = props;
+    console.log(balance);
+    console.log(manager);
 
     const items = [
         {
             header: manager,
-            meta: 'Address of Manager',
-            description: 'The manager created this campaign and can create requests to withdraw money',
-        }
+            meta: "Address of Manager",
+            description:
+                "The manager created this campaign and can create requests to withdraw money",
+        },
+        {
+            header: minimumContribution,
+            meta: "Minimum Contribution (wei)",
+            description:
+                "You must contribute at least this much wei to become an approver",
+        },
+        {
+            header: requestsCount,
+            meta: "Number of Requests",
+            description:
+                "A request tries to withdraw money from the contract. Requests must be approved by approvers",
+        },
+        {
+            header: approversCount,
+            meta: "Number of Approvers",
+            description:
+                "Number of people who have already donated to this campaign",
+        },
+        {
+            header: !!balance ? web3.utils.fromWei(balance, "ether") : undefined,
+            meta: "Campaign Balance (ether)",
+            description:
+                "The balance is how much money this campaign has left to spend.",
+        },
     ];
+
     console.log(items);
 
     const cards = items.map((item, index) => (
-        <Card variant="outlined" key={index}>
-            <CardActionArea>
-                <CardContent>
-                    <Typography sx={{ overflowWrap: 'break-word', variant: 'h2', fontWeight: 600 }} >
-                        {item.header}
-                    </Typography>
-                    <Typography sx={{ fontSize: 14, color: 'blue' }} >
-                        {item.meta}
-                    </Typography>
-                    <Typography sx={{ fontSize: 12 }} >
-                        {item.description}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+        <Grid item xs={6} key={index}>
+            <Card variant="outlined" sx={{ maxWidth: 600 }}>
+                <CardActionArea>
+                    <CardContent>
+                        <Typography sx={{ overflowWrap: 'break-word', variant: 'h2', fontWeight: 600 }} >
+                            {item.header}
+                        </Typography>
+                        <Typography sx={{ fontSize: 14, color: 'blue' }} >
+                            {item.meta}
+                        </Typography>
+                        <Typography sx={{ fontSize: 12 }} >
+                            {item.description}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+        </Grid>
     ));
 
     return (
@@ -50,15 +81,14 @@ export default function show(props) {
             <Typography sx={{ overflowWrap: 'break-word', variant: 'h1' }} >
                 Campaign Show
             </Typography>
-            <Grid container justifyContent="flex-end">
-                <Grid item xs={4}>
-                    {cards}
+            <Grid container spacing={2}>
+                <Grid item xs={8}>
+                    <Grid container spacing={12}>
+                        {cards}
+                    </Grid>
                 </Grid>
                 <Grid item xs={4}>
-
-                </Grid>
-                <Grid item xs={4}>
-
+                    Button
                 </Grid>
             </Grid>
         </Layout>
@@ -76,7 +106,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-    console.log(params);
+    console.log(`getStaticProps=${params}`);
     // Fetch necessary data
     const campaign = Campaign(params.address);
 
