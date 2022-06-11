@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -8,6 +9,14 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Collapse from '@mui/material/Collapse';
 
 export default () => {
+    const [valued, setValued] = useState('');
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+
+
+    };
+
     return (
         <>
             <Typography
@@ -16,7 +25,7 @@ export default () => {
             >
                 Contrubute
             </Typography>
-            <Box component="form">
+            <Box component="form" onSubmit={onSubmit}>
                 <Typography
                     variant="h6"
                     noWrap
@@ -35,6 +44,8 @@ export default () => {
                     InputProps={{
                         endAdornment: <InputAdornment position="start">wei</InputAdornment>,
                     }}
+                    value={valued}
+                    onChange={event => setValued(event.target.value)}
                 />
                 {/* <Collapse in={!!errormessage}>
                     <Alert severity="error">
