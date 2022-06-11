@@ -2,15 +2,18 @@ import NextLink from 'next/link'
 import { useRouter } from 'next/router';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Divider from '@mui/material/Divider';
 import Layout from '../../components/Layout';
 import Campaign from '../../ethereum/compaign';
 import ContributeForm from '../../components/ContributeForm';
 import web3 from '../../ethereum/web3';
+
+export const GridBreak = styled('div')`
+  width: 100%
+`;
 
 export default function show(props) {
     console.log(props);
@@ -22,8 +25,6 @@ export default function show(props) {
         approversCount,
         manager
     } = props;
-    console.log(balance);
-    console.log(manager);
 
     const items = [
         {
@@ -91,7 +92,7 @@ export default function show(props) {
                 <Grid item xs={8}>
                     <Grid container spacing={2}>
                         {cards}
-                        <Divider orientation="horizontal" />
+                        <GridBreak />
                         <NextLink href={`/campaigns/${props.address}/requests`} passHref>
                             <Button>
                                 View Requests
