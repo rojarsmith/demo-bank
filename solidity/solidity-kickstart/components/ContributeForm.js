@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from 'next/router'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -12,6 +13,7 @@ import Campaign from '../ethereum/compaign';
 
 export default function ContributeForm({ address }) {
     const [value, setValue] = useState('');
+    const router = useRouter();
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -30,7 +32,7 @@ export default function ContributeForm({ address }) {
                     value: web3.utils.toWei(value, 'ether')
                 });
 
-            router.push('/')
+            router.replace(`/campaigns/${address}`);
         } catch (err) {
             // setErrormessage(err.message);
         }
