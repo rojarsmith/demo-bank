@@ -2,6 +2,7 @@ import NextLink from 'next/link'
 import Button from '@mui/material/Button';
 import Layout from "../../../components/Layout";
 import Typography from '@mui/material/Typography';
+import Campaign from '../../../ethereum/compaign';
 
 export default function RequestIndex(props) {
     return (
@@ -31,9 +32,23 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
     console.log(params);
 
+    const campaign = Campaign(params.address);
+    const requestCount = await campaign.methods.numRequests().call();
+    console.log(requestCount);
+
+    const requests = await Promise.all(
+        Array(requestCount).fill().map((element, index) => {
+            return campaign.methods.requests(index).call();
+        }) 
+    );
+
+    // console.log(requests);
+
     return {
         props: {
             address: params.address,
+            requests: JSON.parse(JSON.stringify(requests)),
+            requestCount: requestCount,
         }
     }
 }

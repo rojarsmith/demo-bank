@@ -68,7 +68,7 @@ export default function ContributeForm({ address }) {
                     name="coin"
                     autoFocus
                     InputProps={{
-                        endAdornment: <InputAdornment position="start">wei</InputAdornment>,
+                        endAdornment: <InputAdornment position="start">ether</InputAdornment>,
                     }}
                     value={value}
                     onChange={event => setValue(event.target.value)}
