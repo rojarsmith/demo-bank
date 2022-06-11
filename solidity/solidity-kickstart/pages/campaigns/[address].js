@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Layout from '../../components/Layout';
 import Campaign from '../../ethereum/compaign';
+import ContributeForm from '../../components/ContributeForm';
 import web3 from '../../ethereum/web3';
 
 export default function show(props) {
@@ -88,7 +89,7 @@ export default function show(props) {
                     </Grid>
                 </Grid>
                 <Grid item xs={4}>
-                    Button
+                    <ContributeForm />
                 </Grid>
             </Grid>
         </Layout>

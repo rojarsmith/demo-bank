@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { useRouter } from 'next/router'
-import Layout from "../../components/Layout";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -9,46 +6,17 @@ import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Collapse from '@mui/material/Collapse';
-import factory from '../../ethereum/factory';
-import web3 from '../../ethereum/web3'
 
-export default function CampaignNew() {
-    const [minimumcontribution, setMinimumcontribution] = useState('');
-    const [errormessage, setErrormessage] = useState('');
-    const [loading, setLoading] = useState(false);
-    const router = useRouter();
-
-    const onSubmit = async (event) => {
-        event.preventDefault();
-
-        setLoading(true);
-        setErrormessage('');
-
-        try {
-            const accounts = await web3.eth.getAccounts();
-            await factory.methods
-                .createCampaign(minimumcontribution)
-                .send({
-                    from: accounts[0]
-                });
-
-            router.push('/')
-        } catch (err) {
-            setErrormessage(err.message);
-        }
-
-        setLoading(false);
-    };
-
+export default () => {
     return (
-        <Layout>
+        <>
             <Typography
-                variant="h3"
+                variant="h5"
                 sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-                Create a Campaign
+                Contrubute
             </Typography>
-            <Box component="form" onSubmit={onSubmit}>
+            <Box component="form">
                 <Typography
                     variant="h6"
                     noWrap
@@ -61,30 +29,28 @@ export default function CampaignNew() {
                     required
                     fullWidth
                     id="coin"
-                    label="Minimum Contribution"
+                    label="Amount to Contrubute"
                     name="coin"
                     autoFocus
                     InputProps={{
                         endAdornment: <InputAdornment position="start">wei</InputAdornment>,
                     }}
-                    value={minimumcontribution}
-                    onChange={event => setMinimumcontribution(event.target.value)}
                 />
-                <Collapse in={!!errormessage}>
+                {/* <Collapse in={!!errormessage}>
                     <Alert severity="error">
                         <AlertTitle>Error</AlertTitle>
                         {errormessage}
                     </Alert>
-                </Collapse>
+                </Collapse> */}
                 <LoadingButton
                     type="submit"
-                    loading={loading}
+                    // loading={loading}
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                 >
-                    Create!
+                    Contribute!
                 </LoadingButton>
             </Box>
-        </Layout>
+        </>
     );
 }
