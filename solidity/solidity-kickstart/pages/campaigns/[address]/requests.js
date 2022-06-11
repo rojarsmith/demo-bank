@@ -1,11 +1,25 @@
-export default function RequestIndex() {
-    return(
-        <>RequestIndex</>
+import NextLink from 'next/link'
+import Button from '@mui/material/Button';
+import Layout from "../../../components/Layout";
+import Typography from '@mui/material/Typography';
+
+export default function RequestIndex(props) {
+    return (
+        <Layout>
+            <Typography sx={{ variant: 'h2', fontWeight: 600 }} >
+                Requests
+            </Typography>
+            <NextLink href={`/campaigns/${props.address}/requests/new`} passHref>
+                <Button>
+                    Add Request
+                </Button>
+            </NextLink>
+        </Layout>
     );
 }
 
 export async function getStaticPaths() {
-    // Return a list of possible value for id
+    // Return a list of possible value for address
     const paths = [];
 
     return {
@@ -15,22 +29,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-    // console.log(`getStaticProps=${params}`);
-    // // Fetch necessary data
-    // const campaign = Campaign(params.address);
-
-    // const summary = await campaign.methods.getSummary().call();
-
-    // console.log(summary);
+    console.log(params);
 
     return {
         props: {
-        //     address: params.address,
-        //     minimumContribution: summary[0],
-        //     balance: summary[1],
-        //     requestsCount: summary[2],
-        //     approversCount: summary[3],
-        //     manager: summary[4]
+            address: params.address,
         }
     }
 }
