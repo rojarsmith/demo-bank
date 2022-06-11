@@ -7,14 +7,35 @@ import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Collapse from '@mui/material/Collapse';
+import web3 from "../ethereum/web3";
+import Campaign from '../ethereum/compaign';
 
-export default () => {
-    const [valued, setValued] = useState('');
+export default function ContributeForm({ address }) {
+    const [value, setValue] = useState('');
 
     const onSubmit = async (event) => {
         event.preventDefault();
 
+        const campaign = Campaign(address);
 
+        // setLoading(true);
+        // setErrormessage('');
+
+        try {
+            const accounts = await web3.eth.getAccounts();
+            await campaign.methods
+                .contribute()
+                .send({
+                    from: accounts[0],
+                    value: web3.utils.toWei(value, 'ether')
+                });
+
+            router.push('/')
+        } catch (err) {
+            // setErrormessage(err.message);
+        }
+
+        // setLoading(false);
     };
 
     return (
@@ -44,8 +65,8 @@ export default () => {
                     InputProps={{
                         endAdornment: <InputAdornment position="start">wei</InputAdornment>,
                     }}
-                    value={valued}
-                    onChange={event => setValued(event.target.value)}
+                    value={value}
+                    onChange={event => setValue(event.target.value)}
                 />
                 {/* <Collapse in={!!errormessage}>
                     <Alert severity="error">

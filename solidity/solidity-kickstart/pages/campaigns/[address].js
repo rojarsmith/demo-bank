@@ -89,7 +89,7 @@ export default function show(props) {
                     </Grid>
                 </Grid>
                 <Grid item xs={4}>
-                    <ContributeForm />
+                    <ContributeForm address={props.address} />
                 </Grid>
             </Grid>
         </Layout>
@@ -117,6 +117,7 @@ export async function getStaticProps({ params }) {
 
     return {
         props: {
+            address: params.address,
             minimumContribution: summary[0],
             balance: summary[1],
             requestsCount: summary[2],
