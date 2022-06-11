@@ -6,6 +6,9 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Collapse from '@mui/material/Collapse';
 import compaign from "../../../../ethereum/compaign";
 import web3 from "../../../../ethereum/web3";
 import Layout from "../../../../components/Layout";
@@ -15,14 +18,16 @@ export default function RequestNew({ address }) {
     const [description, setDescription] = useState('');
     const [value, setValue] = useState('');
     const [recipient, setRecipient] = useState('');
+    const [errormessage, setErrormessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async (event) => {
         event.preventDefault();
 
-        // setLoading(true);
-        // setErrormessage('');
-
         const campaign = Campaign(address);
+
+        setLoading(true);
+        setErrormessage('');
 
         try {
             const accounts = await web3.eth.getAccounts();
@@ -36,16 +41,20 @@ export default function RequestNew({ address }) {
                     from: accounts[0]
                 });
 
-            // router.push('/')
+            router.push(`/campaigns/${address}/requests`);
         } catch (err) {
-            // setErrormessage(err.message);
+            setErrormessage(err.message);
         }
 
-        // setLoading(false);
+        setLoading(false);
     };
 
     return (
         <Layout>
+            <NextLink href={`/campaigns/${address}/requests`} passHref>
+                Back
+            </NextLink>
+            <br />
             Create a Request
             <Box component="form" onSubmit={onSubmit}>
                 <TextField
@@ -66,9 +75,15 @@ export default function RequestNew({ address }) {
                     value={recipient}
                     onChange={event => setRecipient(event.target.value)}
                 />
+                <Collapse in={!!errormessage}>
+                    <Alert severity="error">
+                        <AlertTitle>Error</AlertTitle>
+                        {errormessage}
+                    </Alert>
+                </Collapse>
                 <LoadingButton
                     type="submit"
-                    // loading={loading}
+                    loading={loading}
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                 >
