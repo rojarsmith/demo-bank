@@ -13,6 +13,8 @@ import Campaign from '../ethereum/compaign';
 
 export default function ContributeForm({ address }) {
     const [value, setValue] = useState('');
+    const [errormessage, setErrormessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const onSubmit = async (event) => {
@@ -20,8 +22,8 @@ export default function ContributeForm({ address }) {
 
         const campaign = Campaign(address);
 
-        // setLoading(true);
-        // setErrormessage('');
+        setLoading(true);
+        setErrormessage('');
 
         try {
             const accounts = await web3.eth.getAccounts();
@@ -34,10 +36,11 @@ export default function ContributeForm({ address }) {
 
             router.replace(`/campaigns/${address}`);
         } catch (err) {
-            // setErrormessage(err.message);
+            setErrormessage(err.message);
         }
 
-        // setLoading(false);
+        setLoading(false);
+        setValue('');
     };
 
     return (
@@ -70,15 +73,15 @@ export default function ContributeForm({ address }) {
                     value={value}
                     onChange={event => setValue(event.target.value)}
                 />
-                {/* <Collapse in={!!errormessage}>
+                <Collapse in={!!errormessage}>
                     <Alert severity="error">
                         <AlertTitle>Error</AlertTitle>
                         {errormessage}
                     </Alert>
-                </Collapse> */}
+                </Collapse>
                 <LoadingButton
                     type="submit"
-                    // loading={loading}
+                    loading={loading}
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                 >
