@@ -1,4 +1,5 @@
 import NextLink from 'next/link'
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,6 +11,7 @@ import Layout from "../../../components/Layout";
 import Typography from '@mui/material/Typography';
 import Campaign from '../../../ethereum/compaign';
 import RequestRow from '../../../components/RequestRow';
+import { Grid } from '@mui/material';
 
 export default function RequestIndex(props) {
     const renderRow = () => {
@@ -32,14 +34,16 @@ export default function RequestIndex(props) {
 
     return (
         <Layout>
-            <Typography sx={{ variant: 'h2', fontWeight: 600 }} >
-                Requests
-            </Typography>
-            <NextLink href={`/campaigns/${props.address}/requests/new`} passHref>
-                <Button>
-                    Add Request
-                </Button>
-            </NextLink>
+            <Grid container justifyContent="flex-end">
+                <Typography sx={{ variant: 'h2', fontWeight: 600, flex: 1 }} >
+                    Requests
+                </Typography>
+                <NextLink href={`/campaigns/${props.address}/requests/new`} passHref>
+                    <Button sx={{ marginBottom: 1 }}>
+                        Add Request
+                    </Button>
+                </NextLink>
+            </Grid>
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -72,6 +76,7 @@ export default function RequestIndex(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <div>Found {props.requestCount} requests</div>
         </Layout>
     );
 }
