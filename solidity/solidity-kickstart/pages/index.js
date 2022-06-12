@@ -14,7 +14,7 @@ export default ({ campaigns }) => {
     const router = useRouter();
 
     const cards = campaigns.map((id) =>
-    (<Card variant="outlined" key={id}>
+    (<Card variant="outlined" key={id} sx={{mb: 2}}>
         <CardContent>
             <Typography sx={{ fontSize: 18 }} >
                 {id}
@@ -32,18 +32,30 @@ export default ({ campaigns }) => {
     return (
         <Layout>
             <div>
-                <Typography variant="h3" component="div">Open Campaigns</Typography>
+                <Typography variant="h3" component="div" sx={{ mb: 4 }}>
+                    Open Campaigns
+                </Typography>
                 <Grid container justifyContent="flex-end">
                     <Grid item xs={8}>
                         {cards}
                     </Grid>
-                    <Grid item xs={4}>
-                        <NextLink href='/campaigns/new'>
-                            <a>
-                                <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />}>
-                                    Create Campaign
-                                </Button>
-                            </a>
+                    <Grid item xs={1}>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <NextLink href='/campaigns/new' passHref>
+                            <Button variant="contained" startIcon={<AddCircleOutlineOutlinedIcon />} sx={{
+                                bgcolor: '#FAFAFA',
+                                color: '#000000',
+                                raisedPrimary: {
+                                    color: '#FFFFFF',
+                                },
+                                '&:hover': {
+                                    backgroundColor: '#F0F0F0',
+                                    color: '#000000',
+                                }
+                            }}>
+                                Create Campaign
+                            </Button>
                         </NextLink>
                     </Grid>
                 </Grid>

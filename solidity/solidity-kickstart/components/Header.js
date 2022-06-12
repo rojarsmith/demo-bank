@@ -12,9 +12,9 @@ export default () => {
     const router = useRouter();
 
     return (
-        <AppBar position="static" sx={{ marginTop: '10px' }}>
+        <AppBar position="static" sx={{ marginTop: '20px' }}>
             <Toolbar>
-                <Button variant="contained" color="secondary" >
+                <Button variant="text" sx={{ color: '#FFFFFF', borderColor: '#FFFFFF' }}>
                     <NextLink href='/'>
                         <Typography
                             variant="h6"
@@ -27,12 +27,12 @@ export default () => {
                     </NextLink>
                 </Button>
                 <Box sx={{ flexGrow: 1 }} />
-                <Button variant="contained" color="secondary" >
-                    <NextLink href='/'>
+                <NextLink href='/' passHref>
+                    <Button variant="outlined" color="inherit" sx={{ color: '#FFFFFF', borderColor: '#FFFFFF' }} >
                         Campaigns
-                    </NextLink>
-                </Button>
-                <IconButton color="inherit" >
+                    </Button>
+                </NextLink>
+                <IconButton color="inherit" sx={{ marginLeft: '20px' }}>
                     <NextLink href='/campaigns/new'>
                         <Add />
                     </NextLink>

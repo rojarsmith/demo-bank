@@ -8,7 +8,10 @@ import componentsOverride from './overrides';
 export default function ThemeProvider({ children }) {
     const themeOptions = useMemo(
         () => ({
-            shadows: ["none"]
+            palette: {
+                background: { default: '#F3F3F3' }
+            },
+            shadows: ["none"],
         }),
     );
 
