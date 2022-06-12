@@ -29,29 +29,39 @@ export default function RequestRow({ id, request, address, approversCount }) {
             });
     }
 
+    const readyToFinalize = request.approvalCount > approversCount / 2;
+
     return (
-        <TableRow>
-            <TableCell>{id + 1}</TableCell>
-            <TableCell>{request.description}</TableCell>
-            <TableCell>{web3.utils.fromWei(request.value, 'ether')}</TableCell>
-            <TableCell>{request.recipient}</TableCell>
-            <TableCell>{request.approvalCount}/{approversCount}</TableCell>
-            <TableCell>  <LoadingButton
-                // loading={loading}
-                variant="outlined"
-                sx={{ color: "green" }}
-                onClick={onApprove}
-            >
-                Approve
-            </LoadingButton></TableCell>
-            <TableCell>  <LoadingButton
-                // loading={loading}
-                variant="outlined"
-                sx={{ color: "teal" }}
-                onClick={onFinalize}
-            >
-                Finalize
-            </LoadingButton></TableCell>
+        <TableRow sx={readyToFinalize && !request.complete ? { background: "MidnightBlue" } : { background: "snow" }}>
+            <TableCell sx={request.complete ? { color: "silver" } : { color: "black" }}>{id + 1}</TableCell>
+            <TableCell sx={request.complete ? { color: "silver" } : { color: "black" }}>{request.description}</TableCell>
+            <TableCell sx={request.complete ? { color: "silver" } : { color: "black" }}>{web3.utils.fromWei(request.value, 'ether')}</TableCell>
+            <TableCell sx={request.complete ? { color: "silver" } : { color: "black" }}>{request.recipient}</TableCell>
+            <TableCell sx={request.complete ? { color: "silver" } : { color: "black" }}>{request.approvalCount}/{approversCount}</TableCell>
+            <TableCell>
+                {request.complete ? null : (
+                    <LoadingButton
+                        // loading={loading}
+                        variant="outlined"
+                        sx={{ color: "green" }}
+                        onClick={onApprove}
+                    >
+                        Approve
+                    </LoadingButton>
+                )}
+            </TableCell>
+            <TableCell>
+                {request.complete ? null : (
+                    <LoadingButton
+                        // loading={loading}
+                        variant="outlined"
+                        sx={{ color: "teal" }}
+                        onClick={onFinalize}
+                    >
+                        Finalize
+                    </LoadingButton>
+                )}
+            </TableCell>
         </TableRow>
     );
 }
