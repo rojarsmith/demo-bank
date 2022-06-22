@@ -6,4 +6,8 @@ contract Faucet {
     uint256 public funds = 1000;
     int256 public counter = -10;
     uint32 public test = 4294967295;
+
+    receive() external payable {}
+
+    function addFunds() external payable {}
 }
