@@ -15,6 +15,14 @@ contract Faucet {
             funders[funder] = true;
         }
     }
+
+    function withdraw(uint256 withdrawAmount) external {
+        require(
+            withdrawAmount < 1000000000000000000,
+            "Cannot withdraw more than 1 ether"
+        );
+        payable(msg.sender).transfer(withdrawAmount);
+    }
 }
 
 // const instance = await Faucet.deployed();
