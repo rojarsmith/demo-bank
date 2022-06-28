@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
+import "./Owned.sol";
 
-contract Faucet {
+contract Faucet is Owned {
     uint256 public numOfFunders;
     mapping(address => bool) private funders;
 
@@ -22,6 +23,10 @@ contract Faucet {
             numOfFunders++;
             funders[funder] = true;
         }
+    }
+
+    function test1() external onlyOwner {
+        // some managing stuff that only admin should have access to
     }
 
     function withdraw(uint256 withdrawAmount)
