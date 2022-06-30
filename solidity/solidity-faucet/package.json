@@ -10,8 +10,9 @@
     "cross-env": "^7.0.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-scripts": "^4.0.3",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.7.4"
   },
   "scripts": {
     "start": "cross-env port=3612 react-scripts start",
