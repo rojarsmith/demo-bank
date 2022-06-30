@@ -10,7 +10,12 @@ abstract contract Logger {
 
     function emitLog() public pure virtual returns (bytes32);
 
-    function test3() external pure returns (uint256) {
+    function test3() internal pure returns (uint256) {
         return 100;
+    }
+
+    function test5() external pure returns (uint256) {
+        test3();
+        return 10;
     }
 }

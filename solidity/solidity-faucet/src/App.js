@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { loadContract } from "./utils/load-contract";
@@ -11,14 +11,15 @@ function App() {
     contract: null
   })
 
+  const [balance, setBalance] = useState(null);
   const [account, setAccount] = useState(null);
 
   useEffect(() => {
     const loadProvider = async () => {
+      // config Metamask connect to Ganache
       const provider = await detectEthereumProvider();
-      const contract = await loadContract("Faucet");
+      const contract = await loadContract("Faucet", provider);
 
-      debugger
       if (provider) {
         // provider.request({ method: "eth_requestAccounts" })
         setWeb3Api({
@@ -35,6 +36,16 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const loadBalance = async () => {
+      const { contract, web3 } = web3Api;
+      const balance = await web3.eth.getBalance(contract.address);
+      setBalance(web3.utils.fromWei(balance, "ether"));
+    }
+
+    web3Api.contract && loadBalance();
+  }, [web3Api])
+
+  useEffect(() => {
     const getAccount = async () => {
       const accounts = await web3Api.web3.eth.getAccounts();
       setAccount(accounts[0]);
@@ -42,6 +53,15 @@ function App() {
 
     web3Api.web3 && getAccount();
   }, [web3Api.web3])
+
+  // Add private key from Ganache to Metamask.
+  const addFunds = useCallback(async () => {
+    const { contract, web3 } = web3Api;
+    await contract.addFunds({
+      from: account,
+      value: web3.utils.toWei("1", "ether")
+    });
+  }, [web3Api, account]);
 
   return (
     <>
@@ -62,9 +82,11 @@ function App() {
             }
           </div>
           <div className="balance-view is-size-2 my-4">
-            Current Balance: <strong>10</strong> ETH
+            Current Balance: <strong>{balance}</strong> ETH
           </div>
-          <button className="button is-link mr-2">Donate</button>
+          <button
+            onClick={addFunds}
+            className="button is-link mr-2">Donate 1 eth</button>
           <button className="button is-primary">Withdraw</button>
         </div>
       </div>

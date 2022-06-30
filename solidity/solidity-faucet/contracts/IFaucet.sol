@@ -6,3 +6,4 @@ interface IFaucet {
 
     function withdraw(uint256 withdrawAmount) external;
 }
+
