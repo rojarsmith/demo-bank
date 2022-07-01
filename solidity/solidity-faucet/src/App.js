@@ -129,7 +129,7 @@ function App() {
           <div className="balance-view is-size-2 my-4">
             Current Balance: <strong>{balance}</strong> ETH
           </div>
-          { !canConnectToContract &&
+          {!canConnectToContract &&
             <i className="is-block">
               Connect to Ganache
             </i>
@@ -141,7 +141,7 @@ function App() {
           <button
             disabled={!canConnectToContract}
             onClick={withdraw}
-            className="button is-primary">Withdraw</button>
+            className="button is-primary">Withdraw  0.1 eth</button>
         </div>
       </div>
     </>
