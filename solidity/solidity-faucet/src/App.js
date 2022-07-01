@@ -18,7 +18,15 @@ function App() {
   const reloadEffect = useCallback(() => setReload(!reload), [reload]);
 
   const setAccountListener = (provider) => {
-    provider.on("accountsChanged", (accounts) => setAccount(accounts[0]));
+    provider.on("accountsChanged", _ => window.location.reload());
+
+    // provider._jsonRpcConnection.events.on("notification", (payload) => {
+    //   const { method } = payload;
+
+    //   if (method === "metamask_unlockStateChanged") {
+    //     setAccount(null)
+    //   }
+    // })
   }
 
   useEffect(() => {
@@ -104,9 +112,11 @@ function App() {
             Current Balance: <strong>{balance}</strong> ETH
           </div>
           <button
+            disabled={!account}
             onClick={addFunds}
             className="button is-link mr-2">Donate 1 eth</button>
           <button
+            disabled={!account}
             onClick={withdraw}
             className="button is-primary">Withdraw</button>
         </div>
