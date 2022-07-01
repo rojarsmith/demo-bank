@@ -15,7 +15,11 @@ function App() {
   const [account, setAccount] = useState(null);
   const [reload, setReload] = useState(false);
 
-  const reloadEffect = () => setReload(!reload);
+  const reloadEffect = useCallback(() => setReload(!reload), [reload]);
+
+  const setAccountListener = (provider) => {
+    provider.on("accountsChanged", (accounts) => setAccount(accounts[0]));
+  }
 
   useEffect(() => {
     const loadProvider = async () => {
@@ -25,6 +29,7 @@ function App() {
 
       if (provider) {
         // provider.request({ method: "eth_requestAccounts" })
+        setAccountListener(provider);
         setWeb3Api({
           web3: new Web3(provider),
           provider,
@@ -66,7 +71,7 @@ function App() {
     });
 
     reloadEffect();
-  }, [web3Api, account]);
+  }, [web3Api, account, reloadEffect]);
 
   const withdraw = async () => {
     const { contract, web3 } = web3Api
