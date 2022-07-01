@@ -33,9 +33,9 @@ function App() {
     const loadProvider = async () => {
       // config Metamask connect to Ganache
       const provider = await detectEthereumProvider();
-      const contract = await loadContract("Faucet", provider);
 
       if (provider) {
+        const contract = await loadContract("Faucet", provider);
         // provider.request({ method: "eth_requestAccounts" })
         setAccountListener(provider);
         setWeb3Api({
@@ -100,12 +100,21 @@ function App() {
             </span>
             {account ?
               <div>{account}</div> :
-              <button className="button is-small"
-                onClick={() =>
-                  web3Api.provider.request({ method: "eth_requestAccounts" })
-                }>
-                Connect Wallet
-              </button>
+              !web3Api.provider ?
+                <>
+                  <div className="notification is-warning is-size-6 is-rounded">
+                    Wallet is not detected!{` `}
+                    <a target="_blank" href="https://docs.metamask.io">
+                      Install Metamask
+                    </a>
+                  </div>
+                </> :
+                <button className="button is-small"
+                  onClick={() =>
+                    web3Api.provider.request({ method: "eth_requestAccounts" })
+                  }>
+                  Connect Wallet
+                </button>
             }
           </div>
           <div className="balance-view is-size-2 my-4">
