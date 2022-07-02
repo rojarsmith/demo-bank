@@ -1,0 +1,21 @@
+{
+  "name": "solidity-marketplace",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env port=3672 next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "next": "12.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "eslint": "8.19.0",
+    "eslint-config-next": "12.2.0"
+  }
+}
