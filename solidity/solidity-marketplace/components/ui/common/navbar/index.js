@@ -50,7 +50,7 @@ export default function Navbar() {
                                         <Button
                                             hoverable={false}
                                             className="cursor-default">
-                                            Hi there
+                                            Hi there {account.isAdmin && "Admin"}
                                         </Button>
                                         :
                                         <Button
