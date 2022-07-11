@@ -4,10 +4,14 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: false,
   theme: {
     extend: {
+      flex: {
+        "2": "2 2 0%"
+      },
       maxWidth: {
-        "8xl": "2560px"
+        "8xl": "1920px"
       },
     },
   },
