@@ -5,8 +5,6 @@ import { useRouter } from "next/router"
 export default function ActiveLink({ children, activeLinkClass, ...props }) {
     const { pathname } = useRouter()
     let className = children.props.className || "";
-    console.log(pathname)
-    console.log(props.href)
 
     if (pathname === props.href) {
         // Hard code fix color bug
