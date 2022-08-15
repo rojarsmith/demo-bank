@@ -23,7 +23,7 @@ export default function Card({ course, disabled, Footer }) {
                     </div>
                     <Link href={`/courses/${course.slug}`}>
                         <a
-                            className="h-12 block mt-1 text-sm sm:text-lg leading-tight font-medium text-black hover:underline">
+                            className="h-12 block mt-1 text-sm sm:text-base leading-tight font-medium text-black hover:underline">
                             {course.title}
                         </a>
                     </Link>
@@ -32,7 +32,9 @@ export default function Card({ course, disabled, Footer }) {
                         {course.description.substring(0, 70)}...
                     </p>
                     {Footer &&
-                        <Footer />
+                        <div className="mt-2">
+                            <Footer />
+                        </div>
                     }
                 </div>
             </div>
