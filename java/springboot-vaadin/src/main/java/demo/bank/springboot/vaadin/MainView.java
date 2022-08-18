@@ -27,9 +27,14 @@ public class MainView extends VerticalLayout {
 
 		// Button click listeners can be defined as lambda expressions
 		Button button = new Button("Say hello");
+		button.addClickListener(clickEvent -> {
+			add(new Text("Clicked"));
+			textField.setValue("Rojar");
+		});
 
 		HorizontalLayout layout = new HorizontalLayout(textField, button);
 		layout.setDefaultVerticalComponentAlignment(Alignment.END);
+
 		add(new Text("Welcome to MainView."), layout);
 	}
 
