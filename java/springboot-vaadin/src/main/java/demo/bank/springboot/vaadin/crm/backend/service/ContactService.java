@@ -7,7 +7,6 @@ import demo.bank.springboot.vaadin.crm.backend.entity.Contact;
 import demo.bank.springboot.vaadin.crm.backend.repository.CompanyRepository;
 import demo.bank.springboot.vaadin.crm.backend.repository.ContactRepository;
 
-import java.io.Console;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;

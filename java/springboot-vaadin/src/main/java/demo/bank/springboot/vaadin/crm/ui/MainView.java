@@ -2,10 +2,13 @@ package demo.bank.springboot.vaadin.crm.ui;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+
+import demo.bank.springboot.vaadin.crm.backend.entity.Contact;
 
 /**
  * @author Rojar Smith
@@ -20,22 +23,22 @@ public class MainView extends VerticalLayout {
 	 */
 	private static final long serialVersionUID = -6631199031632258359L;
 
+	// Defines a new field grid and instantiates it to a Grid of type Contact.
+	private Grid<Contact> grid = new Grid<>(Contact.class);
+
 	public MainView() {
-		// Use TextField for standard text input
-		TextField textField = new TextField("Your name");
-		textField.addThemeName("bordered");
+		// Gives the component a CSS class name to help with styling.
+		addClassName("list-view");
+		setSizeFull();
+		configureGrid();
 
-		// Button click listeners can be defined as lambda expressions
-		Button button = new Button("Say hello");
-		button.addClickListener(clickEvent -> {
-			add(new Text("Clicked"));
-			textField.setValue("Rojar");
-		});
+		add(grid);
+	}
 
-		HorizontalLayout layout = new HorizontalLayout(textField, button);
-		layout.setDefaultVerticalComponentAlignment(Alignment.END);
-
-		add(new Text("Welcome to MainView."), layout);
+	private void configureGrid() {
+		grid.addClassName("contact-grid");
+		grid.setSizeFull();
+		grid.setColumns("firstName", "lastName", "email", "status");
 	}
 
 }
