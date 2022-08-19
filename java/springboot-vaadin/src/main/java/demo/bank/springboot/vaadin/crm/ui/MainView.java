@@ -10,6 +10,7 @@ import com.vaadin.flow.router.Route;
 
 import demo.bank.springboot.vaadin.crm.backend.entity.Company;
 import demo.bank.springboot.vaadin.crm.backend.entity.Contact;
+import demo.bank.springboot.vaadin.crm.backend.service.CompanyService;
 import demo.bank.springboot.vaadin.crm.backend.service.ContactService;
 
 /**
@@ -33,15 +34,16 @@ public class MainView extends VerticalLayout {
 	private TextField filterText = new TextField();
 	private ContactForm form;
 
-	public MainView(ContactService contactService) {
+	public MainView(ContactService contactService, CompanyService companyService) {
 		this.contactService = contactService;
 		// Gives the component a CSS class name to help with styling.
 		addClassName("list-view");
 		setSizeFull();
+		
 		configureFilter();
 		configureGrid();
 
-		form = new ContactForm();
+		form = new ContactForm(companyService.findAll());
 
 		Div content = new Div(grid, form);
 		content.addClassName("content");

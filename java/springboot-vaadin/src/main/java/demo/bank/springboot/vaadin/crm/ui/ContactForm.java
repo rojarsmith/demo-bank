@@ -1,5 +1,7 @@
 package demo.bank.springboot.vaadin.crm.ui;
 
+import java.util.List;
+
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -37,9 +39,14 @@ public class ContactForm extends FormLayout {
 
 	Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
 
-	public ContactForm() {
+	public ContactForm(List<Company> companies) {
 		addClassName("contact-form");
 		binder.bindInstanceFields(this);
+
+		company.setItems(companies);
+		company.setItemLabelGenerator(Company::getName);
+		status.setItems(Contact.Status.values());
+
 		add(firstName, lastName, email, company, status, createButtonsLayout());
 	}
 
