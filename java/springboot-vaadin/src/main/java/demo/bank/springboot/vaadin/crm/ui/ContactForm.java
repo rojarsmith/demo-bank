@@ -8,6 +8,8 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
 
 import demo.bank.springboot.vaadin.crm.backend.entity.Company;
 import demo.bank.springboot.vaadin.crm.backend.entity.Contact;
@@ -18,6 +20,11 @@ import demo.bank.springboot.vaadin.crm.backend.entity.Contact;
  * @date 2022 Aug 19
  **/
 public class ContactForm extends FormLayout {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5300107315026125463L;
+
 	TextField firstName = new TextField("First name");
 	TextField lastName = new TextField("Last name");
 	EmailField email = new EmailField("Email");
@@ -28,8 +35,11 @@ public class ContactForm extends FormLayout {
 	Button delete = new Button("Delete");
 	Button close = new Button("Cancel");
 
+	Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
+
 	public ContactForm() {
 		addClassName("contact-form");
+		binder.bindInstanceFields(this);
 		add(firstName, lastName, email, company, status, createButtonsLayout());
 	}
 
