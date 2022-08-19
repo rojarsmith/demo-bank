@@ -1,5 +1,6 @@
 package demo.bank.springboot.vaadin.crm.ui;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -17,6 +18,7 @@ import demo.bank.springboot.vaadin.crm.backend.service.ContactService;
  * @date 2022 Jul 8
  **/
 @Route("")
+@CssImport("./shared-styles.css")
 public class MainView extends VerticalLayout {
 
 	/**
