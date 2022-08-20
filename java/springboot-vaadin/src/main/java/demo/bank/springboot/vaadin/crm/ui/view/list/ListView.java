@@ -1,28 +1,29 @@
-package demo.bank.springboot.vaadin.crm.ui;
+package demo.bank.springboot.vaadin.crm.ui.view.list;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import demo.bank.springboot.vaadin.crm.backend.entity.Company;
 import demo.bank.springboot.vaadin.crm.backend.entity.Contact;
 import demo.bank.springboot.vaadin.crm.backend.service.CompanyService;
 import demo.bank.springboot.vaadin.crm.backend.service.ContactService;
+import demo.bank.springboot.vaadin.crm.ui.MainLayout;
 
 /**
  * @author Rojar Smith
  *
  * @date 2022 Jul 8
  **/
-@Route("")
-@CssImport("./shared-styles.css")
-public class MainView extends VerticalLayout {
+@Route(value = "", layout = MainLayout.class)
+@PageTitle("Contacts | Vaadin CRM")
+public class ListView extends VerticalLayout {
 
 	/**
 	 * 
@@ -36,7 +37,7 @@ public class MainView extends VerticalLayout {
 	private TextField filterText = new TextField();
 	private ContactForm form;
 
-	public MainView(ContactService contactService, CompanyService companyService) {
+	public ListView(ContactService contactService, CompanyService companyService) {
 		this.contactService = contactService;
 		// Gives the component a CSS class name to help with styling.
 		addClassName("list-view");

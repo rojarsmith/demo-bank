@@ -1,4 +1,4 @@
-package demo.bank.springboot.vaadin.crm.ui;
+package demo.bank.springboot.vaadin.crm.ui.view.list;
 
 import java.util.List;
 
