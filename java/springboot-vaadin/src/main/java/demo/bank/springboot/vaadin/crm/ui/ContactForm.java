@@ -2,6 +2,8 @@ package demo.bank.springboot.vaadin.crm.ui;
 
 import java.util.List;
 
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,6 +14,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.shared.Registration;
 
 import demo.bank.springboot.vaadin.crm.backend.entity.Company;
 import demo.bank.springboot.vaadin.crm.backend.entity.Contact;
@@ -66,4 +69,54 @@ public class ContactForm extends FormLayout {
 		this.contact = contact;
 		binder.readBean(contact);
 	}
+
+	// Events
+	public static abstract class ContactFormEvent extends ComponentEvent<ContactForm> {
+
+		private static final long serialVersionUID = 8709091221934516501L;
+
+		private Contact contact;
+
+		public ContactFormEvent(ContactForm source, Contact contact) {
+			super(source, false);
+			this.contact = contact;
+		}
+
+		public Contact getContact() {
+			return contact;
+		}
+	}
+
+	public static class SaveEvent extends ContactFormEvent {
+
+		private static final long serialVersionUID = 1L;
+
+		SaveEvent(ContactForm source, Contact contact) {
+			super(source, contact);
+		}
+	}
+
+	public static class DeleteEvent extends ContactFormEvent {
+
+		private static final long serialVersionUID = 1L;
+
+		DeleteEvent(ContactForm source, Contact contact) {
+			super(source, contact);
+		}
+	}
+
+	public static class CloseEvent extends ContactFormEvent {
+
+		private static final long serialVersionUID = 5518546913441392756L;
+
+		CloseEvent(ContactForm source) {
+			super(source, null);
+		}
+	}
+
+	public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+			ComponentEventListener<T> listener) {
+		return getEventBus().addListener(eventType, listener);
+	}
+
 }
