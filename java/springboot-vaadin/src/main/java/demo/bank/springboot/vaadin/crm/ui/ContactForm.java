@@ -27,6 +27,8 @@ public class ContactForm extends FormLayout {
 	 */
 	private static final long serialVersionUID = -5300107315026125463L;
 
+	private Contact contact;
+
 	TextField firstName = new TextField("First name");
 	TextField lastName = new TextField("Last name");
 	EmailField email = new EmailField("Email");
@@ -58,5 +60,10 @@ public class ContactForm extends FormLayout {
 		close.addClickShortcut(Key.ESCAPE);
 
 		return new HorizontalLayout(save, delete, close);
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+		binder.readBean(contact);
 	}
 }
