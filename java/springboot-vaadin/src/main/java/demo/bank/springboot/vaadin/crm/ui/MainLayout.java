@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
 
+import demo.bank.springboot.vaadin.crm.ui.view.dashboard.DashboardView;
 import demo.bank.springboot.vaadin.crm.ui.view.list.ListView;
 
 /**
@@ -41,7 +42,8 @@ public class MainLayout extends AppLayout {
 	private void createDrawer() {
 		RouterLink listLink = new RouterLink("List", ListView.class);
 		listLink.setHighlightCondition(HighlightConditions.sameLocation());
-		addToDrawer(new VerticalLayout(listLink));
+
+		addToDrawer(new VerticalLayout(listLink, new RouterLink("Dashboard", DashboardView.class)));
 	}
 
 }
