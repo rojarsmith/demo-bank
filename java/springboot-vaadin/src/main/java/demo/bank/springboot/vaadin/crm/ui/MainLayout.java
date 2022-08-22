@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.PWA;
 
 import demo.bank.springboot.vaadin.crm.ui.view.dashboard.DashboardView;
 import demo.bank.springboot.vaadin.crm.ui.view.list.ListView;
@@ -20,6 +21,7 @@ import demo.bank.springboot.vaadin.crm.ui.view.list.ListView;
  * @date 2022 Aug 20
  */
 @CssImport("./shared-styles.css")
+@PWA(name = "VaadinCRM", shortName = "CRM")
 public class MainLayout extends AppLayout {
 
 	private static final long serialVersionUID = -3315920259068297490L;
