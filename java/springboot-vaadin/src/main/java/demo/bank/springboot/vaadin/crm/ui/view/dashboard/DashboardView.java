@@ -2,6 +2,8 @@ package demo.bank.springboot.vaadin.crm.ui.view.dashboard;
 
 import java.util.Map;
 
+import javax.annotation.security.PermitAll;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.ChartType;
@@ -21,6 +23,7 @@ import demo.bank.springboot.vaadin.crm.ui.MainLayout;
  *
  * @date 2022 Aug 22
  **/
+@PermitAll
 @Route(value = "dashboard", layout = MainLayout.class)
 @PageTitle("Dashboard | Vaadin CRM")
 public class DashboardView extends VerticalLayout {
@@ -42,7 +45,7 @@ public class DashboardView extends VerticalLayout {
 		stats.addClassName("contact-stats");
 		return stats;
 	}
-	
+
 	private Chart getCompaniesChart() {
 		Chart chart = new Chart(ChartType.PIE);
 
@@ -52,5 +55,5 @@ public class DashboardView extends VerticalLayout {
 		chart.getConfiguration().setSeries(dataSeries);
 		return chart;
 	}
-	
+
 }

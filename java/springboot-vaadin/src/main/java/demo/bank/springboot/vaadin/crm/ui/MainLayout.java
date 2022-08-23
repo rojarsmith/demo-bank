@@ -2,16 +2,16 @@ package demo.bank.springboot.vaadin.crm.ui;
 
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.PWA;
 
+import demo.bank.springboot.vaadin.crm.security.SecurityService;
 import demo.bank.springboot.vaadin.crm.ui.view.dashboard.DashboardView;
 import demo.bank.springboot.vaadin.crm.ui.view.list.ListView;
 
@@ -21,27 +21,30 @@ import demo.bank.springboot.vaadin.crm.ui.view.list.ListView;
  * @date 2022 Aug 20
  */
 @CssImport("./shared-styles.css")
-@PWA(name = "VaadinCRM", shortName = "CRM")
 public class MainLayout extends AppLayout {
 
 	private static final long serialVersionUID = -3315920259068297490L;
 
-	public MainLayout() {
+	private final SecurityService securityService;
+
+	public MainLayout(SecurityService securityService) {
+		this.securityService = securityService;
 		createHeader();
 		createDrawer();
 	}
 
 	private void createHeader() {
 		H1 logo = new H1("Vaadin CRM");
-		logo.addClassName("logo");
+		logo.addClassNames("text-l", "m-m");
 
-		Anchor logout = new Anchor("logout", "Log out");
+		Button logout = new Button("Log out", e -> securityService.logout());
 
 		HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
-		header.expand(logo);
+
 		header.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+		header.expand(logo);
 		header.setWidth("100%");
-		header.addClassName("header");
+		header.addClassNames("py-0", "px-m");
 
 		addToNavbar(header);
 	}

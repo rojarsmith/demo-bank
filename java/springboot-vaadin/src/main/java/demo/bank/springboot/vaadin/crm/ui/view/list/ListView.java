@@ -1,5 +1,7 @@
 package demo.bank.springboot.vaadin.crm.ui.view.list;
 
+import javax.annotation.security.PermitAll;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -21,6 +23,7 @@ import demo.bank.springboot.vaadin.crm.ui.MainLayout;
  *
  * @date 2022 Jul 8
  **/
+@PermitAll
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Contacts | Vaadin CRM")
 public class ListView extends VerticalLayout {
