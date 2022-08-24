@@ -2,6 +2,9 @@ package demo.bank.springboot.vaadin.crm.ui.view.list;
 
 import javax.annotation.security.PermitAll;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -23,22 +26,21 @@ import demo.bank.springboot.vaadin.crm.ui.MainLayout;
  *
  * @date 2022 Jul 8
  **/
+@Component
+@Scope("prototype")
 @PermitAll
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Contacts | Vaadin CRM")
 public class ListView extends VerticalLayout {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6631199031632258359L;
 
-	private ContactService contactService;
+	ContactService contactService;
 
 	// Defines a new field grid and instantiates it to a Grid of type Contact.
-	private Grid<Contact> grid = new Grid<>(Contact.class);
-	private TextField filterText = new TextField();
-	private ContactForm form;
+	Grid<Contact> grid = new Grid<>(Contact.class);
+	TextField filterText = new TextField();
+	ContactForm form;
 
 	public ListView(ContactService contactService, CompanyService companyService) {
 		this.contactService = contactService;
