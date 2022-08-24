@@ -3,7 +3,7 @@ package demo.bank.springboot.vaadin.crm.it;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.vaadin.flow.component.login.testbench.LoginFormElement;
+import demo.bank.springboot.vaadin.crm.it.elements.login.LoginViewElement;
 
 /**
  * @author Rojar Smith
@@ -18,14 +18,14 @@ public class LoginIT extends AbstractTest {
 
 	@Test
 	public void loginAsValidUserSucceeds() {
-		// Find the LoginForm used on the page
-		LoginFormElement form = $(LoginFormElement.class).first();
-		// Enter the credentials and log in
-		form.getUsernameField().setValue("user");
-		form.getPasswordField().setValue("password");
-		form.getSubmitButton().click();
-		// Ensure the login form is no longer visible
-		Assertions.assertFalse($(LoginFormElement.class).exists());
+		LoginViewElement loginView = $(LoginViewElement.class).onPage().first();
+		Assertions.assertTrue(loginView.login("user", "password"));
+	}
+
+	@Test
+	public void loginAsInvalidUserFails() {
+		LoginViewElement loginView = $(LoginViewElement.class).onPage().first();
+		Assertions.assertFalse(loginView.login("user", "invalid"));
 	}
 
 }
