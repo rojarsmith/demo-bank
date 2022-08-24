@@ -37,7 +37,7 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'com.vaadin:vaadin-testbench'
-	testImplementation 'io.github.bonigarcia:webdrivermanager'
+	testImplementation 'io.github.bonigarcia:webdrivermanager:5.3.0'
 }
 
 dependencyManagement {
