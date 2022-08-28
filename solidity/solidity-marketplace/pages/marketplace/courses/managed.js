@@ -34,7 +34,7 @@ export default function ManageCourses() {
     const [proofedOwnership, setProofedOwnership] = useState({})
     const { web3 } = useWeb3()
     const { account } = useAccount()
-    const { managedCourses } = useManagedCourses(account.data)
+    const { managedCourses } = useManagedCourses(account)
 
     const verifyCourse = (email, { hash, proof }) => {
         debugger
