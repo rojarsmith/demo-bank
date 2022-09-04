@@ -1,6 +1,6 @@
 import { useAdmin, useManagedCourses } from "@components/hooks/web3";
 import { useWeb3 } from "@components/providers";
-import { Button } from "@components/ui/common";
+import { Button, Message } from "@components/ui/common";
 import { CourseFilter, ManagedCourseCard } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
 import { MarketHeader } from "@components/ui/marketplace";
@@ -32,12 +32,11 @@ const VerificationInput = ({ onVerify }) => {
 
 export default function ManageCourses() {
     const [proofedOwnership, setProofedOwnership] = useState({})
-    const { web3 } = useWeb3()
+    const { web3, contract } = useWeb3()
     const { account } = useAdmin({ redirectTo: "/marketplace" })
     const { managedCourses } = useManagedCourses(account)
 
     const verifyCourse = (email, { hash, proof }) => {
-        debugger
         const emailHash = web3.utils.sha3(email)
         const proofToCheck = web3.utils.soliditySha3(
             { type: "bytes32", value: emailHash },
@@ -53,6 +52,18 @@ export default function ManageCourses() {
                 ...proofedOwnership,
                 [hash]: false
             })
+    }
+
+    const activateCourse = async courseHash => {
+        try {
+            await contract.methods
+                .activateCourse(courseHash)
+                .send({
+                    from: account.data
+                })
+        } catch (e) {
+            console.error(e.message)
+        }
     }
 
     if (!account.isAdmin) {
@@ -77,6 +88,32 @@ export default function ManageCourses() {
                                 })
                             }}
                         />
+                        {proofedOwnership[course.hash] &&
+                            <div className="mt-2">
+                                <Message>
+                                    Verified!
+                                </Message>
+                            </div>
+                        }
+                        {proofedOwnership[course.hash] === false &&
+                            <div className="mt-2">
+                                <Message type="danger">
+                                    Wrong Proof!
+                                </Message>
+                            </div>
+                        }
+                        {course.state === "purchased" &&
+                            <div className="mt-2">
+                                <Button
+                                    onClick={() => activateCourse(course.hash)}
+                                    variant="green">
+                                    Activate
+                                </Button>
+                                <Button variant="red">
+                                    Deactivate
+                                </Button>
+                            </div>
+                        }
                     </ManagedCourseCard>
                 )}
             </section>
