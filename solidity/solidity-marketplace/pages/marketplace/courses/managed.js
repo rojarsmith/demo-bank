@@ -91,6 +91,53 @@ export default function ManageCourses() {
         setSearchedCourse(null)
     }
 
+    const renderCard = (course, isSearched) => {
+        return (
+            <ManagedCourseCard
+                key={course.ownedCourseId}
+                isSearched={isSearched}
+                course={course}
+            >
+                <VerificationInput
+                    onVerify={email => {
+                        verifyCourse(email, {
+                            hash: course.hash,
+                            proof: course.proof
+                        })
+                    }}
+                />
+                {proofedOwnership[course.hash] &&
+                    <div className="mt-2">
+                        <Message>
+                            Verified!
+                        </Message>
+                    </div>
+                }
+                {proofedOwnership[course.hash] === false &&
+                    <div className="mt-2">
+                        <Message type="danger">
+                            Wrong Proof!
+                        </Message>
+                    </div>
+                }
+                {course.state === "purchased" &&
+                    <div className="mt-2">
+                        <Button
+                            onClick={() => activateCourse(course.hash)}
+                            variant="green">
+                            Activate
+                        </Button>
+                        <Button
+                            onClick={() => deactivateCourse(course.hash)}
+                            variant="red">
+                            Deactivate
+                        </Button>
+                    </div>
+                }
+            </ManagedCourseCard>
+        )
+    }
+
     if (!account.isAdmin) {
         return null
     }
@@ -102,49 +149,14 @@ export default function ManageCourses() {
                 onSearchSubmit={searchCourse}
             />
             <section className="grid grid-cols-1">
-                {managedCourses.data?.map(course =>
-                    <ManagedCourseCard
-                        key={course.ownedCourseId}
-                        course={course}
-                    >
-                        <VerificationInput
-                            onVerify={email => {
-                                verifyCourse(email, {
-                                    hash: course.hash,
-                                    proof: course.proof
-                                })
-                            }}
-                        />
-                        {proofedOwnership[course.hash] &&
-                            <div className="mt-2">
-                                <Message>
-                                    Verified!
-                                </Message>
-                            </div>
-                        }
-                        {proofedOwnership[course.hash] === false &&
-                            <div className="mt-2">
-                                <Message type="danger">
-                                    Wrong Proof!
-                                </Message>
-                            </div>
-                        }
-                        {course.state === "purchased" &&
-                            <div className="mt-2">
-                                <Button
-                                    onClick={() => activateCourse(course.hash)}
-                                    variant="green">
-                                    Activate
-                                </Button>
-                                <Button
-                                    onClick={() => deactivateCourse(course.hash)}
-                                    variant="red">
-                                    Deactivate
-                                </Button>
-                            </div>
-                        }
-                    </ManagedCourseCard>
-                )}
+                {searchedCourse &&
+                    <div>
+                        <h1 className="text-2xl font-bold p-5">Search</h1>
+                        {renderCard(searchedCourse, true)}
+                    </div>
+                }
+                <h1 className="text-2xl font-bold p-5">All Courses</h1>
+                {managedCourses.data?.map(course => renderCard(course))}
             </section>
         </>
     )
