@@ -35,6 +35,3 @@ module.exports = {
 // Deploying 'CourseMarketplace'
 // transaction hash:    0xcfec4a8e60545eba3b42d3dea94b083d66a369ce5507a032268734b92e662e0b
 // contract address:    0x59E1e462af19bAE2356d161D74721f4795B6Bf77
-
-// NEXT_PUBLIC_TARGET_CHAIN_ID=1337
-// NEXT_PUBLIC_NETWORK_ID=5777
