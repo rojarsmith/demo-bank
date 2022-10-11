@@ -1,12 +1,27 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.8.17;
 
-contract KryptoCurioz {
-    string public name;
-    string public symbol;
+import "./ERC721Connector.sol";
 
-    constructor() {
-        name = "KryptoCurioz";
-        symbol = "KCURIOZ";
+contract KryptoCurioz is ERC721Connector {
+    string[] public kryptoCurioz;
+
+    mapping(string => bool) _kryptoCuriozExists;
+
+    function mint(string memory _kryptoCurioz) public {
+        require(
+            !_kryptoCuriozExists[_kryptoCurioz],
+            "Error - kryptoCurioz already exists"
+        );
+
+        // .push no longer returns the length but a ref to the added element
+        kryptoCurioz.push(_kryptoCurioz);
+        uint256 _id = kryptoCurioz.length - 1;
+
+        _mint(msg.sender, _id);
+
+        _kryptoCuriozExists[_kryptoCurioz] = true;
     }
+
+    constructor() ERC721Connector("KryptoCurioz", "KCURIOZ") {}
 }
