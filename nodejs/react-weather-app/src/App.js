@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import './App.css';
 
 function App() {
   const [search, setSearch] = useState('')
@@ -46,30 +47,37 @@ function App() {
 
   return (
     <main>
-      <div className="App">
+      <div className="form">
         <form onSubmit={handleSubmit}>
           <input value={search} type='text' name='city' placeholder='City Name' onChange={handleChange} />
           <button>Search</button>
         </form>
         <section>
-          {allData.weatherIcons ?
-            <img src={'https://openweathermap.org/img/wn/' + allData.weatherIcons + '@2x.png'} />
-            : <></>
-          }
-          <h1>{allData.city}</h1>
-          <h2>{allData.country}</h2>
-          <div>
+          <div className="header-div">
             <div>
-              <h3>HUMIDITY</h3>
-              <p>{allData.humidity}°F</p>
-            </div>
-            <div>
-              <h3>TEMPERATURE</h3>
-              <p>{allData.temperature}°F</p>
-            </div>
-            <div>
-              <h3>MIN TEMPERATURE</h3>
-              <p>{allData.minTemperature}°F</p>
+              <div className="data">
+                {allData.weatherIcons ?
+                  <img src={'https://openweathermap.org/img/wn/' + allData.weatherIcons + '@2x.png'} />
+                  : <></>
+                }
+                <h1 className="title">{allData.city}</h1>
+                <h2 className="location">{allData.country}</h2>
+                <div className="weather-description">
+                  <div>
+                    <h3>HUMIDITY</h3>
+                    <p>{allData.humidity}°F</p>
+
+                  </div>
+                  <div>
+                    <h3>TEMPERATURE</h3>
+                    <p>{allData.temperature}°F</p>
+                  </div>
+                  <div>
+                    <h3>MIN TEMPERATURE</h3>
+                    <p>{allData.minTemperature}°F</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
