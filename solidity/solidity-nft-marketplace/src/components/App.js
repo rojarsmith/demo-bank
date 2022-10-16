@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
-import Web3 from 'web3';
+import React, { useEffect, useState } from 'react';
 import detectEthereumProvider from '@metamask/detect-provider';
-import KryptoCurioz from '../abis/KryptoCurioz.json';
+// import KryptoCurioz from '../abis/KryptoCurioz.json';
 
 function App() {
+    const [pageData, setPageData] = useState({
+        account: ''
+    })
 
     useEffect(() => {
         // first up is to detect ethereum provider
@@ -20,12 +22,24 @@ function App() {
                 console.log('no ethereum wallet detected')
             }
         }
+
+        const loadBlockchainData = async () => {
+            const web3 = window.ethereum
+            const accounts = await web3.request({ method: 'eth_requestAccounts' });
+            setPageData({
+                ...pageData,
+                account: accounts
+            })
+        }
+
         loadWeb3()
+        loadBlockchainData()
     }, [])
 
     return (
         <div>
             <h1>NFT Marketplace</h1>
+            <p>{pageData.account}</p>
         </div>
     )
 }
