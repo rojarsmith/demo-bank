@@ -38,8 +38,19 @@ function App() {
 
     return (
         <div>
+            <nav className='navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow'>
+                <div className='navbar-brand col-sm-3 col-md-3 mr-0' style={{ color: 'white' }}>
+                    KryptoCurioz NFTs (Non Fungible Tokens)
+                </div>
+                <ul className='navbar-nav px-3'>
+                    <l className='nav-item text-nowrap d-none d-sm-none d-sm-block'>
+                        <small className='text-white'>
+                            {pageData.account}
+                        </small>
+                    </l>
+                </ul>
+            </nav>
             <h1>NFT Marketplace</h1>
-            <p>{pageData.account}</p>
         </div>
     )
 }
