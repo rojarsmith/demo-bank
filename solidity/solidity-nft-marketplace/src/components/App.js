@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
-// import KryptoCurioz from '../abis/KryptoCurioz.json';
+import KryptoCurioz from '../abis/KryptoCurioz.json';
 
 function App() {
     const [pageData, setPageData] = useState({
@@ -36,6 +36,13 @@ function App() {
                 ...pageData,
                 account: accounts
             })
+
+            const networkId = await web3.eth.net.getId()
+            const networkData = KryptoCurioz.networks[networkId]
+            if (networkData) {
+                const contract = new web3.eth.Contract(KryptoCurioz.abi, networkData.address);
+                console.log(contract)
+            }
         }
 
         if (web3) {
