@@ -5,9 +5,12 @@ import KryptoCurioz from '../abis/KryptoCurioz.json';
 
 function App() {
     const [pageData, setPageData] = useState({
-        account: ''
+        account: '',
+        totalSupply: 0,
+        KryptoCurioz: []
     })
     const [web3, setWeb3] = useState();
+    const [contract, setContract] = useState();
 
     useEffect(() => {
         // first up is to detect ethereum provider
@@ -40,8 +43,11 @@ function App() {
             const networkId = await web3.eth.net.getId()
             const networkData = KryptoCurioz.networks[networkId]
             if (networkData) {
-                const contract = new web3.eth.Contract(KryptoCurioz.abi, networkData.address);
-                console.log(contract)
+                const contractobj = new web3.eth.Contract(KryptoCurioz.abi, networkData.address);
+                console.log(contractobj)
+                setContract(contractobj)
+            } else {
+                window.alert('Smart contract not deployed')
             }
         }
 
@@ -49,6 +55,32 @@ function App() {
             loadBlockchainData()
         }
     }, [web3])
+
+
+    useEffect(() => {
+        const loadBlockchainData = async () => {
+            // call the total supply of the KryptoCurioz
+            const totalSupply = await contract.methods.totalSupply().call()
+            console.log('totalSupply=' + totalSupply.toNumber())
+            setPageData({
+                ...pageData,
+                totalSupply: totalSupply.toNumber()
+            })
+            // set up an array to keep track of tokens
+            for (let i = 0; i < totalSupply; i++) {
+                const KryptoCurio = await contract.methods.kryptoCurioz(i).call()
+                setPageData({
+                    ...pageData,
+                    KryptoCurioz: [...pageData.KryptoCurioz, KryptoCurio]
+                })
+            }
+            console.log(pageData)
+        }
+
+        if (contract) {
+            loadBlockchainData()
+        }
+    }, [contract])
 
     return (
         <div>
@@ -65,6 +97,7 @@ function App() {
                 </ul>
             </nav>
             <h1>NFT Marketplace</h1>
+            <p>{pageData.totalSupply}</p>
         </div>
     )
 }
