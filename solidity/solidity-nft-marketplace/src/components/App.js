@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
 // import KryptoCurioz from '../abis/KryptoCurioz.json';
 
@@ -6,6 +7,7 @@ function App() {
     const [pageData, setPageData] = useState({
         account: ''
     })
+    const [web3, setWeb3] = useState();
 
     useEffect(() => {
         // first up is to detect ethereum provider
@@ -13,28 +15,33 @@ function App() {
             const provider = await detectEthereumProvider()
 
             if (provider) {
-                console.log('ethereum wallet is connected')
-                const chainId = await provider.request({
-                    method: 'eth_chainId'
-                })
-                console.log(chainId)
+                if (window.ethereum) {
+                    let web3obj = new Web3(window.ethereum)
+                    setWeb3(web3obj)
+                    console.log('ethereum wallet is connected')
+                }
             } else {
                 console.log('no ethereum wallet detected')
             }
         }
+        loadWeb3()
+    }, [])
 
+    useEffect(() => {
+        console.log(web3)
+        console.log('useEffect[web3]')
         const loadBlockchainData = async () => {
-            const web3 = window.ethereum
-            const accounts = await web3.request({ method: 'eth_requestAccounts' });
+            const accounts = await web3.eth.getAccounts()
             setPageData({
                 ...pageData,
                 account: accounts
             })
         }
 
-        loadWeb3()
-        loadBlockchainData()
-    }, [])
+        if (web3) {
+            loadBlockchainData()
+        }
+    }, [web3])
 
     return (
         <div>
@@ -43,11 +50,11 @@ function App() {
                     KryptoCurioz NFTs (Non Fungible Tokens)
                 </div>
                 <ul className='navbar-nav px-3'>
-                    <l className='nav-item text-nowrap d-none d-sm-none d-sm-block'>
+                    <li className='nav-item text-nowrap d-none d-sm-none d-sm-block'>
                         <small className='text-white'>
                             {pageData.account}
                         </small>
-                    </l>
+                    </li>
                 </ul>
             </nav>
             <h1>NFT Marketplace</h1>
