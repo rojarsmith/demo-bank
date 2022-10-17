@@ -3,6 +3,7 @@ import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
 import KryptoCurioz from '../abis/KryptoCurioz.json';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
+import './App.css';
 
 function App() {
     const [pageData, setPageData] = useState({
@@ -101,7 +102,7 @@ function App() {
     }
 
     return (
-        <div>
+        <div className='container-filled'>
             {console.log(pageData.KryptoCurioz)}
             <nav className='navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow'>
                 <div className='navbar-brand col-sm-3 col-md-3 mr-0' style={{ color: 'white' }}>
@@ -119,7 +120,7 @@ function App() {
                 <div className='row'>
                     <main role='main' className='col-lg-12 d-flex text-center'>
                         <div className='content mr-auto ml-auto' style={{ opacity: '0.8' }}>
-                            <h1 style={{ color: 'white' }}>KryptoCurioz - NFT Marketplace</h1>
+                            <h1 style={{ color: 'black' }}>KryptoCurioz - NFT Marketplace</h1>
                             <form onSubmit={(event) => {
                                 event.preventDefault()
                                 const kryptoCurio = inputKryptoCurio
@@ -142,13 +143,14 @@ function App() {
                             return (
                                 <div key={key}>
                                     <div>
-                                        <MDBCard className='token img' style={{ maxWidth: '22rem' }} />
-                                        <MDBCardImage src={kryptoCurio} position='top' height='250rem' style={{ marginRight: '4px' }} />
-                                        <MDBCardBody>
-                                            <MDBCardTitle>KryptoCurioz - {kryptoCurio}</MDBCardTitle>
-                                            <MDBCardText>The KryptoCurioz are N uniquely generated KCurioz !</MDBCardText>
-                                            <MDBBtn href={kryptoCurio}>Download</MDBBtn>
-                                        </MDBCardBody>
+                                        <MDBCard className='token img' style={{ maxWidth: '22rem' }}>
+                                            <MDBCardImage src={kryptoCurio} position='top' height='250rem' style={{ marginRight: '4px' }} />
+                                            <MDBCardBody>
+                                                <MDBCardTitle>KryptoCurioz - {kryptoCurio}</MDBCardTitle>
+                                                <MDBCardText>The KryptoCurioz are N uniquely generated KCurioz !</MDBCardText>
+                                                <MDBBtn href={kryptoCurio}>Download</MDBBtn>
+                                            </MDBCardBody>
+                                        </MDBCard>
                                     </div>
                                 </div>
                             )
