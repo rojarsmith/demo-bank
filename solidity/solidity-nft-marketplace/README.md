@@ -1,4 +1,10 @@
 # nft-marketplace-starter-kit
+NFT examples:
+
+http://localhost:3000/crypto-curio/curio-1-qing-dynasty.png
+
+http://localhost:3000/crypto-curio/curio-2-qianlong-period.png
+
 Please run npm install on the terminal to download the appropriate packages already defined to the package.json file. 
 Make sure you are in the source file. 
 

@@ -26,6 +26,7 @@
     "web3": "1.0.0-beta.55"
   },
   "scripts": {
+    "prestart": "del public\\crypto-curio & xcopy src\\crypto-curio public\\crypto-curio\\",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
