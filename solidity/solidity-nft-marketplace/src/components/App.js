@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
 import KryptoCurioz from '../abis/KryptoCurioz.json';
@@ -9,8 +9,9 @@ function App() {
         totalSupply: 0,
         KryptoCurioz: []
     })
-    const [web3, setWeb3] = useState();
-    const [contract, setContract] = useState();
+    const [web3, setWeb3] = useState()
+    const [contract, setContract] = useState()
+    const inputKryptoCurio = useRef('')
 
     useEffect(() => {
         // first up is to detect ethereum provider
@@ -82,6 +83,17 @@ function App() {
         }
     }, [contract])
 
+    // with minting we are sending information and we need to specify the account
+    const mint = async (KryptoCurio) => {
+        console.log(contract.methods.mint)
+        // await contract.methods.mint(KryptoCurio).send({ from: pageData.account }).once('receipt', (receipt) => {
+        //     setPageData({
+        //         ...pageData,
+        //         KryptoCurioz: [...pageData.KryptoCurioz, KryptoCurio]
+        //     })
+        // })
+    }
+
     return (
         <div>
             <nav className='navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow'>
@@ -96,8 +108,27 @@ function App() {
                     </li>
                 </ul>
             </nav>
-            <h1>NFT Marketplace</h1>
-            <p>{pageData.totalSupply}</p>
+            <div className='container-fluid mt-1'>
+                <div className='row'>
+                    <main role='main' className='col-lg-12 d-flex text-center'>
+                        <div className='content mr-auto ml-auto' style={{ opacity: '0.8' }}>
+                            <h1 style={{ color: 'white' }}>KryptoCurioz - NFT Marketplace</h1>
+                            <form onSubmit={(event) => {
+                                event.preventDefault()
+                                const kryptoCurio = inputKryptoCurio
+                                console.log(kryptoCurio.current.value)
+                                mint(kryptoCurio.current.value)
+                            }}>
+                                <input type='text' placeholder='Add a file location' className='form-control mb-1'
+                                    ref={inputKryptoCurio} />
+                                <input style={{ margin: '6px' }} type='submit' className='btn btn-primary btn-black'
+                                    value='MINT' />
+                            </form>
+                            <p>TotalSupply: {pageData.totalSupply}</p>
+                        </div>
+                    </main>
+                </div>
+            </div>
         </div>
     )
 }
