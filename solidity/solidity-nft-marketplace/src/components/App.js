@@ -65,10 +65,7 @@ function App() {
             // call the total supply of the KryptoCurioz
             const totalSupply = await contract.methods.totalSupply().call()
             console.log('totalSupply=' + totalSupply.toNumber())
-            setPageData({
-                ...pageData,
-                totalSupply: totalSupply.toNumber()
-            })
+ 
             // set up an array to keep track of tokens
             let kryptoCurioArray = []
             for (let i = 0; i < totalSupply; i++) {
@@ -77,8 +74,11 @@ function App() {
                 kryptoCurioArray.push(KryptoCurio)
             }
             console.log(kryptoCurioArray)
+
+            // Update all data
             setPageData({
                 ...pageData,
+                totalSupply: totalSupply.toNumber(),
                 KryptoCurioz: [...pageData.KryptoCurioz, ...kryptoCurioArray]
             })
 
