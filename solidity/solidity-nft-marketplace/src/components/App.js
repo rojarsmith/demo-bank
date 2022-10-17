@@ -38,7 +38,7 @@ function App() {
             const accounts = await web3.eth.getAccounts()
             setPageData({
                 ...pageData,
-                account: accounts
+                account: accounts[0]
             })
 
             const networkId = await web3.eth.net.getId()
@@ -85,17 +85,17 @@ function App() {
 
     // with minting we are sending information and we need to specify the account
     const mint = async (KryptoCurio) => {
-        console.log(contract.methods.mint)
-        // await contract.methods.mint(KryptoCurio).send({ from: pageData.account }).once('receipt', (receipt) => {
-        //     setPageData({
-        //         ...pageData,
-        //         KryptoCurioz: [...pageData.KryptoCurioz, KryptoCurio]
-        //     })
-        // })
+        await contract.methods.mint(KryptoCurio).send({ from: pageData.account }).once('receipt', (receipt) => {
+            setPageData({
+                ...pageData,
+                KryptoCurioz: [...pageData.KryptoCurioz, KryptoCurio]
+            })
+        })
     }
 
     return (
         <div>
+            {console.log(pageData.KryptoCurioz)}
             <nav className='navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow'>
                 <div className='navbar-brand col-sm-3 col-md-3 mr-0' style={{ color: 'white' }}>
                     KryptoCurioz NFTs (Non Fungible Tokens)
