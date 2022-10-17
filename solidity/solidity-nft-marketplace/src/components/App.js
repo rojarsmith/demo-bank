@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
 import KryptoCurioz from '../abis/KryptoCurioz.json';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
 
 function App() {
     const [pageData, setPageData] = useState({
@@ -68,14 +69,19 @@ function App() {
                 totalSupply: totalSupply.toNumber()
             })
             // set up an array to keep track of tokens
+            let kryptoCurioArray = []
             for (let i = 0; i < totalSupply; i++) {
                 const KryptoCurio = await contract.methods.kryptoCurioz(i).call()
-                setPageData({
-                    ...pageData,
-                    KryptoCurioz: [...pageData.KryptoCurioz, KryptoCurio]
-                })
+                console.log('KryptoCurio=' + KryptoCurio)
+                kryptoCurioArray.push(KryptoCurio)
             }
-            console.log(pageData)
+            console.log(kryptoCurioArray)
+            setPageData({
+                ...pageData,
+                KryptoCurioz: [...pageData.KryptoCurioz, ...kryptoCurioArray]
+            })
+
+            console.log('pageData=' + JSON.stringify(pageData))
         }
 
         if (contract) {
@@ -86,6 +92,7 @@ function App() {
     // with minting we are sending information and we need to specify the account
     const mint = async (KryptoCurio) => {
         await contract.methods.mint(KryptoCurio).send({ from: pageData.account }).once('receipt', (receipt) => {
+            console.log('receipt')
             setPageData({
                 ...pageData,
                 KryptoCurioz: [...pageData.KryptoCurioz, KryptoCurio]
@@ -127,6 +134,27 @@ function App() {
                             <p>TotalSupply: {pageData.totalSupply}</p>
                         </div>
                     </main>
+                </div>
+                <hr></hr>
+                <div className='row textCenter'>
+                    {pageData.KryptoCurioz ?
+                        pageData.KryptoCurioz.map((kryptoCurio, key) => {
+                            return (
+                                <div key={key}>
+                                    <div>
+                                        <MDBCard className='token img' style={{ maxWidth: '22rem' }} />
+                                        <MDBCardImage src={kryptoCurio} position='top' height='250rem' style={{ marginRight: '4px' }} />
+                                        <MDBCardBody>
+                                            <MDBCardTitle>KryptoCurioz - {kryptoCurio}</MDBCardTitle>
+                                            <MDBCardText>The KryptoCurioz are N uniquely generated KCurioz !</MDBCardText>
+                                            <MDBBtn href={kryptoCurio}>Download</MDBBtn>
+                                        </MDBCardBody>
+                                    </div>
+                                </div>
+                            )
+                        })
+                        : <></>
+                    }
                 </div>
             </div>
         </div>
