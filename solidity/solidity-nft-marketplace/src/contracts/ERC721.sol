@@ -3,20 +3,24 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "./ERC165.sol";
 import "./interfaces/IERC721.sol";
+import "./libraries/Counters.sol";
 
 contract ERC721 is ERC165, IERC721 {
+    using SafeMath for uint256;
+    using Counters for Counters.Counter;
+
     // Mapping from token id to the owner
     mapping(uint256 => address) private _tokenOwner;
 
     // Mapping from owner to number of owned tokens
-    mapping(address => uint256) private _OwnedTokensCount;
+    mapping(address => Counters.Counter) private _OwnedTokensCount;
 
     // Mapping from token id to approved addresses
     mapping(uint256 => address) private _tokenApprovals;
 
     function balanceOf(address _owner) public view override returns (uint256) {
         require(_owner != address(0), "owner query for non-existent token");
-        return _OwnedTokensCount[_owner];
+        return _OwnedTokensCount[_owner].current();
     }
 
     constructor() {
@@ -44,7 +48,7 @@ contract ERC721 is ERC165, IERC721 {
         require(to != address(0), "ERC721: minting to the zero address");
         require(!_exists(tokenId), "ERC721: token already minted");
         _tokenOwner[tokenId] = to;
-        _OwnedTokensCount[to] += 1;
+        _OwnedTokensCount[to].increment();
 
         emit Transfer(address(0), to, tokenId);
     }
@@ -73,8 +77,8 @@ contract ERC721 is ERC165, IERC721 {
             "Trying to transfer a token the address does not own!"
         );
 
-        _OwnedTokensCount[_from] -= 1;
-        _OwnedTokensCount[_to] += 1;
+        _OwnedTokensCount[_from].decrement();
+        _OwnedTokensCount[_to].increment();
 
         _tokenOwner[_tokenId] = _to;
 
