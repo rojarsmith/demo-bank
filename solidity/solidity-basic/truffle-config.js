@@ -24,6 +24,7 @@ const fs = require('fs');
 const secret = JSON.parse(fs.readFileSync("secret.json"));
 console.log('mnemonic=' + secret.mnemonic);
 console.log('infuraUrl=' + secret.infura_url);
+console.log('alchemyUrl' + secret.alchemy_url);
 
 module.exports = {
   /**
@@ -45,8 +46,24 @@ module.exports = {
     //
     development: {
       host: "127.0.0.1",     // Localhost (default: none)
-      port: 9545,            // Standard Ethereum port (default: none)
+      port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
+    },
+    alchemy: {
+      provider: () => new HDWalletProvider(secret.mnemonic, secret.alchemy_url),
+      network_id: "*",   // This network is yours, in the cloud.
+      // production: true    // Treats this network as if it was a public net. (default: false)
+    },
+    // Useful for private networks
+    private: {
+      provider: () => new HDWalletProvider(secret.mnemonic, secret.infura_url),
+      network_id: "*",   // This network is yours, in the cloud.
+      // production: true    // Treats this network as if it was a public net. (default: false)
+    },
+    rinkeby: {
+      provider: () => new HDWalletProvider(secret.rinkeby_prv, secret.rinkeby_url),
+      network_id: secret.rinkeby_chainid,
+      production: true
     },
     // Another network with more advanced options...
     // advanced: {
@@ -67,17 +84,6 @@ module.exports = {
     // timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
     // skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     // },
-    // Useful for private networks
-    private: {
-      provider: () => new HDWalletProvider(secret.mnemonic, secret.infura_url),
-      network_id: "*",   // This network is yours, in the cloud.
-      // production: true    // Treats this network as if it was a public net. (default: false)
-    },
-    rinkeby: {
-      provider: () => new HDWalletProvider(secret.rinkeby_prv, secret.rinkeby_url),
-      network_id: secret.rinkeby_chainid,
-      production: true
-    },
   },
 
   // Set default mocha options here, use special reporters etc.
@@ -88,7 +94,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.13",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.17",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
