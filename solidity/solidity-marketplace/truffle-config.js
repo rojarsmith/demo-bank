@@ -9,6 +9,17 @@ module.exports = {
       port: 7545,
       network_id: "*",
     },
+    alchemy: {
+      provider: () => new HDWalletProvider({
+        mnemonic: {
+          phrase: keys.MNEMONIC
+        },
+        providerOrUrl: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+        addressIndex: 0
+      }),
+      network_id: "*",   // This network is yours, in the cloud.
+    },
+    // expired
     ropsten: {
       provider: () =>
         new HDWalletProvider({

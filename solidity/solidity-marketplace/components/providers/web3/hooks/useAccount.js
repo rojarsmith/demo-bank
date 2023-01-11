@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import useSWR from "swr";
 
 const adminAddresses = {
+    "0x9b27c1a01daa206220657a0f8cc3f6536434b715227e80be80daba434d6b1c5c": true, // Hex: 9e0FCC8d4706D2a857CcA1Ca111b2F7274D58C61
     "0x11bfbf6a1e96405aa0b552dd6e5d74bec8e18bfaf1bc3c9a67558b96eb2ff716": true,
     "0x08a8b4bda11c956a93dc13830ee42bfa4139a6e7c68f33a8dba685f0f9a67f3c": true
 }
