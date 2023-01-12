@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 const { createContext, useContext, useEffect, useState, useMemo } = require("react");
 
 import detectEthereumProvider from "@metamask/detect-provider";
@@ -22,6 +23,7 @@ const createWeb3State = ({ web3, provider, contract, isLoading }) => {
 }
 
 export default function Web3Provider({ children }) {
+    const router = useRouter();
     const [web3Api, setWeb3Api] = useState(
         createWeb3State({
             web3: null,
@@ -31,13 +33,15 @@ export default function Web3Provider({ children }) {
         })
     );
 
+    const getLink = (path) => `${router.basePath}${path}`;
+
     useEffect(() => {
         const loadProvider = async () => {
 
             const provider = await detectEthereumProvider()
             if (provider) {
                 const web3 = new Web3(provider)
-                const contract = await loadContract("CourseMarketplace", web3)
+                const contract = await loadContract("CourseMarketplace", getLink, web3)
 
                 setListeners(provider)
                 setWeb3Api(
