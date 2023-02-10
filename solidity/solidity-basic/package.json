@@ -1,4 +1,10 @@
 {
+  "keywords": [
+    "Ethereum",
+    "Truffle",
+    "dapp"
+  ],
+  "author": "Rojar Smith",
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.0.8"
   }
