@@ -7,9 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 public class SpringbootAuthorizationServerApplication {
 
-	public static void main(String[] args) {
-		System.out.println("rojarsmith=" + new BCryptPasswordEncoder().encode("rojarsmith"));
-		SpringApplication.run(SpringbootAuthorizationServerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        System.out.println( //
+                "rojarsmith=" + new BCryptPasswordEncoder().encode("rojarsmith"));
+        SpringApplication.run(SpringbootAuthorizationServerApplication.class, args);
+    }
 
 }
