@@ -21,8 +21,10 @@ public class DefaultSecurityConfig {
 
 	@Bean
 	SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
+
 		log.info("--- h2ConsoleSecurityFilterChain ---");
-		http //
+
+		http.securityMatcher(PathRequest.toH2Console()) // or "/h2/**"
 				.authorizeHttpRequests() //
 				.requestMatchers(PathRequest.toH2Console()) //
 				.permitAll() //
