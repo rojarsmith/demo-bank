@@ -21,6 +21,10 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -51,13 +55,11 @@ public class AuthorizationServerConfig {
      * Default Ebdpoints
      *
      * <p>
-     * Authorization /oauth2/authorize 
-     * Token Endpoint /oauth2/token
-     * Token Revocation /oauth2/revoke 
-     * Token Introspection /oauth2/introspect 
-     * JWK Set Ecdpoint /oauth2/jwks 
-     * Authorization Server Metadata /.well-known/oauth-authorization-server 
-     * OIDC Provider Configuration /.well-known/openid-configuration
+     * Authorization /oauth2/authorize Token Endpoint /oauth2/token Token Revocation
+     * /oauth2/revoke Token Introspection /oauth2/introspect JWK Set Ecdpoint
+     * /oauth2/jwks Authorization Server Metadata
+     * /.well-known/oauth-authorization-server OIDC Provider Configuration
+     * /.well-known/openid-configuration
      */
     @Bean
     @Order(1)
@@ -122,6 +124,18 @@ public class AuthorizationServerConfig {
         }
 
         return registeredClientRepository;
+    }
+
+    @Bean
+    OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
+            RegisteredClientRepository registeredClientRepository) {
+        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+    }
+
+    @Bean
+    OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate,
+            RegisteredClientRepository registeredClientRepository) {
+        return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
     }
 
     @Bean
