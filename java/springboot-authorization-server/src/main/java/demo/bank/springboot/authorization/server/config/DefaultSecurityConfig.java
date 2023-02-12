@@ -47,7 +47,8 @@ public class DefaultSecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests().anyRequest().authenticated() //
                 .and() //
-                .formLogin();
+                .formLogin()
+                .defaultSuccessUrl("http://127.0.0.1:8080/oauth2/authorize?response_type=code&client_id=client-demo&scope=message.read%20message.write&redirect_uri=http://127.0.0.1:8080/authorized", true);
 
         return http.build();
     }
