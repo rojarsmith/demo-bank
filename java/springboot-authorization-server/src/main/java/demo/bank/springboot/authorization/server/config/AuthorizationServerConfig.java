@@ -55,8 +55,7 @@ public class AuthorizationServerConfig {
 
         http.securityMatcher(authorizationServerEndpointsMatcher) //
                 .authorizeHttpRequests() //
-                .requestMatchers(authorizationServerEndpointsMatcher) //
-                .permitAll() //
+                .anyRequest().authenticated() //
                 .and() //
                 .csrf() //
                 .ignoringRequestMatchers(authorizationServerEndpointsMatcher) //
@@ -74,7 +73,6 @@ public class AuthorizationServerConfig {
     @Bean
     RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
 
-        @SuppressWarnings("unused")
         RegisteredClient registeredClient = RegisteredClient //
                 .withId("1") //
                 .clientId("client-demo") //
@@ -105,8 +103,10 @@ public class AuthorizationServerConfig {
 
         JdbcRegisteredClientRepository registeredClientRepository = //
                 new JdbcRegisteredClientRepository(jdbcTemplate);
-        registeredClientRepository.findByClientId("client-demo");
-//		registeredClientRepository.save(registeredClient); // save to database
+
+        if (null == registeredClientRepository.findByClientId("client-demo")) {
+            registeredClientRepository.save(registeredClient); // save to database
+        }
 
         return registeredClientRepository;
     }
