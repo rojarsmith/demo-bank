@@ -1,16 +1,29 @@
 package demo.bank.springboot.authorization.server.config;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.EncodedKeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -52,6 +65,9 @@ import com.nimbusds.jose.proc.SecurityContext;
 @Configuration(proxyBeanMethods = true)
 @EnableWebSecurity
 public class AuthorizationServerConfig {
+
+    @Autowired
+    ResourceLoader resourceLoader;
 
     /**
      * Default Ebdpoints
@@ -142,12 +158,18 @@ public class AuthorizationServerConfig {
 
     @Bean
     JWKSource<SecurityContext> jwkSource() {
-        KeyPair keyPair = generateRsaKey();
+        Resource rprv = resourceLoader.getResource("classpath:key.prv");
+        Resource rpub = resourceLoader.getResource("classpath:key.pub");
+
+        KeyPair keyPair;
+        keyPair = generateRsaKey(rprv, rpub);
+
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
         RSAKey rsaKey = new RSAKey.Builder(publicKey).privateKey(privateKey).keyID(UUID.randomUUID().toString())
                 .build();
         JWKSet jwkSet = new JWKSet(rsaKey);
+
         return new ImmutableJWKSet<>(jwkSet);
     }
 
@@ -168,15 +190,58 @@ public class AuthorizationServerConfig {
                 .build();
     }
 
-    private static KeyPair generateRsaKey() {
-        KeyPair keyPair;
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(2048);
-            keyPair = keyPairGenerator.generateKeyPair();
-        } catch (Exception ex) {
-            throw new IllegalStateException(ex);
+    private static KeyPair generateRsaKey(Resource resourcePrv, Resource resourcePub) {
+
+        KeyPair keyPair = null;
+
+        if (resourcePrv.exists() && resourcePub.exists()) {
+            byte[] prv;
+            byte[] pub;
+            try {
+                File fprv = new ClassPathResource("key.prv").getFile();
+                prv = Files.readAllBytes(fprv.toPath());
+
+                KeyFactory privateKeyFactory = KeyFactory.getInstance("RSA");
+                EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(prv);
+                PrivateKey privateKey = privateKeyFactory.generatePrivate(privateKeySpec);
+
+                File fpub = new ClassPathResource("key.pub").getFile();
+                pub = Files.readAllBytes(fpub.toPath());
+
+                KeyFactory publicKeyFactory = KeyFactory.getInstance("RSA");
+                EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(pub);
+                PublicKey publicKey = publicKeyFactory.generatePublic(publicKeySpec);
+
+                keyPair = new KeyPair(publicKey, privateKey);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+                keyPairGenerator.initialize(2048);
+                keyPair = keyPairGenerator.generateKeyPair();
+            } catch (Exception ex) {
+                throw new IllegalStateException(ex);
+            }
+
+            // Save key to file.
+            PrivateKey privateKey = keyPair.getPrivate();
+            PublicKey publicKey = keyPair.getPublic();
+
+            try (FileOutputStream outPrivate = new FileOutputStream("src/main/resources/key.prv")) {
+                outPrivate.write(privateKey.getEncoded());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try (FileOutputStream outPublic = new FileOutputStream("src/main/resources/key.pub")) {
+                outPublic.write(publicKey.getEncoded());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return keyPair;
     }
 
