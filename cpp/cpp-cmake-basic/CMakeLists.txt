@@ -12,10 +12,10 @@ else()
 endif()
 
 if(FUNCTION)
-    list(APPEND SRC_LIST src/${FUNCTION}/main.cpp)
+    aux_source_directory(src/${FUNCTION} SRC_LIST)
     message("Function '${FUNCTION}' included.")
 else()
-    list(APPEND SRC_LIST src/hello/main.cpp)
+    aux_source_directory(src/hello SRC_LIST)
     message("Default Function 'hello' included.")
 endif()
 
