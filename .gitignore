@@ -57,6 +57,15 @@ nbproject/private/
 *.sln.docstates
 *.userprefs
 
+# --- NetBeans build directories ---------------------------------------------
+# Hoisted from NetBeans/.gitignore for the same reason as the MSVC block above.
+nbproject/private/
+nbbuild/
+nbdist/
+nbactions.xml
+.nb-gradle/
+dist/
+
 # --- Servlet / Tomcat runtime scratch ---------------------------------------
 tomcat_tmp/
 **/WEB-INF/classes/
