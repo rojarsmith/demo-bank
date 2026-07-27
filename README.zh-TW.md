@@ -7,6 +7,9 @@
 > 📇 **要找特定範例？請看 [docs/catalog.md](docs/catalog.md)** — 所有專案依領域索引，
 > 含技術堆疊、層級與一行說明。
 
+原創程式碼採用 [MIT 授權](LICENSE)。約 45% 的受版控檔案來自第三方樣板或廠商 SDK，**不在**此授權
+範圍內 — 詳見 [THIRD_PARTY.md](THIRD_PARTY.md)。
+
 ---
 
 ## 結構
@@ -100,9 +103,8 @@ demo-bank/
 
 | | |
 |---|---|
-| `LICENSE` | 尚未新增 |
-| `THIRD_PARTY.md` | 5 個外部來源專案 — 約佔受版控檔案的 45%。只有 `gatsby-starter-blog` 保留了上游授權 |
 | 各專案 README | 多數專案沒有。補上 front matter 之後，`docs/catalog.md` 就能自動產生，不必手動維護 |
+| 第三方授權 | 五個外部來源專案中有三個授權未經確認，且 STM32 專案內含條款受限的 SEGGER emWin — 詳見 [THIRD_PARTY.md](THIRD_PARTY.md) |
 | Eclipse `.project` 名稱 | 改名後的專案內部仍是舊名稱（`interop/java-jna/consumer` 顯示為 `JavaJna`）。匯入不受影響，但工作區標籤是舊的 |
 | 根目錄 `.gitattributes` | 刻意延後 — `* text=auto` 會讓整個儲存庫的換行字元重新正規化，值得獨立成一個 commit |
 | STM32 廠商檔案 | 335 個檔案中約 300 個是 ST 提供的 HAL／middleware，可從 `.ioc` 重新產生。要繼續提交還是改為忽略？ |

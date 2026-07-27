@@ -8,6 +8,9 @@ platforms. **93 projects, organized by domain.**
 > 📇 **Looking for a specific sample? See [docs/catalog.md](docs/catalog.md)** — every project
 > indexed by domain, with stack, level, and a one-line description.
 
+Original code is under the [MIT License](LICENSE). About 45% of tracked files are third-party
+templates or vendor SDKs and are **not** covered by it — see [THIRD_PARTY.md](THIRD_PARTY.md).
+
 ---
 
 ## Structure
@@ -105,9 +108,8 @@ Two structural findings worth knowing:
 
 | | |
 |---|---|
-| `LICENSE` | Not yet added |
-| `THIRD_PARTY.md` | 5 vendored projects — ~45% of tracked files. Only `gatsby-starter-blog` carries its upstream license |
 | Per-project READMEs | Most projects have none. Adding front matter would let `docs/catalog.md` be generated instead of hand-maintained |
+| Third-party terms | Three of five vendored projects have unverified licenses, and the STM32 project bundles SEGGER emWin under restrictive terms — see [THIRD_PARTY.md](THIRD_PARTY.md) |
 | Eclipse `.project` names | Renamed projects still report their old name internally (`interop/java-jna/consumer` shows as `JavaJna`). Import works; workspace labels are stale |
 | Root `.gitattributes` | Deliberately deferred — `* text=auto` would renormalize line endings repo-wide and deserves its own commit |
 | STM32 vendor files | ~300 of 335 files are ST-supplied HAL/middleware, regenerable from the `.ioc`. Keep committed or ignore? |
