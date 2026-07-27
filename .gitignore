@@ -44,6 +44,19 @@ nbproject/private/
 *.dll
 !eclipse/JavaJna/src/main/resources/JavaJnaPureCLibrary.dll
 
+# --- MSVC / .NET build directories ------------------------------------------
+# Hoisted from VisualStudio/.gitignore so projects keep these rules after being
+# moved out of that directory during the reorganization.
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Xx]64/
+[Xx]86/
+*.userosscache
+*.sln.docstates
+*.userprefs
+
 # --- Servlet / Tomcat runtime scratch ---------------------------------------
 tomcat_tmp/
 **/WEB-INF/classes/
