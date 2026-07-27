@@ -212,9 +212,17 @@ place for at all.
 
 ---
 
-## Cleanup targets
+## Cleanup targets — ✅ done
 
-Files that should not be tracked, gathered here so Phase 2 has a concrete worklist.
+**77 files untracked** in Phase 2, and a root `.gitignore` added to keep them out. Files remain on
+disk; only the index changed, so this is reversible. Tracked total went 2,541 → 2,464.
+
+Kept deliberately: the 45 `.project` / `.cproject` / `.classpath` files (portable, needed for direct
+Eclipse and CDT import), the 18 `gradle-wrapper.jar` files, and
+`eclipse/JavaJna/.../JavaJnaPureCLibrary.dll` — the JNA demo loads it at runtime and would otherwise
+need a C toolchain to run. The root `.gitignore` carries an explicit negation for that last one.
+
+Original worklist below, for reference.
 
 | What | Where | Count |
 |---|---|---:|

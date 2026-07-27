@@ -1,0 +1,54 @@
+# Root ignore rules for demo-bank.
+#
+# Scope: cross-cutting IDE, editor and OS noise only. Per-project build output
+# (node_modules/, .next/, .cache/, target/, build/) stays in each project's own
+# .gitignore, since what counts as output differs per toolchain.
+#
+# Note: .gitignore only affects UNTRACKED files. Anything already committed stays
+# tracked until explicitly removed with `git rm --cached`.
+
+# --- IDE: user-local state, never portable ---------------------------------
+# Absolute machine paths, window layouts, per-user build configs.
+.settings/
+.idea/
+*.iml
+*.pro.user
+*.pro.user.*
+CMakeLists.txt.user
+CMakeLists.txt.user.*
+*.suo
+*.user
+.vs/
+nbproject/private/
+
+# Kept deliberately: .project, .cproject, .classpath
+# These let Eclipse and CDT import a project directly and are portable.
+
+# --- Editor and tooling temp files -----------------------------------------
+~AutoRecover.*
+*~
+*.swp
+*.orig
+*.rej
+
+# --- Compiled output --------------------------------------------------------
+*.class
+*.o
+*.obj
+*.exe
+*.elf
+*.hex
+
+# Exception: prebuilt native library the JNA sample loads at runtime, so the
+# demo runs without a C toolchain. Source lives in eclipse/JavaJnaPureCLibrary/.
+*.dll
+!eclipse/JavaJna/src/main/resources/JavaJnaPureCLibrary.dll
+
+# --- Servlet / Tomcat runtime scratch ---------------------------------------
+tomcat_tmp/
+**/WEB-INF/classes/
+
+# --- OS metadata ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
