@@ -21,8 +21,15 @@ See [../README.md](../README.md) for the reorganization plan this catalog suppor
 
 ## Summary
 
-**Migration progress:** `fundamentals/` is moved (Phase 3 pilot). The other nine domains are still
-at their original paths.
+**Migration progress:** `fundamentals/`, `interop/` and `embedded/` are moved. The other seven
+domains are still at their original paths. `EWARM/` and `ArduinoSketch/` no longer exist.
+
+> **Known follow-up across all moved projects.** Renamed Eclipse and CDT projects still carry their
+> old name inside `.project` — `interop/java-jna/consumer` reports as `JavaJna`,
+> `fundamentals/cpp-primer` as `cpp_primer`, and so on. The STM32 project's `.ioc` and `.launch`
+> files are likewise still named after the old directory. Import works either way, since Eclipse
+> reads the internal name rather than the folder, but workspaces will show the old labels until this
+> is reconciled. It is a content edit, not a path move, so it was left out of the migration commits.
 
 | Domain | Projects | Notes |
 |---|---:|---|
@@ -197,28 +204,38 @@ than a Qt sample and is listed under [build-systems](#build-systems) instead.
 |---|---|---|---|---|
 | `AndroidStudio/Android5GuiTraining` | `mobile/android-gui-training/` | Activities, `ListView` fragment, custom array adapter | Java, Android 5, Gradle | demo |
 
-## embedded
+## embedded — ✅ migrated
 
-| Current | Proposed | What it is | Stack | Level |
+Moved in `34c3ccf`. Toolchain stays in the project *name*, not the directory — for embedded work it
+is a genuine constraint, unlike the IDE-named directories this replaces.
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `lab-x-cube-ai-stm32-f746g-handwriting-mnist` | `embedded/stm32-cubeide-ai-mnist/` | On-device handwritten-digit recognition. **335 files, ~300 ST-supplied** (`Drivers/`, `Middlewares/`, `GUI/`) — 13% of the repo | C, STM32F746G, X-CUBE-AI, CubeIDE | app |
-| `EWARM/stm32_tra1` | `embedded/stm32-iar-gpio/` | GPIO driver plus startup assembly | C, STM32F7, IAR EWARM | basic |
-| `ArduinoSketch/UARTEmu` | `embedded/arduino-uart-emu/` | UART emulation sketch | Arduino | basic |
+| `embedded/stm32-cubeide-ai-mnist/` | `lab-x-cube-ai-stm32-f746g-handwriting-mnist` | On-device handwritten-digit recognition. **335 files, ~300 ST-supplied** (`Drivers/`, `Middlewares/`, `GUI/`) — 13% of the repo | C, STM32F746G, X-CUBE-AI, CubeIDE | app |
+| `embedded/stm32-iar-gpio/` | `EWARM/stm32_tra1` | GPIO driver plus startup assembly | C, STM32F7, IAR EWARM | basic |
+| `embedded/arduino-uart-emu/` | `ArduinoSketch/UARTEmu` | UART emulation sketch. Keeps its inner `UARTEmu/` folder, which the Arduino IDE requires to match the `.ino` filename | Arduino | basic |
 
-## interop
+## interop — ✅ migrated
 
-Samples that cross a language or managed/native boundary — the category the current tree has no
-place for at all.
+Samples that cross a language or managed/native boundary — the category the old tree had no place
+for, which is why these were split between `eclipse/` and `VisualStudio/`. Moved in `efb370c`.
 
-| Current | Proposed | What it is | Stack | Level |
+Companion projects are **grouped under a shared parent rather than merged**: each carries its own
+`.project`/`.cproject` and cannot share a directory without hand-reconciliation, but the grouping
+still shows they are one sample built together.
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `eclipse/JavaJna` | `interop/java-jna/` | Java calling a native library through JNA | Java, JNA, Maven | demo |
-| `eclipse/JavaJnaPureCLibrary` | `interop/java-jna-pure-c/` ⟵ merge | The C library (`func.c`) that JNA binds to | C | demo |
-| `eclipse/JavaJnaPureC` | `interop/java-jna-pure-c/` ⟵ merge | C-side entry point | C | demo |
-| `eclipse/JavaRunExecutableFile` | `interop/java-run-executable/` | Java launching an external executable | Java | basic |
-| `eclipse/JavaRunExecutableFileCppExe` | `interop/java-run-executable/` ⟵ merge | The C++ executable it launches | C++ | basic |
-| `VisualStudio/SwingCsharpWithPureC` | `interop/csharp-swig-pure-c/` | C# ↔ C via **SWIG** — `Func.i`, generated `Func_wrap.cxx` and `FuncPINVOKE.cs`. The current name says "Swing", which is a typo for SWIG and actively misleading | C#, C++, SWIG, MSVC | demo |
-| `VisualStudio/CppFireEventFromUnmanaged` | `interop/cpp-event-unmanaged/` | Raising managed events from unmanaged C++ | C++/CLI, MSVC | demo |
+| `interop/java-jna/consumer/` | `eclipse/JavaJna` | Java calling a native library through JNA; loads the prebuilt DLL | Java, JNA, Maven | demo |
+| `interop/java-jna/pure-c-library/` | `eclipse/JavaJnaPureCLibrary` | The C library (`func.c`) that JNA binds to — builds the DLL | C | demo |
+| `interop/java-jna/pure-c/` | `eclipse/JavaJnaPureC` | C-side entry point | C | demo |
+| `interop/java-run-executable/launcher/` | `eclipse/JavaRunExecutableFile` | Java launching an external executable | Java | basic |
+| `interop/java-run-executable/cpp-exe/` | `eclipse/JavaRunExecutableFileCppExe` | The C++ executable it launches | C++ | basic |
+| `interop/csharp-swig-pure-c/` | `VisualStudio/SwingCsharpWithPureC` | C# ↔ C via **SWIG** — `Func.i`, generated `Func_wrap.cxx` and `FuncPINVOKE.cs`. Renamed because the old name read as Java Swing | C#, C++, SWIG, MSVC | demo |
+| `interop/cpp-event-unmanaged/` | `VisualStudio/CppFireEventFromUnmanaged` | Raising managed events from unmanaged C++ | C++/CLI, MSVC | demo |
+
+The root `.gitignore` negation for `JavaJnaPureCLibrary.dll` was updated to the new path in the same
+commit; left stale it would have silently ignored the DLL on a fresh checkout.
 
 ## tooling
 
