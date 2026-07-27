@@ -18,7 +18,7 @@ Original code is under [MIT](LICENSE). Nothing below is.
 |---|---|---:|---|
 | [`web/nextjs-ecommerce`](web/nextjs-ecommerce) | `lezada-next` template | 433 | ⚠️ **unknown** |
 | [`web/gatsby-home-site`](web/gatsby-home-site) | `rewy-gatsby` template | 348 | ⚠️ 0BSD declared, assets unverified |
-| [`embedded/stm32-cubeide-ai-mnist`](embedded/stm32-cubeide-ai-mnist) | ST / SEGGER / FreeRTOS | ~300 of 335 | ✅ mixed — **see below** |
+| [`embedded/stm32-cubeide-ai-mnist`](embedded/stm32-cubeide-ai-mnist) | ST / SEGGER / FreeRTOS | 302 of 330 | ✅ mixed — **see below** |
 | [`web/gatsby-starter-blog`](web/gatsby-starter-blog) | Official Gatsby starter | 34 | ✅ 0BSD |
 | [`backend/spring/spring-mvc-master`](backend/spring/spring-mvc-master) | Book companion project | 39 | ⚠️ **unknown** |
 
@@ -44,7 +44,7 @@ recorded here as-is; the images in particular are worth confirming.
 
 ## embedded/stm32-cubeide-ai-mnist — four separate licenses
 
-This single project bundles four distinct third-party components. **~300 of its 335 files are
+This single project bundles four distinct third-party components. **302 of its 330 tracked files are
 vendor-supplied**; the original work is `Src/` (16 files) and `Inc/` (12).
 
 | Component | Path | Terms |
@@ -70,9 +70,37 @@ In practice this ties use to ST microcontroller targets and is materially more r
 everything else in this repository. Since these 100 files are redistributed publicly here, it is
 worth deciding deliberately whether to keep them committed.
 
-**Note:** all ~300 vendor files in this project are regenerable from the project's `.ioc` via
-STM32CubeMX. Removing them and documenting the regeneration step would cut the repository by 13% and
-sidestep the emWin question entirely.
+### ⚠️ This project is NOT fully regenerable — do not delete it wholesale
+
+An earlier version of this file claimed the vendor tree could simply be regenerated from the `.ioc`.
+That is **not true**, and acting on it would destroy work:
+
+- **`Src/network_data.c` holds the trained model.** 933 KB containing a 147,032-byte weight array
+  emitted by X-CUBE-AI. **No source model (`.h5`, `.tflite`, `.onnx`) is committed anywhere in this
+  repository.** These weights are the only copy; regenerating them requires the original trained
+  model, which is not here.
+- **The toolchain version is pinned and obsolete.** The `.ioc` records
+  `STMicroelectronics.X-CUBE-AI.4.0.0`. Reproducing the generated output needs that exact pack.
+- **`Middlewares/ST/AI/Lib/NetworkRuntime400_CM7_GCC.a`** is a 405 KB prebuilt binary, not source.
+
+Treat `Src/network.c` and `Src/network_data.c` as **irreplaceable original output**. If the model
+that produced them still exists somewhere, committing it — or recording where it lives — is the
+single most valuable fix available for this project.
+
+### What is actually removable
+
+Only the emWin files carry both a redistribution concern and a recovery path:
+
+| Component | Files | Redistributable? | Recoverable if removed? |
+|---|---:|---|---|
+| `Drivers/` | 129 | ✅ yes — BSD-3-Clause permits it | yes, ST firmware pack |
+| `Middlewares/` | 73 | ST SLA0044 terms apply | partly — the `.a` is a binary drop |
+| **`GUI/`** | **100** | ⚠️ **restricted** | yes — ST ships emWin as the STemWin pack |
+| `Src/`, `Inc/` | 28 | your own work | **no — see above** |
+
+So the emWin question is scoped to **100 files, not 300**. Removing `GUI/` and documenting
+"install STemWin from ST" would resolve the redistribution concern without risking anything
+irreplaceable — though it does mean the demo will not build until that pack is re-added.
 
 ## web/gatsby-starter-blog — official Gatsby starter
 
@@ -93,9 +121,13 @@ cannot be confirmed from what is here. Worth tracing to the original repository.
 
 1. **Resolve the three ⚠️ unknowns** — `lezada-next`, `rewy-gatsby` assets, and `spring-mvc-master`.
    Each needs tracing to where it came from.
-2. **Decide on the STM32 vendor tree.** Dropping the regenerable ~300 files removes the emWin
-   redistribution question and 13% of the repository at once.
-3. **Retain upstream licenses on arrival.** Four of five vendored projects lost theirs; only
+2. **Locate the trained model behind `Src/network_data.c`.** Those weights are currently
+   unreproducible. Committing the source model, or recording where it lives, is the highest-value
+   fix in this repository.
+3. **Decide on the 100 emWin files in `GUI/`** — the only component that is both restricted and
+   safely recoverable from ST if removed. Do **not** extend that decision to the rest of the
+   project.
+4. **Retain upstream licenses on arrival.** Four of five vendored projects lost theirs; only
    `gatsby-starter-blog` kept its LICENSE file.
-4. **Consider submodules** for the large templates, so upstream terms and history stay attached
+5. **Consider submodules** for the large templates, so upstream terms and history stay attached
    rather than being flattened into this repository.
