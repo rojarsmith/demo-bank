@@ -21,9 +21,12 @@ See [../README.md](../README.md) for the reorganization plan this catalog suppor
 
 ## Summary
 
+**Migration progress:** `fundamentals/` is moved (Phase 3 pilot). The other nine domains are still
+at their original paths.
+
 | Domain | Projects | Notes |
 |---|---:|---|
-| [fundamentals](#fundamentals) | 14 | Language syntax, algorithms, design patterns |
+| [fundamentals](#fundamentals--migrated) | 14 | ✅ **migrated** — language syntax, algorithms, patterns |
 | [build-systems](#build-systems) | 5 | CMake, autotools, toolchain detection |
 | [backend](#backend) | 22 | 18 Spring, incl. a 9-project OAuth2 group |
 | [web](#web) | 10 | React, Next.js, Gatsby |
@@ -36,24 +39,35 @@ See [../README.md](../README.md) for the reorganization plan this catalog suppor
 
 ---
 
-## fundamentals
+## fundamentals — ✅ migrated
 
-| Current | Proposed | What it is | Stack | Level |
+Moved in commit `75b5c68`. All 141 file moves were recorded by git as pure renames, so
+`git log --follow` still reaches each file's pre-move history.
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `bash/run.sh` | `fundamentals/bash-basic/` | `for` loops, `seq`, `dirname`, word splitting on strings | Bash | basic |
-| `lab-java/lab-java-language` | `fundamentals/java-language/` | Interface and behaviour basics — `IBehavior`, `Man` | Java, Gradle | basic |
-| `java/java-basic` | `fundamentals/java-basic/` | Annotations, functional interfaces, `ThreadPoolExecutor`, `volatile`/`transient`/atomics | Java, Gradle | basic |
-| `eclipse/JavaAlgorithm` | `fundamentals/java-algorithm/` | Fibonacci, decimal ZIP, valid-time and ticket-cost puzzles, a timing harness | Java | basic |
-| `eclipse/JavaReflection` | `fundamentals/java-reflection/` | Reflection over `Persion`/`Roger`/`Tom` types | Java | basic |
-| `eclipse/JavaDesignPatternSingleton` | `fundamentals/java-pattern-singleton/` | Thread-safe singleton with a task/parameter example | Java | basic |
-| `cpp_primer` | `fundamentals/cpp-primer/` | C++ language exercises — inheritance, enums, base classes (21 sources) | C++, Eclipse CDT | basic |
-| `eclipse/cppbasic` | `fundamentals/cpp-basic/` | C++ scratch, Two Sum | C++ | basic |
-| `lab-ccpp-basic-topic` | `fundamentals/cpp-basic/` ⟵ merge | Single-file C/C++ scratch | C++ | basic |
-| `eclipse/CppAlgorithm` | `fundamentals/cpp-algorithm/` | Add Two Numbers, Reverse Integer, Two Sum | C++ | basic |
-| `VisualStudio/CppObserverPattern` | `fundamentals/cpp-pattern-observer/` | Observer pattern | C++, MSVC | basic |
-| `NetBeans/CppBoostSampleCode` | `fundamentals/cpp-boost/` | Boost — URL download, random number generation | C++, Boost | demo |
-| `VisualStudio/PokerSize` | `fundamentals/csharp-poker-hands/` | Poker hand ranking — `Card`, straight-flush conditions | C#, MSVC | demo |
-| `eclipse/javascriptbasic` | `fundamentals/javascript-basic/` | JS basics served from a Maven web app | JS, Maven, JSP | basic |
+| `fundamentals/bash-basic/` | `bash/` | `for` loops, `seq`, `dirname`, word splitting on strings | Bash | basic |
+| `fundamentals/java-language/` | `lab-java/lab-java-language` | Interface and behaviour basics — `IBehavior`, `Man` | Java, Gradle | basic |
+| `fundamentals/java-basic/` | `java/java-basic` | Annotations, functional interfaces, `ThreadPoolExecutor`, `volatile`/`transient`/atomics | Java, Gradle | basic |
+| `fundamentals/java-algorithm/` | `eclipse/JavaAlgorithm` | Fibonacci, decimal ZIP, valid-time and ticket-cost puzzles, a timing harness | Java | basic |
+| `fundamentals/java-reflection/` | `eclipse/JavaReflection` | Reflection over `Persion`/`Roger`/`Tom` types | Java | basic |
+| `fundamentals/java-pattern-singleton/` | `eclipse/JavaDesignPatternSingleton` | Thread-safe singleton with a task/parameter example | Java | basic |
+| `fundamentals/cpp-primer/` | `cpp_primer` | C++ language exercises — inheritance, enums, base classes (21 sources) | C++, Eclipse CDT | basic |
+| `fundamentals/cpp-basic/` | `eclipse/cppbasic` | C++ scratch, Two Sum | C++ | basic |
+| `fundamentals/cpp-basic-topic/` | `lab-ccpp-basic-topic` | Single-file C/C++ scratch | C++ | basic |
+| `fundamentals/cpp-algorithm/` | `eclipse/CppAlgorithm` | Add Two Numbers, Reverse Integer, Two Sum | C++ | basic |
+| `fundamentals/cpp-pattern-observer/` | `VisualStudio/CppObserverPattern` | Observer pattern | C++, MSVC | basic |
+| `fundamentals/cpp-boost/` | `NetBeans/CppBoostSampleCode` | Boost — URL download, random number generation | C++, Boost | demo |
+| `fundamentals/csharp-poker-hands/` | `VisualStudio/PokerSize` | Poker hand ranking — `Card`, straight-flush conditions | C#, MSVC | demo |
+| `fundamentals/javascript-basic/` | `eclipse/javascriptbasic` | JS basics served from a Maven web app | JS, Maven, JSP | basic |
+
+**Deviation from plan:** `cpp-basic` and `cpp-basic-topic` were to be merged into one project. Both
+are Eclipse CDT projects carrying their own `.project` and `.cproject`, which cannot share a
+directory without reconciling them by hand. Kept separate; the merge is a content decision for later.
+
+**Also hoisted** the MSVC build-directory rules (`[Dd]ebug/`, `[Rr]elease/`, `[Xx]64/`) from
+`VisualStudio/.gitignore` into the root `.gitignore`, so `cpp-pattern-observer` and
+`csharp-poker-hands` keep that coverage now that they live outside `VisualStudio/`.
 
 ## build-systems
 
@@ -71,8 +85,8 @@ See [../README.md](../README.md) for the reorganization plan this catalog suppor
 
 | Current | Proposed | What it is | Stack | Level |
 |---|---|---|---|---|
-| `java/springboot-basic` | `backend/spring/spring-basic/` ⚠️ | IoC, AOP, bean lifecycle and scope, conditional injection, profiles, SpEL, XML config, JPA (65 classes) | Boot 2.5.3, Java 11 | demo |
-| `lab-springboot/lab-springboot-basic` | `backend/spring/spring-basic/` ⚠️ | IoC, AOP, interceptors, `BeanPostProcessor` (45 files) | Boot 2.3.12 | demo |
+| `java/springboot-basic` | `backend/spring/spring-basic/` | IoC, AOP, bean lifecycle and scope, conditional injection, profiles, SpEL, XML config, JPA (65 classes) | Boot 2.5.3, Java 11 | demo |
+| ~~`lab-springboot/lab-springboot-basic`~~ | — **retired** in `bd6a889` | Duplicate syllabus, superseded by the row above | — | — |
 | `eclipse/springbasic` | `backend/spring/spring-di-basic/` | Constructor DI, singleton vs prototype proxying | Spring, Maven | basic |
 | `lab-springboot/lab-springboot-dummy` | `backend/spring/springboot-dummy/` | Minimal web skeleton | Boot 2.6.0 | basic |
 | `lab-springboot/lab-springboot-jparepository` | `backend/spring/springboot-jpa/` | `JpaRepository` basics | Boot 2.3.1, Spring Data JPA | demo |
@@ -81,7 +95,11 @@ See [../README.md](../README.md) for the reorganization plan this catalog suppor
 | `SpringToolSuite/springboot2demo` | `backend/spring/springboot2-demo/` | Security config, `Event`/`Group`/`User` model, WAR initializer | Boot 2, Gradle | demo |
 | `SpringToolSuite/MasterSpringMvc` | `backend/spring/spring-mvc-master/` | Book companion project (`masterSpringMvc` packages) | Spring MVC, Gradle | **vendor** |
 
-⚠️ These two are **duplicates covering the same syllabus** — one must win. See decision 1 in the plan.
+The duplicate that sat here has been retired. `java/springboot-basic` won on every axis: 65 classes
+to 33, newer Spring Boot, and six topics the other lacked entirely (JPA, conditional injection,
+properties injection, profiles, SpEL, XML injection). Its only file without a counterpart was
+`ServletInitializer.java`, and WAR deployment is already demonstrated by `springboot2demo` below,
+which pairs the same initializer with the `war` plugin and `providedRuntime` Tomcat.
 
 #### OAuth2 (9 projects, two stack generations)
 
