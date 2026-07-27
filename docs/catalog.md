@@ -21,14 +21,20 @@ See [../README.md](../README.md) for the reorganization plan this catalog suppor
 
 ## Summary
 
-**Migration progress:** seven of ten domains are moved — `fundamentals/`, `interop/`, `embedded/`,
-`build-systems/`, `desktop/`, `tooling/` and `mobile/`. Only `backend/`, `web/` and `blockchain/`
-remain at their original paths.
+## ✅ Phase 3 complete — all ten domains migrated
 
-**Every IDE-named directory is now gone**: `AndroidStudio/`, `ArduinoSketch/`, `EWARM/`,
-`NetBeans/`, `QtCreator/` and `VisualStudio/`, along with `compiler/`, `cpp/`, `lab-autoconf/`,
-`lab-ccpp-basic-topic/`, `lab-ccpp-qt-basic-topic/`, `lab-java/`, `qt-lab/` and `qt-lab-widgets/`.
-Top level is down from 26 directories to 17.
+Every project now lives under a domain. The top level is **26 directories down to 11** (ten domains
+plus `docs/`), and not one of the four old naming schemes survives.
+
+| Gone | |
+|---|---|
+| IDE-named | `AndroidStudio/` `ArduinoSketch/` `EWARM/` `NetBeans/` `QtCreator/` `SpringToolSuite/` `VisualStudio/` |
+| Language/runtime-named | `bash/` `compiler/` `cpp/` `cpp_primer/` `java/` `nodejs/` `solidity/` |
+| `lab-` prefixed | `lab-autoconf/` `lab-bitcoin/` `lab-ccpp-basic-topic/` `lab-ccpp-qt-basic-topic/` `lab-java/` `lab-nodejs/` `lab-springboot/` `lab-web-crawler/` `lab-x-cube-ai-…/` |
+| Ad-hoc | `qt-lab/` `qt-lab-widgets/` |
+
+All moves were done with `git mv` and recorded by git as pure renames — 0 adds, 0 deletes across
+every commit — so `git log --follow` still reaches each file's original history.
 
 > **Known follow-up across all moved projects.** Renamed Eclipse and CDT projects still carry their
 > old name inside `.project` — `interop/java-jna/consumer` reports as `JavaJna`,
@@ -94,21 +100,24 @@ Moved in `825c221`.
 | `build-systems/autoconf-hello/` | `lab-autoconf` | `configure.ac` + `Makefile.am` hello world | C, autotools | basic |
 | `build-systems/gcc-detect-arch/` | `QtCreator/GccDetect32or64BitSystem` | Detect 32- vs 64-bit target at build time | C++, CMake | basic |
 
-## backend
+## backend — ✅ migrated
 
-### Spring (18 projects)
+Moved in `352a301`. Spring takes one nesting level under the >8-projects rule; OAuth2 takes one more
+because it holds nine.
 
-| Current | Proposed | What it is | Stack | Level |
+### Spring (17 projects)
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `java/springboot-basic` | `backend/spring/spring-basic/` | IoC, AOP, bean lifecycle and scope, conditional injection, profiles, SpEL, XML config, JPA (65 classes) | Boot 2.5.3, Java 11 | demo |
+| `backend/spring/spring-basic/` | `java/springboot-basic` | IoC, AOP, bean lifecycle and scope, conditional injection, profiles, SpEL, XML config, JPA (65 classes) | Boot 2.5.3, Java 11 | demo |
 | ~~`lab-springboot/lab-springboot-basic`~~ | — **retired** in `bd6a889` | Duplicate syllabus, superseded by the row above | — | — |
-| `eclipse/springbasic` | `backend/spring/spring-di-basic/` | Constructor DI, singleton vs prototype proxying | Spring, Maven | basic |
-| `lab-springboot/lab-springboot-dummy` | `backend/spring/springboot-dummy/` | Minimal web skeleton | Boot 2.6.0 | basic |
-| `lab-springboot/lab-springboot-jparepository` | `backend/spring/springboot-jpa/` | `JpaRepository` basics | Boot 2.3.1, Spring Data JPA | demo |
-| `java/springboot-flyway` | `backend/spring/springboot-flyway/` | Versioned schema migration | Boot 3.0.1, Flyway, H2 | demo |
-| `java/springboot-vaadin` | `backend/spring/springboot-vaadin/` | Server-driven UI with charts | Boot 2.7.1, Vaadin 23 | demo |
-| `SpringToolSuite/springboot2demo` | `backend/spring/springboot2-demo/` | Security config, `Event`/`Group`/`User` model, WAR initializer | Boot 2, Gradle | demo |
-| `SpringToolSuite/MasterSpringMvc` | `backend/spring/spring-mvc-master/` | Book companion project (`masterSpringMvc` packages) | Spring MVC, Gradle | **vendor** |
+| `backend/spring/spring-di-basic/` | `eclipse/springbasic` | Constructor DI, singleton vs prototype proxying | Spring, Maven | basic |
+| `backend/spring/springboot-dummy/` | `lab-springboot/lab-springboot-dummy` | Minimal web skeleton | Boot 2.6.0 | basic |
+| `backend/spring/springboot-jpa/` | `lab-springboot/lab-springboot-jparepository` | `JpaRepository` basics | Boot 2.3.1, Spring Data JPA | demo |
+| `backend/spring/springboot-flyway/` | `java/springboot-flyway` | Versioned schema migration | Boot 3.0.1, Flyway, H2 | demo |
+| `backend/spring/springboot-vaadin/` | `java/springboot-vaadin` | Server-driven UI with charts | Boot 2.7.1, Vaadin 23 | demo |
+| `backend/spring/springboot2-demo/` | `SpringToolSuite/springboot2demo` | Security config, `Event`/`Group`/`User` model, WAR initializer | Boot 2, Gradle | demo |
+| `backend/spring/spring-mvc-master/` | `SpringToolSuite/MasterSpringMvc` | Book companion project (`masterSpringMvc` packages) | Spring MVC, Gradle | **vendor** |
 
 The duplicate that sat here has been retired. `java/springboot-basic` won on every axis: 65 classes
 to 33, newer Spring Boot, and six topics the other lacked entirely (JPA, conditional injection,
@@ -121,59 +130,67 @@ which pairs the same initializer with the `war` plugin and `providedRuntime` Tom
 The eight `legacy/` projects build on `spring-security-oauth2-autoconfigure` 2.x, which is
 **end-of-life**. `authorization-server` is the supported replacement. Read that one first.
 
-| Current | Proposed | What it is | Stack | Level |
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `java/springboot-authorization-server` | `backend/spring/oauth2/authorization-server/` | **Current-generation** authorization server | Spring Authorization Server 1.0, Boot 3.0.2, Java 17 | demo |
-| `lab-springboot/...-security-oauth2-authorization` | `.../oauth2/legacy/01-authorization/` | Baseline authorization server | Boot 2.2.6, spring-security-oauth2 (EOL) | demo |
-| `lab-springboot/...-authorization-jwt` | `.../oauth2/legacy/02-authorization-jwt/` | JWT-backed tokens | Boot 2.2.6, EOL stack | demo |
-| `lab-springboot/...-authorization-redis` | `.../oauth2/legacy/03-authorization-redis/` | Token store in Redis | + Spring Data Redis, PostgreSQL | demo |
-| `lab-springboot/...-authorization-postgresql` | `.../oauth2/legacy/04-authorization-postgresql/` | Token and client store in PostgreSQL | + JDBC, PostgreSQL 42.2 | demo |
-| `lab-springboot/...-authorization-resource` | `.../oauth2/legacy/05-resource/` | Resource server against the above | Boot 2.2.6, EOL stack | demo |
-| `lab-springboot/...-authorization-resource-jwt` | `.../oauth2/legacy/06-resource-jwt/` | Resource server validating JWT | Boot 2.2.6, EOL stack | demo |
-| `lab-springboot/...-authorization-expansion` | `.../oauth2/legacy/07-expansion/` | Custom endpoints and Thymeleaf approval pages | + Thymeleaf | demo |
-| `lab-springboot/lab-springboot-oauth2-auto-sample` | `.../oauth2/legacy/auto-sample/` | Autoconfiguration sample, oldest of the group | Boot 2.1.6, JAXB shims | demo |
+| `oauth2/authorization-server/` | `java/springboot-authorization-server` | **Current generation — read this first** | Spring Authorization Server 1.0, Boot 3.0.2, Java 17 | demo |
+| `oauth2/legacy/01-authorization/` | `...-security-oauth2-authorization` | Baseline authorization server | Boot 2.2.6, spring-security-oauth2 (EOL) | demo |
+| `oauth2/legacy/02-authorization-jwt/` | `...-authorization-jwt` | JWT-backed tokens | Boot 2.2.6, EOL stack | demo |
+| `oauth2/legacy/03-authorization-redis/` | `...-authorization-redis` | Token store in Redis | + Spring Data Redis, PostgreSQL | demo |
+| `oauth2/legacy/04-authorization-postgresql/` | `...-authorization-postgresql` | Token and client store in PostgreSQL | + JDBC, PostgreSQL 42.2 | demo |
+| `oauth2/legacy/05-resource/` | `...-authorization-resource` | Resource server against the above | Boot 2.2.6, EOL stack | demo |
+| `oauth2/legacy/06-resource-jwt/` | `...-authorization-resource-jwt` | Resource server validating JWT | Boot 2.2.6, EOL stack | demo |
+| `oauth2/legacy/07-expansion/` | `...-authorization-expansion` | Custom endpoints and Thymeleaf approval pages | + Thymeleaf | demo |
+| `oauth2/legacy/auto-sample/` | `lab-springboot-oauth2-auto-sample` | Autoconfiguration sample, oldest of the group | Boot 2.1.6, JAXB shims | demo |
 
 ### Other backend
 
-| Current | Proposed | What it is | Stack | Level |
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `eclipse/servletbasic` | `backend/servlet-basic/` | Servlets A–E plus a context listener | Java, Servlet, Maven | basic |
-| `eclipse/JavaTomcatEmbedded` | `backend/tomcat-embedded/` | Programmatically embedded Tomcat serving JSP | Java, Tomcat, Maven | demo |
-| `eclipse/JavaSnmp` | `backend/java-snmp/` | SNMP agent, MIB value table, NMS client | Java, SNMP4J, Maven | demo |
-| `lab-web-crawler` | `backend/web-crawler/` | Crawler on a Spring Boot base | Java, Gradle, Boot | demo |
+| `backend/servlet-basic/` | `eclipse/servletbasic` | Servlets A–E plus a context listener | Java, Servlet, Maven | basic |
+| `backend/tomcat-embedded/` | `eclipse/JavaTomcatEmbedded` | Programmatically embedded Tomcat serving JSP | Java, Tomcat, Maven | demo |
+| `backend/java-snmp/` | `eclipse/JavaSnmp` | SNMP agent, MIB value table, NMS client | Java, SNMP4J, Maven | demo |
+| `backend/web-crawler/` | `lab-web-crawler` | Crawler on a Spring Boot base | Java, Gradle, Boot | demo |
 
-## web
+## web — ✅ migrated
 
-| Current | Proposed | What it is | Stack | Level |
+Moved in `7453f74`.
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `nodejs/react-weather-app` | `web/react-weather-app/` | Weather client over a REST API | React (CRA), axios | app |
-| `lab-nodejs/lab-nodejs-react-basic` | `web/react-basic/` | React fundamentals with Redux wiring | React, Redux, MUI | basic |
-| `lab-nodejs/lab-nodejs-react-ux` | `web/react-ux/` | Routing, hamburger nav, UX patterns | React, Router, MUI | demo |
-| `lab-nodejs/react-redux` | `web/react-redux/` | Redux with thunk middleware and logging | React, Redux, thunk | demo |
-| `lab-nodejs/basic` | `web/node-basic/` | Node entry point plus Bower config | Node, Bower | basic |
-| `nodejs/nextjs-basic` | `web/nextjs-basic/` | Official Next.js tutorial — SSG vs SSR, pre-rendering | Next.js, SWR | demo |
-| `nodejs/nextjs-ecommerce` | `web/nextjs-ecommerce/` | Storefront template `lezada-next` (433 files, 283 images) | Next.js, Bootstrap | **vendor** |
-| `nodejs/gatsby-basic` | `web/gatsby-basic/` | Minimal Gatsby site | Gatsby, Emotion | basic |
-| `nodejs/gatsby-starter-blog` | `web/gatsby-starter-blog/` | Official Gatsby blog starter (retains upstream LICENSE) | Gatsby, MDX | **vendor** |
-| `nodejs/gatsby-home-site` | `web/gatsby-home-site/` | Marketing template `rewy-gatsby` (348 files, 275 images) | Gatsby, SCSS | **vendor** |
+| `web/react-weather-app/` | `nodejs/react-weather-app` | Weather client over a REST API | React (CRA), axios | app |
+| `web/react-basic/` | `lab-nodejs/lab-nodejs-react-basic` | React fundamentals with Redux wiring | React, Redux, MUI | basic |
+| `web/react-ux/` | `lab-nodejs/lab-nodejs-react-ux` | Routing, hamburger nav, UX patterns | React, Router, MUI | demo |
+| `web/react-redux/` | `lab-nodejs/react-redux` | Redux with thunk middleware and logging | React, Redux, thunk | demo |
+| `web/node-basic/` | `lab-nodejs/basic` | Node entry point plus Bower config | Node, Bower | basic |
+| `web/nextjs-basic/` | `nodejs/nextjs-basic` | Official Next.js tutorial — SSG vs SSR, pre-rendering | Next.js, SWR | demo |
+| `web/nextjs-ecommerce/` | `nodejs/nextjs-ecommerce` | Storefront template `lezada-next` (433 files, 283 images) | Next.js, Bootstrap | **vendor** |
+| `web/gatsby-basic/` | `nodejs/gatsby-basic` | Minimal Gatsby site | Gatsby, Emotion | basic |
+| `web/gatsby-starter-blog/` | `nodejs/gatsby-starter-blog` | Official Gatsby blog starter (retains upstream LICENSE) | Gatsby, MDX | **vendor** |
+| `web/gatsby-home-site/` | `nodejs/gatsby-home-site` | Marketing template `rewy-gatsby` (348 files, 275 images) | Gatsby, SCSS | **vendor** |
 
-## blockchain
+## blockchain — ✅ migrated
 
-| Current | Proposed | What it is | Stack | Level |
+Moved in `41e4bb5`. Solidity takes one nesting level under the >8-projects rule, and each project
+drops the now-redundant `solidity-` prefix.
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `solidity/solidity-basic` | `blockchain/solidity/basic/` | `Inbox` and `Lottery` contracts | Solidity, Truffle | basic |
-| `solidity/solidity-basic-remix` | `blockchain/solidity/basic-remix/` | ERC-165 and token experiments written in Remix | Solidity, Remix | basic |
-| `solidity/solidity-basic-react` | `blockchain/solidity/basic-react/` | Minimal contract with browser wallet wiring | Solidity, React, web3.js | demo |
-| `solidity/solidity-campaign` | `blockchain/solidity/campaign/` | Crowdfunding contract, no front end | Solidity, Truffle | basic |
-| `solidity/solidity-faucet` | `blockchain/solidity/faucet/` | Faucet split into `Logger`, `Owned`, `Storage` | Solidity, React, Bulma | demo |
-| `solidity/solidity-kickstart` | `blockchain/solidity/kickstart/` | Crowdfunding dapp with full UI | Solidity, Next.js, MUI, ganache | app |
-| `solidity/solidity-marketplace` | `blockchain/solidity/marketplace/` | Course marketplace dapp | Solidity, Next.js, Tailwind, web3.js | app |
-| `solidity/solidity-nft-marketplace` | `blockchain/solidity/nft-marketplace/` | ERC-721 written from scratch with interfaces and libraries | Solidity, React, Bootstrap | app |
-| `solidity/solidity-openzeppelin` | `blockchain/solidity/openzeppelin/` | ERC-1155 via OpenZeppelin | Solidity, OpenZeppelin | demo |
-| `lab-bitcoin/*.js` (root) | `blockchain/bitcoin-script/` | P2PKH, custom sigScript and pubkeyScript | Node.js | basic |
-| `lab-bitcoin/bitcoin-payment` | `blockchain/bitcoin-payment/` | Payment server with a browser front end | Node.js, RequireJS | demo |
-| `lab-bitcoin/paybybitcoinj` | `blockchain/bitcoinj-payment/` | BIP-70 payment protocol | Java, bitcoinj, Maven | demo |
-| `eclipse/coinhelper` | `blockchain/coin-helper/` | Coin helper utility | Java, Maven | basic |
+| `blockchain/solidity/basic/` | `solidity/solidity-basic` | `Inbox` and `Lottery` contracts | Solidity, Truffle | basic |
+| `blockchain/solidity/basic-remix/` | `solidity/solidity-basic-remix` | ERC-165 and token experiments written in Remix | Solidity, Remix | basic |
+| `blockchain/solidity/basic-react/` | `solidity/solidity-basic-react` | Minimal contract with browser wallet wiring | Solidity, React, web3.js | demo |
+| `blockchain/solidity/campaign/` | `solidity/solidity-campaign` | Crowdfunding contract, no front end | Solidity, Truffle | basic |
+| `blockchain/solidity/faucet/` | `solidity/solidity-faucet` | Faucet split into `Logger`, `Owned`, `Storage` | Solidity, React, Bulma | demo |
+| `blockchain/solidity/kickstart/` | `solidity/solidity-kickstart` | Crowdfunding dapp with full UI | Solidity, Next.js, MUI, ganache | app |
+| `blockchain/solidity/marketplace/` | `solidity/solidity-marketplace` | Course marketplace dapp | Solidity, Next.js, Tailwind, web3.js | app |
+| `blockchain/solidity/nft-marketplace/` | `solidity/solidity-nft-marketplace` | ERC-721 written from scratch with interfaces and libraries | Solidity, React, Bootstrap | app |
+| `blockchain/solidity/openzeppelin/` | `solidity/solidity-openzeppelin` | ERC-1155 via OpenZeppelin | Solidity, OpenZeppelin | demo |
+| `blockchain/bitcoin-script/` | `lab-bitcoin` (loose root files) | P2PKH, custom sigScript and pubkeyScript | Node.js | basic |
+| `blockchain/bitcoin-payment/` | `lab-bitcoin/bitcoin-payment` | Payment server with a browser front end | Node.js, RequireJS | demo |
+| `blockchain/bitcoinj-payment/` | `lab-bitcoin/paybybitcoinj` | BIP-70 payment protocol | Java, bitcoinj, Maven | demo |
+| `blockchain/coin-helper/` | `eclipse/coinhelper` | Coin helper utility | Java, Maven | basic |
+
+`lab-bitcoin` was both container and project — two subprojects plus loose scripts at its root. The
+subprojects moved out first, then what remained became `bitcoin-script`.
 
 ## desktop
 
