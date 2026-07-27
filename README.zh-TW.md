@@ -3,6 +3,9 @@
 跨語言、跨框架、跨平台的個人範例程式集。
 
 > 🇬🇧 **English version: [README.md](README.md)**（英文為主要版本）
+>
+> 📇 **要找特定範例？請看 [docs/catalog.md](docs/catalog.md)** — 全部 94 個專案依領域索引，
+> 含技術堆疊、層級與建議的目標路徑。
 
 本文件是一份**重新分類規劃**。內容包含目前的專案現況、現行目錄結構的問題，以及建議的目標結構。
 目前尚未搬動任何程式碼。
@@ -111,10 +114,17 @@
 `BeanPostProcessor`、`UserValidator`、`BussinessPerson`／`Cat` POJO、`AppConfig` 以及 XML 注入。
 這不是搬動資料夾就能解決的排版問題 — 兩者必須擇一。
 
-相關地，目前共有 **8 個 OAuth2 專案**（`java/springboot-authorization-server` 加上七個
-`lab-springboot/lab-springboot-*oauth2*`）。從名稱看得出這是一條刻意安排的漸進路線 —
-基礎 → JWT → Redis → PostgreSQL → 資源伺服器 → 資源＋JWT → 擴充。這很有價值，但目前的結構
-完全沒有表達出它們是一個系列，也沒說明閱讀順序。
+相關地，目前共有 **9 個 OAuth2 專案**（`java/springboot-authorization-server` 加上八個
+`lab-springboot/lab-springboot-*oauth2*`）。那八個是一條刻意安排的漸進路線 —
+基礎 → JWT → Redis → PostgreSQL → 資源伺服器 → 資源＋JWT → 擴充 — 但目前的結構完全沒有表達出
+它們是一個系列，也沒說明閱讀順序。
+
+更重要的是，**它們分屬兩個世代的 OAuth2 技術堆疊，而現行結構把這件事藏了起來**。
+八個 `lab-springboot` 專案全部建立在 `spring-security-oauth2-autoconfigure` 2.x
+（Spring Boot 2.1–2.2）之上，也就是**已終止支援（EOL）**的 Spring Security OAuth 專案。
+而 `java/springboot-authorization-server` 使用的是 Boot 3.0 上的
+**Spring Authorization Server 1.0** — 也就是它的官方後繼者。兩者被放在不同的目錄樹、名稱又相近，
+沒有任何線索告訴你九個當中有八個已經是過時做法。
 
 ### 2.5 Java 套件根目錄有六種寫法
 
@@ -202,15 +212,18 @@ demo-bank/
 │   │   ├── springboot-vaadin/  ← java/springboot-vaadin
 │   │   ├── springboot2-demo/   ← SpringToolSuite/springboot2demo
 │   │   ├── spring-mvc-master/  ← SpringToolSuite/MasterSpringMvc（外部）
-│   │   └── oauth2/             # 8 個專案的系列，依閱讀順序排列
-│   │       ├── 01-authorization/
-│   │       ├── 02-authorization-jwt/
-│   │       ├── 03-authorization-redis/
-│   │       ├── 04-authorization-postgresql/
-│   │       ├── 05-resource/
-│   │       ├── 06-resource-jwt/
-│   │       ├── 07-expansion/
-│   │       └── auto-sample/
+│   │   └── oauth2/             # 9 個專案，橫跨兩個世代的技術堆疊
+│   │       ├── authorization-server/   ← java/springboot-authorization-server
+│   │       │                             Spring Authorization Server 1.0 — 現行做法
+│   │       └── legacy/                 # spring-security-oauth2 — 已 EOL，依閱讀順序
+│   │           ├── 01-authorization/
+│   │           ├── 02-authorization-jwt/
+│   │           ├── 03-authorization-redis/
+│   │           ├── 04-authorization-postgresql/
+│   │           ├── 05-resource/
+│   │           ├── 06-resource-jwt/
+│   │           ├── 07-expansion/
+│   │           └── auto-sample/
 │   ├── servlet-basic/          ← eclipse/servletbasic
 │   ├── tomcat-embedded/        ← eclipse/JavaTomcatEmbedded
 │   ├── java-snmp/              ← eclipse/JavaSnmp

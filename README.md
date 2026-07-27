@@ -3,6 +3,9 @@
 A personal bank of runnable sample projects across multiple languages, frameworks, and target platforms.
 
 > 🇹🇼 **中文版本：[README.zh-TW.md](README.zh-TW.md)**
+>
+> 📇 **Looking for a specific sample? See [docs/catalog.md](docs/catalog.md)** — all 94 projects
+> indexed by domain, with stack, level, and proposed target path.
 
 This document is a **reorganization plan**. It describes the current state of the repository, the
 problems with how it is laid out today, and a proposed target structure. No code has been moved yet.
@@ -112,10 +115,17 @@ same syllabus**. Both cover IoC, AOP with `MyAspect`/`MyAspect2`, `Interceptor`/
 `BeanPostProcessor`, `UserValidator`, the `BussinessPerson`/`Cat` POJOs, `AppConfig`, and XML
 injection. This is not a layout problem you can fix by moving folders — one of them needs to win.
 
-Relatedly, **8 OAuth2 projects** now exist (`java/springboot-authorization-server` plus seven
-`lab-springboot/lab-springboot-*oauth2*`). Reading their names, they are a deliberate progression —
-base → JWT → Redis → PostgreSQL → resource server → resource+JWT → expansion. That is valuable, but
-nothing in the layout says they are a series or what order to read them in.
+Relatedly, **9 OAuth2 projects** now exist (`java/springboot-authorization-server` plus eight
+`lab-springboot/lab-springboot-*oauth2*`). The eight are a deliberate progression — base → JWT →
+Redis → PostgreSQL → resource server → resource+JWT → expansion — but nothing in the layout says
+they are a series or what order to read them in.
+
+More importantly, **they are two different generations of the OAuth2 stack, and the layout hides
+that**. All eight `lab-springboot` ones build on `spring-security-oauth2-autoconfigure` 2.x
+(Spring Boot 2.1–2.2), which is the **end-of-life** Spring Security OAuth project.
+`java/springboot-authorization-server` uses **Spring Authorization Server 1.0** on Boot 3.0 — its
+official replacement. Filed in two separate trees under similar names, nothing tells you that eight
+of the nine are legacy.
 
 ### 2.5 Java package roots disagree six ways
 
@@ -206,15 +216,18 @@ demo-bank/
 │   │   ├── springboot-vaadin/  ← java/springboot-vaadin
 │   │   ├── springboot2-demo/   ← SpringToolSuite/springboot2demo
 │   │   ├── spring-mvc-master/  ← SpringToolSuite/MasterSpringMvc  (vendored)
-│   │   └── oauth2/             # the 8-project series, in reading order
-│   │       ├── 01-authorization/
-│   │       ├── 02-authorization-jwt/
-│   │       ├── 03-authorization-redis/
-│   │       ├── 04-authorization-postgresql/
-│   │       ├── 05-resource/
-│   │       ├── 06-resource-jwt/
-│   │       ├── 07-expansion/
-│   │       └── auto-sample/
+│   │   └── oauth2/             # 9 projects across two stack generations
+│   │       ├── authorization-server/   ← java/springboot-authorization-server
+│   │       │                             Spring Authorization Server 1.0 — CURRENT
+│   │       └── legacy/                 # spring-security-oauth2 — EOL, in reading order
+│   │           ├── 01-authorization/
+│   │           ├── 02-authorization-jwt/
+│   │           ├── 03-authorization-redis/
+│   │           ├── 04-authorization-postgresql/
+│   │           ├── 05-resource/
+│   │           ├── 06-resource-jwt/
+│   │           ├── 07-expansion/
+│   │           └── auto-sample/
 │   ├── servlet-basic/          ← eclipse/servletbasic
 │   ├── tomcat-embedded/        ← eclipse/JavaTomcatEmbedded
 │   ├── java-snmp/              ← eclipse/JavaSnmp
