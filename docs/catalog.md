@@ -21,8 +21,14 @@ See [../README.md](../README.md) for the reorganization plan this catalog suppor
 
 ## Summary
 
-**Migration progress:** `fundamentals/`, `interop/` and `embedded/` are moved. The other seven
-domains are still at their original paths. `EWARM/` and `ArduinoSketch/` no longer exist.
+**Migration progress:** seven of ten domains are moved — `fundamentals/`, `interop/`, `embedded/`,
+`build-systems/`, `desktop/`, `tooling/` and `mobile/`. Only `backend/`, `web/` and `blockchain/`
+remain at their original paths.
+
+**Every IDE-named directory is now gone**: `AndroidStudio/`, `ArduinoSketch/`, `EWARM/`,
+`NetBeans/`, `QtCreator/` and `VisualStudio/`, along with `compiler/`, `cpp/`, `lab-autoconf/`,
+`lab-ccpp-basic-topic/`, `lab-ccpp-qt-basic-topic/`, `lab-java/`, `qt-lab/` and `qt-lab-widgets/`.
+Top level is down from 26 directories to 17.
 
 > **Known follow-up across all moved projects.** Renamed Eclipse and CDT projects still carry their
 > old name inside `.project` — `interop/java-jna/consumer` reports as `JavaJna`,
@@ -76,15 +82,17 @@ directory without reconciling them by hand. Kept separate; the merge is a conten
 `VisualStudio/.gitignore` into the root `.gitignore`, so `cpp-pattern-observer` and
 `csharp-poker-hands` keep that coverage now that they live outside `VisualStudio/`.
 
-## build-systems
+## build-systems — ✅ migrated
 
-| Current | Proposed | What it is | Stack | Level |
+Moved in `825c221`.
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `cpp/cpp-cmake-basic` | `build-systems/cmake-basic/` | Conditional builds, auto source include; `array`/`hello`/`hook` targets | C++, CMake | demo |
-| `cpp/cpp-basic-cmake-vscode` | `build-systems/cmake-vscode/` | Minimal CMake wired for VS Code | C++, CMake | basic |
-| `eclipse/cppbasiccmake` | `build-systems/cmake-eclipse/` | CMake under Eclipse CDT | C++, CMake | basic |
-| `lab-autoconf` | `build-systems/autoconf-hello/` | `configure.ac` + `Makefile.am` hello world | C, autotools | basic |
-| `QtCreator/GccDetect32or64BitSystem` | `build-systems/gcc-detect-arch/` | Detect 32- vs 64-bit target at build time | C++, CMake | basic |
+| `build-systems/cmake-basic/` | `cpp/cpp-cmake-basic` | Conditional builds, auto source include; `array`/`hello`/`hook` targets | C++, CMake | demo |
+| `build-systems/cmake-vscode/` | `cpp/cpp-basic-cmake-vscode` | Minimal CMake wired for VS Code | C++, CMake | basic |
+| `build-systems/cmake-eclipse/` | `eclipse/cppbasiccmake` | CMake under Eclipse CDT | C++, CMake | basic |
+| `build-systems/autoconf-hello/` | `lab-autoconf` | `configure.ac` + `Makefile.am` hello world | C, autotools | basic |
+| `build-systems/gcc-detect-arch/` | `QtCreator/GccDetect32or64BitSystem` | Detect 32- vs 64-bit target at build time | C++, CMake | basic |
 
 ## backend
 
@@ -169,40 +177,45 @@ The eight `legacy/` projects build on `spring-security-oauth2-autoconfigure` 2.x
 
 ## desktop
 
+Moved in `3e581e4`. Qt takes one nesting level under the >8-projects rule.
+
 ### Qt (12 projects)
 
-`QtCreator/GccDetect32or64BitSystem` also lives under `QtCreator/`, but it is a compiler probe rather
-than a Qt sample and is listed under [build-systems](#build-systems) instead.
-
-| Current | Proposed | What it is | Stack | Level |
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `QtCreator/QtWidgetBasic` | `desktop/qt/widget-basic/` | MDI editor, custom scenes (33 files — largest Qt sample) | Qt Widgets, qmake | demo |
-| `QtCreator/QtWidgetEvent` | `desktop/qt/widget-event/` | Mouse events via a custom label widget | Qt Widgets, qmake | basic |
-| `QtCreator/QAction` | `desktop/qt/action/` | `QAction` with `.qrc` resources | Qt Widgets, qmake | basic |
-| `QtCreator/QtMultiThreadWidgetUi` | `desktop/qt/multithread-ui/` | UI threading — `QThread` and a Boost thread variant | Qt, Boost, qmake | demo |
-| `QtCreator/QtReflection` | `desktop/qt/reflection/` | Diagram scene with runtime element abstraction | Qt Widgets, qmake | demo |
-| `QtCreator/QGraphicsViewFramework` | `desktop/qt/graphics-view/` | Graphics View framework starter | Qt, qmake | basic |
-| `QtCreator/QtMingwWidgetUnicode` | `desktop/qt/mingw-unicode/` | Unicode path/filename handling under MinGW (CJK test fixture) | Qt, MinGW, qmake | demo |
-| `QtCreator/qt-snake-game` | `desktop/qt/snake-game/` | Snake — food, game controller, collision | Qt Widgets, qmake | app |
-| `cpp/qt-quick-cmake` | `desktop/qt/quick-cmake/` | QML app plus shared library, with i18n `.ts` | Qt Quick 6, CMake | demo |
-| `lab-ccpp-qt-basic-topic` | `desktop/qt/rwlock/` | Read/write locks | Qt, CMake | basic |
-| `qt-lab` | `desktop/qt/scratch/` | Scratch project | Qt, qmake | basic |
-| `qt-lab-widgets` | `desktop/qt/scratch/` ⟵ merge | Scratch main window | Qt Widgets, qmake | basic |
+| `desktop/qt/widget-basic/` | `QtCreator/QtWidgetBasic` | MDI editor, custom scenes (33 files — largest Qt sample) | Qt Widgets, qmake | demo |
+| `desktop/qt/widget-event/` | `QtCreator/QtWidgetEvent` | Mouse events via a custom label widget | Qt Widgets, qmake | basic |
+| `desktop/qt/action/` | `QtCreator/QAction` | `QAction` with `.qrc` resources | Qt Widgets, qmake | basic |
+| `desktop/qt/multithread-ui/` | `QtCreator/QtMultiThreadWidgetUi` | UI threading — `QThread` and a Boost thread variant | Qt, Boost, qmake | demo |
+| `desktop/qt/reflection/` | `QtCreator/QtReflection` | Diagram scene with runtime element abstraction | Qt Widgets, qmake | demo |
+| `desktop/qt/graphics-view/` | `QtCreator/QGraphicsViewFramework` | Graphics View framework starter | Qt, qmake | basic |
+| `desktop/qt/mingw-unicode/` | `QtCreator/QtMingwWidgetUnicode` | Unicode path/filename handling under MinGW; keeps its CJK-named test fixture | Qt, MinGW, qmake | demo |
+| `desktop/qt/snake-game/` | `QtCreator/qt-snake-game` | Snake — food, game controller, collision | Qt Widgets, qmake | app |
+| `desktop/qt/quick-cmake/` | `cpp/qt-quick-cmake` | QML app plus shared library, with i18n `.ts` | Qt Quick 6, CMake | demo |
+| `desktop/qt/rwlock/` | `lab-ccpp-qt-basic-topic` | Read/write locks | Qt, CMake | basic |
+| `desktop/qt/scratch/` | `qt-lab` | Scratch project | Qt, qmake | basic |
+| `desktop/qt/scratch-widgets/` | `qt-lab-widgets` | Scratch main window | Qt Widgets, qmake | basic |
+
+**Deviation from plan:** `scratch` and `scratch-widgets` were to be merged into one project. Both
+contain `main.cpp`, so they were kept separate — the same collision seen with `cpp-basic` in the
+pilot, for a different reason.
 
 ### Other desktop
 
-| Current | Proposed | What it is | Stack | Level |
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `VisualStudio/WpfNoResizeWithShadowEffect` | `desktop/wpf-shadow-no-resize/` | Fixed-size WPF window with a drop shadow | C#, WPF, XAML | demo |
-| `VisualStudio/WxwidgetsTest` | `desktop/wxwidgets-basic/` | wxWidgets main frame and GUI setup | C++, wxWidgets, MSVC | basic |
-| `NetBeans/NetbeansRcp` | `desktop/netbeans-rcp/` | NetBeans Platform app — top components, word/uppercase filters | Java, NetBeans RCP | demo |
-| `cpp/sfml-demo` | `desktop/sfml-game/` | 2D game loop | C++, SFML, MSVC | demo |
+| `desktop/wpf-shadow-no-resize/` | `VisualStudio/WpfNoResizeWithShadowEffect` | Fixed-size WPF window with a drop shadow | C#, WPF, XAML | demo |
+| `desktop/wxwidgets-basic/` | `VisualStudio/WxwidgetsTest` | wxWidgets main frame and GUI setup | C++, wxWidgets, MSVC | basic |
+| `desktop/netbeans-rcp/` | `NetBeans/NetbeansRcp` | NetBeans Platform app — top components, word/uppercase filters | Java, NetBeans RCP | demo |
+| `desktop/sfml-game/` | `cpp/sfml-demo` | 2D game loop | C++, SFML, MSVC | demo |
 
-## mobile
+## mobile — ✅ migrated
 
-| Current | Proposed | What it is | Stack | Level |
+Moved in `ca9968c`.
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `AndroidStudio/Android5GuiTraining` | `mobile/android-gui-training/` | Activities, `ListView` fragment, custom array adapter | Java, Android 5, Gradle | demo |
+| `mobile/android-gui-training/` | `AndroidStudio/Android5GuiTraining` | Activities, `ListView` fragment, custom array adapter | Java, Android 5, Gradle | demo |
 
 ## embedded — ✅ migrated
 
@@ -237,13 +250,15 @@ still shows they are one sample built together.
 The root `.gitignore` negation for `JavaJnaPureCLibrary.dll` was updated to the new path in the same
 commit; left stale it would have silently ignored the DLL on a fresh checkout.
 
-## tooling
+## tooling — ✅ migrated
 
-| Current | Proposed | What it is | Stack | Level |
+Moved in `ca9968c`.
+
+| Path | Moved from | What it is | Stack | Level |
 |---|---|---|---|---|
-| `compiler/nanoc` | `tooling/nanoc/` | Toy C compiler front end driven by an EBNF grammar; `return_7.c` fixture | Node.js, `ebnf` | demo |
-| `lab-nodejs/mock-server` | `tooling/mock-server/` | Route-based mock API server | Node.js | basic |
-| `VisualStudio/GoogleFinanceDownloaderTest` | `tooling/google-finance-downloader/` | WinForms harness — URI builder and data processor | C#, WinForms, MSVC | demo |
+| `tooling/nanoc/` | `compiler/nanoc` | Toy C compiler front end driven by an EBNF grammar; `return_7.c` fixture | Node.js, `ebnf` | demo |
+| `tooling/mock-server/` | `lab-nodejs/mock-server` | Route-based mock API server | Node.js | basic |
+| `tooling/google-finance-downloader/` | `VisualStudio/GoogleFinanceDownloaderTest` | WinForms harness — URI builder and data processor | C#, WinForms, MSVC | demo |
 
 ---
 
