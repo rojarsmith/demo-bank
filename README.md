@@ -11,261 +11,376 @@ problems with how it is laid out today, and a proposed target structure. No code
 
 ## 1. Current state
 
-27 sample projects, 1,304 tracked files, grouped into 8 top-level directories.
+Roughly **94 sample projects**, **2,540 tracked files**, spread across **27 top-level directories**.
 
-| Directory   | Projects | Tracked files | Notes |
-|-------------|---------:|--------------:|-------|
-| `bash/`     | 1        | 1             | A single loose script, not a project |
-| `compiler/` | 1        | 7             | `nanoc` — actually a Node.js project |
-| `cpp/`      | 4        | 31            | Mixed CMake and MSVC solutions |
-| `java/`     | 5        | 173           | All Gradle |
-| `mcu/`      | 0        | 0             | **Empty** |
-| `nodejs/`   | 6        | 866           | 558 of these are template image assets |
-| `quartus/`  | 0        | 0             | **Empty** (`quartus/tra1/db` is an empty stub) |
-| `solidity/` | 9        | 220           | Every project is also a React/Next.js app |
+| Directory | Projects | Files | Naming scheme | Subject |
+|---|---:|---:|---|---|
+| `AndroidStudio/` | 1 | 40 | IDE | Android UI training |
+| `ArduinoSketch/` | 1 | 1 | IDE | UART emulation sketch |
+| `bash/` | 1 | 1 | language | Shell snippets (a loose file) |
+| `compiler/` | 1 | 7 | domain | `nanoc`, an EBNF-driven toy C front end |
+| `cpp/` | 4 | 31 | language | CMake, Qt Quick, SFML |
+| `cpp_primer/` | 1 | 26 | ad-hoc | C++ language exercises |
+| `eclipse/` | 17 | 190 | IDE | Java, C++, servlet, Spring, JNA, SNMP |
+| `EWARM/` | 1 | 8 | IDE | STM32 GPIO under IAR |
+| `java/` | 5 | 173 | language | Spring Boot, Java basics |
+| `lab-autoconf/` | 1 | 5 | topic | GNU autotools hello |
+| `lab-bitcoin/` | 3 | 16 | topic | Bitcoin script, bitcoinj payments |
+| `lab-ccpp-basic-topic/` | 1 | 4 | topic | C/C++ scratch |
+| `lab-ccpp-qt-basic-topic/` | 1 | 5 | topic | Qt read/write locks |
+| `lab-java/` | 1 | 14 | topic | Java language |
+| `lab-nodejs/` | 5 | 68 | topic | React, Redux, mock server |
+| `lab-springboot/` | 11 | 185 | topic | Spring Boot, heavy on OAuth2 |
+| `lab-web-crawler/` | 1 | 11 | topic | Gradle + crawler |
+| `lab-x-cube-ai-.../` | 1 | 335 | topic | STM32F746 handwriting MNIST |
+| `NetBeans/` | 2 | 72 | IDE | Boost samples, NetBeans RCP |
+| `nodejs/` | 6 | 866 | runtime | Gatsby, Next.js, React |
+| `QtCreator/` | 9 | 100 | IDE | Qt Widgets, events, threading |
+| `qt-lab/` | 1 | 3 | ad-hoc | Qt scratch |
+| `qt-lab-widgets/` | 1 | 5 | ad-hoc | Qt Widgets scratch |
+| `solidity/` | 9 | 220 | language | Contracts and dapps |
+| `SpringToolSuite/` | 2 | 58 | IDE | Spring MVC, Spring Boot 2 |
+| `VisualStudio/` | 7 | 74 | IDE | WPF, WxWidgets, C#/C interop |
 
-There is no root `README.md`, `LICENSE`, or `.gitignore`, and no index of what the 27 projects are.
+### What changed since the previous plan
 
-### Full inventory
-
-| Current path | What it is | Stack |
-|---|---|---|
-| `bash/run.sh` | Shell scripting snippets — `for` loops, `dirname`, `pwd` | Bash |
-| `compiler/nanoc` | Toy C compiler front end driven by an EBNF grammar | Node.js, `ebnf` |
-| `cpp/cpp-basic-cmake-vscode` | Minimal CMake project wired for VS Code | C++, CMake |
-| `cpp/cpp-cmake-basic` | CMake conditional builds; `array`, `hello`, `hook` samples | C++, CMake |
-| `cpp/qt-quick-cmake` | Qt Quick app plus a shared library, with i18n | C++, Qt 6, QML, CMake |
-| `cpp/sfml-demo` | 2D game loop demo | C++, SFML, MSVC solution |
-| `java/java-basic` | Language fundamentals — annotations, functional interfaces, concurrency, `volatile`/`transient`/atomics | Java, Gradle |
-| `java/springboot-basic` | Spring core concepts — IoC, AOP, bean lifecycle and scope, conditional injection, profiles, SpEL, XML config, JPA (65 classes) | Spring Boot 2.5, Java 11 |
-| `java/springboot-flyway` | Database schema migration | Spring Boot 3.0, Flyway, H2 |
-| `java/springboot-authorization-server` | OAuth2 authorization server | Spring Boot 3.0, Spring Security |
-| `java/springboot-vaadin` | Server-driven UI with charts | Spring Boot 2.7, Vaadin 23 |
-| `nodejs/react-weather-app` | Weather client against a REST API | React (CRA), axios |
-| `nodejs/nextjs-basic` | The official Next.js tutorial — SSG vs SSR, pre-rendering | Next.js, SWR |
-| `nodejs/nextjs-ecommerce` | **Vendored** commercial storefront template (`lezada-next`) | Next.js, Bootstrap |
-| `nodejs/gatsby-basic` | Minimal Gatsby site | Gatsby, Emotion |
-| `nodejs/gatsby-starter-blog` | **Vendored** official Gatsby blog starter | Gatsby, MDX |
-| `nodejs/gatsby-home-site` | **Vendored** marketing site template (`rewy-gatsby`) | Gatsby, SCSS |
-| `solidity/solidity-basic` | `Inbox` and `Lottery` contracts | Solidity, Truffle |
-| `solidity/solidity-basic-remix` | ERC-165 and token experiments authored in Remix | Solidity, Remix |
-| `solidity/solidity-basic-react` | Minimal contract plus browser wallet wiring | Solidity, React, web3.js |
-| `solidity/solidity-campaign` | Crowdfunding contract only, no front end | Solidity, Truffle |
-| `solidity/solidity-faucet` | Faucet with `Logger`, `Owned`, `Storage` split across contracts | Solidity, React, Bulma |
-| `solidity/solidity-kickstart` | Crowdfunding dapp with a full UI | Solidity, Next.js, MUI, ganache |
-| `solidity/solidity-marketplace` | Course marketplace dapp | Solidity, Next.js, Tailwind, web3.js |
-| `solidity/solidity-nft-marketplace` | ERC-721 implemented from scratch, with interfaces and libraries | Solidity, React, Bootstrap |
-| `solidity/solidity-openzeppelin` | ERC-1155 built on OpenZeppelin | Solidity, OpenZeppelin |
+The repository roughly **tripled** — 27 projects to ~94, 1,304 files to 2,540. The empty `mcu/` and
+`quartus/` directories are gone, replaced by real embedded work. That growth is good. What it also
+did is turn a layout problem into a structural one, described below.
 
 ---
 
 ## 2. Problems with the current layout
 
-1. **The classification axis is inconsistent.** Seven directories are named after a *language or
-   runtime*; `compiler/` is named after a *domain*. `nanoc` is a Node.js project, so by the dominant
-   rule it belongs in `nodejs/` — but that would bury what makes it interesting.
+### 2.1 Four competing naming schemes now share one namespace
 
-2. **`nodejs/` is a runtime, not a category.** It says nothing about what the projects do. Worse, it
-   is not even exclusive: all nine `solidity/` projects ship a React or Next.js front end, so they
-   are just as much "Node.js" projects.
+The top level is no longer organized on one axis. It is organized on four:
 
-3. **Language is already encoded in the project name.** `springboot-basic`, `solidity-faucet`,
-   `cpp-cmake-basic` all name their stack. The parent directory repeats information the folder name
-   already carries, and spends the single most valuable organizing axis to do it.
+| Scheme | Directories |
+|---|---|
+| **By language / runtime** | `bash`, `cpp`, `java`, `nodejs`, `solidity`, `compiler` |
+| **By IDE / toolchain** | `AndroidStudio`, `ArduinoSketch`, `eclipse`, `EWARM`, `NetBeans`, `QtCreator`, `SpringToolSuite`, `VisualStudio` |
+| **By topic, `lab-` prefixed** | `lab-autoconf`, `lab-bitcoin`, `lab-ccpp-basic-topic`, `lab-ccpp-qt-basic-topic`, `lab-java`, `lab-nodejs`, `lab-springboot`, `lab-web-crawler`, `lab-x-cube-ai-stm32-f746g-handwriting-mnist` |
+| **Ad-hoc** | `cpp_primer`, `qt-lab`, `qt-lab-widgets` |
 
-4. **Granularity is uneven.** A one-file scratch script (`bash/run.sh`) sits at the same level as a
-   433-file application template.
+Casing splits four ways too — `PascalCase` (`AndroidStudio`), `UPPERCASE` (`EWARM`), `lowercase`
+(`nodejs`), `snake_case` (`cpp_primer`), `kebab-case` (`lab-java`). And nesting depth is
+inconsistent: `eclipse/` holds 17 projects, while `qt-lab/` **is** a project. `lab-bitcoin/` is both
+at once — two subprojects plus four loose `.js` files at its root.
 
-5. **Two directories are empty.** `mcu/` has no contents at all; `quartus/` contains only an empty
-   `tra1/db` stub.
+The practical cost: there is no rule that tells you where a new sample goes, so each new batch
+invents another scheme, and the problem compounds.
 
-6. **Vendored third-party templates are indistinguishable from original work.** `gatsby-home-site`
-   (`rewy-gatsby`), `nextjs-ecommerce` (`lezada-next`), and `gatsby-starter-blog` are downloaded
-   templates. Their 558 image assets are **43% of every tracked file in the repository**, and only
-   `gatsby-starter-blog` carries its upstream `LICENSE`. Someone reading this repo cannot tell which
-   code you wrote.
+### 2.2 Organizing by IDE is the least durable of the four
 
-7. **Nothing tells you what is here.** No root README, no index, no per-project description. Finding
-   the right sample means opening directories one by one.
+Eight directories are named after the tool you happened to open the code with. That is a poor
+category because:
 
-### Smaller issues worth fixing in passing
+- **It is not a property of the code.** `eclipse/cppbasic`, `NetBeans/CppBoostSampleCode`,
+  `VisualStudio/CppObserverPattern`, `QtCreator/QtWidgetBasic`, `cpp/cpp-cmake-basic`, and
+  `cpp_primer/` are all C++. The IDE name splits them across six directories for no benefit.
+- **It hides the subject.** `eclipse/JavaSnmp` is about SNMP. `eclipse/` tells you nothing about it.
+- **It rots.** Eclipse → Spring Tool Suite → IntelliJ is a migration you have already partly made;
+  the directory names are now a record of history, not of content.
+- **It invites IDE metadata into git**, and it has: **115 IDE metadata files are tracked**, 81 of
+  them under `eclipse/`. `QtCreator/*/*.pro.user` files are the worst offenders — they store
+  absolute machine paths, and two of them are hash-suffixed backups (`.pro.user.e7554a3`).
 
-- `cpp/cpp-basic-cmake-vscode/src/main.exe` is a compiled binary committed to git.
-- Java group IDs disagree: `springboot-basic` uses `example.bank`, everything else uses `demo.bank`.
-- Eclipse metadata (`.project`, `.settings/*.prefs`) is committed in `java/java-basic`.
-- 27 separate `.gitignore` files with no shared root file.
-- `cpp/sfml-demo` uses an MSVC solution while the other three C++ projects use CMake.
-- 2.6 GB of untracked `.next/` and `.cache/` build output sits on disk — correctly ignored by git,
-  but worth clearing.
+**One nuance worth preserving:** for embedded work the toolchain genuinely *is* load-bearing — an
+IAR `.ewp` project cannot be built without IAR, and `.ioc` implies STM32CubeMX. That belongs in
+project metadata and in the project's own name (`stm32-iar-gpio`), not in a top-level directory.
+
+### 2.3 The same subject is now scattered across many directories
+
+This is the concrete damage caused by mixing schemes:
+
+| Subject | Projects | Directories it lives in |
+|---|---:|---|
+| **Spring / Spring Boot** | 18 | `java/`, `lab-springboot/`, `SpringToolSuite/`, `eclipse/springbasic` — **4 places** |
+| **Qt** | 13 | `QtCreator/`, `cpp/qt-quick-cmake`, `qt-lab/`, `qt-lab-widgets/`, `lab-ccpp-qt-basic-topic/` — **5 places** |
+| **C / C++** | ~16 | `cpp/`, `cpp_primer/`, `eclipse/`, `NetBeans/`, `VisualStudio/`, `lab-ccpp-basic-topic/`, `lab-autoconf/` — **7 places** |
+| **Java (non-Spring)** | ~12 | `java/`, `eclipse/`, `lab-java/`, `lab-web-crawler/` — **4 places** |
+| **React** | ~10 | `nodejs/`, `lab-nodejs/`, and every `solidity/` dapp front end — **3 places** |
+| **Blockchain** | 12 | `solidity/`, `lab-bitcoin/`, `eclipse/coinhelper` — **3 places** |
+| **Embedded** | 3 | `EWARM/`, `lab-x-cube-ai-.../`, `ArduinoSketch/` — **3 places** |
+
+### 2.4 Actual content duplication has appeared
+
+`java/springboot-basic` (65 classes, package `example.bank.springboot.basic`) and
+`lab-springboot/lab-springboot-basic` (45 files, package `lab`) are **two independent takes on the
+same syllabus**. Both cover IoC, AOP with `MyAspect`/`MyAspect2`, `Interceptor`/`Invocation`,
+`BeanPostProcessor`, `UserValidator`, the `BussinessPerson`/`Cat` POJOs, `AppConfig`, and XML
+injection. This is not a layout problem you can fix by moving folders — one of them needs to win.
+
+Relatedly, **8 OAuth2 projects** now exist (`java/springboot-authorization-server` plus seven
+`lab-springboot/lab-springboot-*oauth2*`). Reading their names, they are a deliberate progression —
+base → JWT → Redis → PostgreSQL → resource server → resource+JWT → expansion. That is valuable, but
+nothing in the layout says they are a series or what order to read them in.
+
+### 2.5 Java package roots disagree six ways
+
+`example.bank` (64 files), `lab.springboot` (37), `demo.bank` (36), `lab.java` (26), bare `lab`
+(11+), `com.lab` (9), `android.lab` (4). Same author, same repo, no convention.
+
+**Decided: standardize on `demo.bank`**, matching the repository name — e.g.
+`demo.bank.spring.oauth2`, `demo.bank.embedded.stm32`. This is a code change, so it belongs in
+Phase 2 rather than the directory move.
+
+### 2.6 Hygiene
+
+- **115 tracked IDE metadata files** — `.project`, `.cproject`, `.classpath`, `.settings/`,
+  `.idea/`, `.pro.user`, `CMakeLists.txt.user`.
+- **Committed build output**: `eclipse/coinhelper/target/classes/*.class`,
+  `eclipse/JavaTomcatEmbedded/webapps/WEB-INF/classes/Hello.class`, and a whole
+  `eclipse/JavaTomcatEmbedded/tomcat_tmp/work/` **runtime temp directory**.
+- **Committed binaries**: `cpp/cpp-basic-cmake-vscode/src/main.exe`,
+  `eclipse/JavaJna/src/main/resources/JavaJnaPureCLibrary.dll` — the latter is ironic, since
+  `eclipse/JavaJnaPureCLibrary/` right next to it is the source that builds it.
+- **73 `.gitignore` files**, still no root one.
+- `cpp_primer/Eclipse Project` — a file with a space in the name and no extension.
+- Still no `LICENSE` and no record of which projects are third-party.
+
+### 2.7 Vendored and vendor-generated code is unmarked
+
+Beyond the three web templates flagged previously (`gatsby-home-site`, `nextjs-ecommerce`,
+`gatsby-starter-blog`), two more cases:
+
+- `SpringToolSuite/MasterSpringMvc` — package root `masterSpringMvc`, a book's companion project.
+- `lab-x-cube-ai-stm32-f746g-handwriting-mnist` — **335 files, of which ~300 are ST-supplied HAL
+  drivers, middleware, and GUI libraries** (`Drivers/` 129, `Middlewares/` 73, `GUI/` 100). Your
+  actual work is `Src/` (16) and `Inc/` (12). This one project is 13% of the repository.
 
 ---
 
 ## 3. Proposed structure
 
-**Organize the tree by domain. Let the project name carry the language.**
+**Organize by domain — what the sample is *about*. Let the project name carry the language and
+toolchain.**
 
-Because every project name already states its stack, a domain-first tree gives you both axes at
-once, while a language-first tree gives you one axis twice. Domain buckets also resolve the projects
-that span two languages — a Solidity contract with a Next.js front end is unambiguously
-`blockchain/`, and does not have to be filed under either language.
+Every project name already states its stack (`springboot-flyway`, `solidity-faucet`, `QtWidgetBasic`).
+A domain-first tree therefore gives you both axes at once, while language-first or IDE-first spends
+the top-level axis restating what the folder name already says. Domain also cleanly resolves the
+cross-cutting cases: a Solidity contract with a Next.js front end is `blockchain/`, and a JNA sample
+that is half Java and half C is `interop/`.
+
+### Nesting rule
+
+Flat inside each domain, **with one exception**: a subject with more than about eight projects gets
+one extra level. That currently applies to exactly three — Spring (18), Qt (13), Solidity (9). This
+is a rule, not a judgment call, so it stays stable as the repo grows.
 
 ```
 demo-bank/
-├── README.md                  # this file — index of every project
-├── README.zh-TW.md            # Chinese translation
-├── LICENSE                    # your license, for your own code
-├── THIRD_PARTY.md             # vendored templates and their upstream licenses
-├── CONTRIBUTING.md            # naming and layout conventions
-├── .gitignore                 # shared ignores, hoisted from the 27 local ones
-│
+├── README.md  README.zh-TW.md  LICENSE  THIRD_PARTY.md  CONTRIBUTING.md  .gitignore
 ├── docs/
-│   ├── catalog.md             # generated: full table, filterable by tag
-│   └── conventions.md         # project layout rules, README front-matter schema
+│   ├── catalog.md              # generated from per-project metadata
+│   └── conventions.md          # naming, layout, metadata schema
 │
-├── languages/                 # language and runtime fundamentals — no application
-│   ├── java-basic/
-│   ├── bash-basic/            # from bash/run.sh
-│   ├── cpp-cmake-basic/
-│   └── cpp-basic-cmake-vscode/
+├── fundamentals/               # language syntax, algorithms, design patterns
+│   ├── bash-basic/             ← bash/run.sh
+│   ├── java-language/          ← lab-java/lab-java-language
+│   ├── java-basic/             ← java/java-basic
+│   ├── java-algorithm/         ← eclipse/JavaAlgorithm
+│   ├── java-reflection/        ← eclipse/JavaReflection
+│   ├── java-pattern-singleton/ ← eclipse/JavaDesignPatternSingleton
+│   ├── cpp-primer/             ← cpp_primer
+│   ├── cpp-basic/              ← eclipse/cppbasic + lab-ccpp-basic-topic
+│   ├── cpp-algorithm/          ← eclipse/CppAlgorithm
+│   ├── cpp-pattern-observer/   ← VisualStudio/CppObserverPattern
+│   ├── cpp-boost/              ← NetBeans/CppBoostSampleCode
+│   └── javascript-basic/       ← eclipse/javascriptbasic
 │
-├── backend/                   # server-side services and APIs
-│   ├── springboot-basic/
-│   ├── springboot-flyway/
-│   ├── springboot-authorization-server/
-│   └── springboot-vaadin/
+├── build-systems/              # how code gets built, not what it does
+│   ├── cmake-basic/            ← cpp/cpp-cmake-basic
+│   ├── cmake-vscode/           ← cpp/cpp-basic-cmake-vscode
+│   ├── cmake-eclipse/          ← eclipse/cppbasiccmake
+│   ├── autoconf-hello/         ← lab-autoconf
+│   └── gcc-detect-arch/        ← QtCreator/GccDetect32or64BitSystem
 │
-├── web/                       # browser front ends, SSG and SSR sites
-│   ├── react-weather-app/
-│   ├── nextjs-basic/
-│   ├── nextjs-ecommerce/
-│   ├── gatsby-basic/
-│   ├── gatsby-starter-blog/
-│   └── gatsby-home-site/
+├── backend/
+│   ├── spring/                 # 18 projects — exceeds the nesting threshold
+│   │   ├── spring-basic/       ← RECONCILE: java/springboot-basic + lab-springboot-basic
+│   │   ├── spring-di-basic/    ← eclipse/springbasic
+│   │   ├── springboot-jpa/     ← lab-springboot/lab-springboot-jparepository
+│   │   ├── springboot-flyway/  ← java/springboot-flyway
+│   │   ├── springboot-vaadin/  ← java/springboot-vaadin
+│   │   ├── springboot2-demo/   ← SpringToolSuite/springboot2demo
+│   │   ├── spring-mvc-master/  ← SpringToolSuite/MasterSpringMvc  (vendored)
+│   │   └── oauth2/             # the 8-project series, in reading order
+│   │       ├── 01-authorization/
+│   │       ├── 02-authorization-jwt/
+│   │       ├── 03-authorization-redis/
+│   │       ├── 04-authorization-postgresql/
+│   │       ├── 05-resource/
+│   │       ├── 06-resource-jwt/
+│   │       ├── 07-expansion/
+│   │       └── auto-sample/
+│   ├── servlet-basic/          ← eclipse/servletbasic
+│   ├── tomcat-embedded/        ← eclipse/JavaTomcatEmbedded
+│   ├── java-snmp/              ← eclipse/JavaSnmp
+│   └── web-crawler/            ← lab-web-crawler
 │
-├── blockchain/                # contracts, and the dapps that front them
-│   ├── solidity-basic/
-│   ├── solidity-basic-remix/
-│   ├── solidity-basic-react/
-│   ├── solidity-campaign/
-│   ├── solidity-faucet/
-│   ├── solidity-kickstart/
-│   ├── solidity-marketplace/
-│   ├── solidity-nft-marketplace/
-│   └── solidity-openzeppelin/
+├── web/
+│   ├── react-weather-app/  react-basic/  react-ux/  react-redux/
+│   ├── nextjs-basic/  nextjs-ecommerce/
+│   └── gatsby-basic/  gatsby-starter-blog/  gatsby-home-site/
 │
-├── desktop/                   # native GUI and graphics applications
-│   ├── qt-quick-cmake/
-│   └── sfml-demo/
+├── blockchain/
+│   ├── solidity/               # 9 projects — exceeds the nesting threshold
+│   │   └── basic/ basic-react/ basic-remix/ campaign/ faucet/
+│   │       kickstart/ marketplace/ nft-marketplace/ openzeppelin/
+│   ├── bitcoin-script/         ← lab-bitcoin (root .js files)
+│   ├── bitcoin-payment/        ← lab-bitcoin/bitcoin-payment
+│   ├── bitcoinj-payment/       ← lab-bitcoin/paybybitcoinj
+│   └── coin-helper/            ← eclipse/coinhelper
 │
-├── tooling/                   # developer tools, compilers, code generators
-│   └── nanoc/
+├── desktop/
+│   ├── qt/                     # 13 projects — exceeds the nesting threshold
+│   │   ├── widget-basic/ widget-event/ action/ multithread-ui/
+│   │   ├── reflection/ graphics-view/ mingw-unicode/ snake-game/
+│   │   ├── quick-cmake/        ← cpp/qt-quick-cmake
+│   │   ├── rwlock/             ← lab-ccpp-qt-basic-topic
+│   │   └── scratch/            ← qt-lab + qt-lab-widgets
+│   ├── wpf-shadow-no-resize/   ← VisualStudio/WpfNoResizeWithShadowEffect
+│   ├── wxwidgets-basic/        ← VisualStudio/WxwidgetsTest
+│   ├── netbeans-rcp/           ← NetBeans/NetbeansRcp
+│   ├── sfml-game/              ← cpp/sfml-demo
+│   └── poker-size/             ← VisualStudio/PokerSize
 │
-└── embedded/                  # reserved: MCU firmware, FPGA/HDL
+├── mobile/
+│   └── android-gui-training/   ← AndroidStudio/Android5GuiTraining
+│
+├── embedded/
+│   ├── stm32-cubeide-ai-mnist/ ← lab-x-cube-ai-stm32-f746g-handwriting-mnist
+│   ├── stm32-iar-gpio/         ← EWARM/stm32_tra1
+│   └── arduino-uart-emu/       ← ArduinoSketch/UARTEmu
+│
+├── interop/                    # crossing a language or native boundary
+│   ├── java-jna/               ← eclipse/JavaJna
+│   ├── java-jna-pure-c/        ← eclipse/JavaJnaPureC + JavaJnaPureCLibrary
+│   ├── java-run-executable/    ← eclipse/JavaRunExecutableFile + ...CppExe
+│   ├── csharp-swing-pure-c/    ← VisualStudio/SwingCsharpWithPureC
+│   └── cpp-event-unmanaged/    ← VisualStudio/CppFireEventFromUnmanaged
+│
+└── tooling/
+    ├── nanoc/                  ← compiler/nanoc
+    ├── mock-server/            ← lab-nodejs/mock-server
+    └── google-finance-downloader/ ← VisualStudio/GoogleFinanceDownloaderTest
 ```
-
-### What happens to the empty directories
-
-`mcu/` and `quartus/` hold no files. Two options:
-
-- **Delete them.** Git does not track empty directories, so they only exist in your working copy
-  and will not survive a fresh clone anyway. Recreate when you have something to put there.
-- **Keep the intent** as a single `embedded/` bucket with a `.gitkeep` and a line in this README
-  saying what is planned for it.
-
-Either is fine — just do not leave two empty top-level directories implying content that is not there.
 
 ### Naming convention
 
-Keep the pattern the repository already mostly follows:
-
 ```
-<tech>-<topic>[-<variant>]        all lowercase, kebab-case
+<tech>-<topic>[-<variant>]        all lowercase, kebab-case, no lab- prefix
 ```
 
-`springboot-flyway`, `solidity-nft-marketplace`, `cpp-cmake-basic`. Two clarifying renames:
+Three rules the current tree breaks:
 
-| From | To | Why |
-|---|---|---|
-| `bash/run.sh` | `languages/bash-basic/` | Promote the loose script to a project directory |
-| `compiler/nanoc` | `tooling/nanoc/` | `compiler` was a category of one |
+- **One casing.** `kebab-case` everywhere. `AndroidStudio` → `android-gui-training`,
+  `cpp_primer` → `cpp-primer`.
+- **Drop the `lab-` prefix.** Every project here is a lab; a prefix carried by a third of the repo
+  distinguishes nothing. `lab-springboot/lab-springboot-basic` says "lab" twice and "springboot"
+  twice in one path.
+- **Never repeat the parent in the child.** `solidity/solidity-faucet` → `blockchain/solidity/faucet`.
 
-### The second axis: per-project metadata
+### Per-project metadata
 
-A directory tree can only express one axis. Get the others back with a front-matter block at the top
-of each project's `README.md`:
+A tree expresses one axis. Recover the rest with front matter in each project's `README.md`:
 
 ```yaml
 ---
-title: Spring Boot — Flyway migrations
-domain: backend
+title: Spring Boot — OAuth2 authorization server with JWT
+domain: backend/spring/oauth2
 languages: [java]
-stack: [spring-boot-3, flyway, h2, gradle]
-level: demo          # basic | demo | app | vendor
-status: working      # working | broken | archived
-origin: original     # original | <upstream URL>
+stack: [spring-boot-3, spring-security, jwt, gradle]
+toolchain: any            # any | eclipse | stm32cubeide | iar-ewarm | arduino-ide | msvc
+level: demo               # basic | demo | app | vendor
+status: working           # working | broken | archived | superseded
+origin: original          # original | <upstream URL>
+series: oauth2/02         # optional, for ordered progressions
 ---
 ```
 
-`level` is the distinction the current tree cannot express at all, and it is the one you most often
-want when searching:
+`toolchain:` is where IDE information belongs — it is a real constraint for the embedded and MSVC
+projects, and `any` for everything else. `series:` captures the OAuth2 progression. `level` and
+`status` are the two axes the current tree cannot express at all:
 
-- **`basic`** — language or framework fundamentals, no application (`java-basic`, `bash-basic`)
-- **`demo`** — one concept demonstrated end to end (`springboot-flyway`, `solidity-faucet`)
-- **`app`** — a complete runnable application (`nextjs-ecommerce`, `solidity-marketplace`)
-- **`vendor`** — a downloaded third-party template, not your code
+- **`basic`** — language or framework fundamentals, no application
+- **`demo`** — one concept demonstrated end to end
+- **`app`** — a complete runnable application
+- **`vendor`** — third-party template or book companion code, not yours
 
-Once every project has this block, `docs/catalog.md` can be generated from it, and you can answer
-"show me every Java demo" or "which projects are vendored" without a tree that duplicates itself.
-
-### Handling the vendored templates
-
-`gatsby-home-site`, `nextjs-ecommerce`, and `gatsby-starter-blog` need `level: vendor` and an
-`origin:` URL, their upstream `LICENSE` retained, and an entry in `THIRD_PARTY.md`.
-
-They are also worth a harder look: they contribute 43% of the tracked files and almost none of the
-learning value is in their image assets. Consider whether they should be git submodules, or dropped
-entirely and re-fetched from upstream when needed.
+Once every project carries this block, `docs/catalog.md` is generated, not maintained.
 
 ---
 
-## 4. Suggested migration order
+## 4. Decisions you need to make
+
+These are content questions that a reorganization cannot answer for you, and they should be settled
+**before** anything moves — there is no point relocating a project you are about to delete.
+
+1. **`springboot-basic` exists twice.** Which is authoritative — `java/springboot-basic` (65 classes,
+   more thorough) or `lab-springboot/lab-springboot-basic` (45 files, flatter packages)? Mark the
+   loser `status: superseded` or delete it.
+
+2. **The STM32 AI project's ~300 vendor files.** ST HAL drivers, middleware, and GUI libraries are
+   13% of the entire repository and are regenerable from the `.ioc` file via STM32CubeMX. Keep them
+   committed for a guaranteed-reproducible build, or ignore them and document the regeneration step?
+
+3. **IDE metadata.** Purging all 115 files is cleanest, but some Eclipse projects genuinely need
+   `.project` and `.classpath` to import cleanly. Suggested split: keep `.project`/`.classpath`,
+   drop `.settings/`, `.idea/`, and all `*.pro.user` (those hold absolute machine paths and are
+   never portable).
+
+4. **Vendored projects.** Four are now identified — three web templates plus `MasterSpringMvc`.
+   Keep with attribution, convert to submodules, or drop and re-fetch when needed?
+
+---
+
+## 5. Suggested migration order
 
 Each phase is independently useful, so you can stop after any of them.
 
 **Phase 0 — Documentation only, nothing moves.**
-Add root `README.md`, `README.zh-TW.md`, `LICENSE`, `.gitignore`, and `THIRD_PARTY.md`. This alone
-fixes the discoverability problem, which is the most painful one.
+Add root `README.md`, `README.zh-TW.md`, `LICENSE`, `.gitignore`, `THIRD_PARTY.md`. At ~94 projects
+with no index, this is the highest-value step in the whole plan.
 
-**Phase 1 — Hygiene, still no moves.**
-Remove `cpp/cpp-basic-cmake-vscode/src/main.exe` and the Eclipse metadata in `java/java-basic`.
-Resolve the empty `mcu/` and `quartus/` directories. Align the `springboot-basic` group ID to
-`demo.bank`. Hoist shared ignore rules into a root `.gitignore`.
+**Phase 1 — Settle the four decisions above.** Resolve the duplicate, decide on vendor files.
 
-**Phase 2 — The move.**
-Use `git mv` so history follows each file, and make **one commit per project** rather than a single
-sweeping commit — a 27-project rename in one commit is very hard to review or revert.
+**Phase 2 — Hygiene, still no moves.**
+Purge the agreed IDE metadata, committed `.class` files, `main.exe`, and the
+`eclipse/JavaTomcatEmbedded/tomcat_tmp/` runtime directory. Hoist shared ignore rules from the 73
+scattered `.gitignore` files into a root one. Re-root all Java packages under `demo.bank`.
+
+**Phase 3 — The move.**
+Use `git mv` so history follows each file, and commit **one domain at a time** — `fundamentals/`,
+then `backend/`, and so on. A 94-project rename in a single commit cannot be reviewed or reverted.
 
 ```bash
-git mv java/springboot-flyway backend/springboot-flyway
+git mv lab-springboot/lab-springboot-security-oauth2-authorization-jwt backend/spring/oauth2/02-authorization-jwt
 ```
 
-**Phase 3 — Per-project READMEs.**
-Add the front-matter block and a "how to run" section to each project. Highest value for the
-projects with no README today, which is 16 of the 27 — and note that 6 of the 11 that do have one
-are unmodified upstream template READMEs, not yours.
+**Phase 4 — Per-project READMEs.** Add front matter and a "how to run" section. Start with the
+projects that have no README, which is the large majority.
 
-**Phase 4 — Automation.**
-A small script that reads every front-matter block and regenerates `docs/catalog.md`, plus optional
-CI that builds each project so you find out when a sample rots.
+**Phase 5 — Automation.** A script that reads all front matter and regenerates `docs/catalog.md`,
+plus optional CI that builds each project so you learn when a sample rots.
 
 ---
 
-## 5. The alternative, and why not
+## 6. The alternatives, and why not
 
-**Keep the language-first tree and just clean it up.** This is a legitimate choice: placement is
-never ambiguous, and it is a smaller change.
+**Keep language-first and file the new work into it.** This was the previous plan's rejected
+alternative and it has aged badly: it has no home for the 8 IDE-named directories, no home for
+`interop/` samples that are half Java and half C, and it would still split Qt across `cpp/` and a Qt
+directory. The new material is exactly the material it handles worst.
 
-It was not recommended because it does not fix the two structural problems. `solidity/` projects
-would still be half React with no home for that fact, and the parent directory would still repeat
-what the project name already says. If you prefer it anyway, take Phases 0, 1, 3, and 4 — every
-recommendation here except the tree itself still applies, and they carry most of the benefit.
+**Keep IDE-first and convert everything to it.** Consistency alone would be an improvement over four
+schemes. But it optimizes for how you open a project rather than what it teaches, splits C++ across
+six directories, and rots every time you change tools — a migration already visible in this repo's
+history (`eclipse/` → `SpringToolSuite/`).
+
+**Flat, with tags only — no hierarchy.** ~94 directories at the root, all discovery through
+`docs/catalog.md`. This is genuinely defensible and scales indefinitely, but it depends entirely on
+the catalog being generated and current from day one. Worth reconsidering if the repo passes ~150
+projects; below that, a shallow tree browses better.
