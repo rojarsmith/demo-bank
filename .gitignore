@@ -40,9 +40,9 @@ nbproject/private/
 *.hex
 
 # Exception: prebuilt native library the JNA sample loads at runtime, so the
-# demo runs without a C toolchain. Source lives in eclipse/JavaJnaPureCLibrary/.
+# demo runs without a C toolchain. Source lives in interop/java-jna/pure-c-library/.
 *.dll
-!eclipse/JavaJna/src/main/resources/JavaJnaPureCLibrary.dll
+!interop/java-jna/consumer/src/main/resources/JavaJnaPureCLibrary.dll
 
 # --- MSVC / .NET build directories ------------------------------------------
 # Hoisted from VisualStudio/.gitignore so projects keep these rules after being
